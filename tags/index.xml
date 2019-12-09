@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on $HELLO_PROG^</title>
+    <link>https://leejaengjaeng.github.io/tags/</link>
+    <description>Recent content in Tags on $HELLO_PROG^</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>kr-ko</language>
+    <managingEditor>leejaengjaeng@naver.com (leejaengjaeng)</managingEditor>
+    <webMaster>leejaengjaeng@naver.com (leejaengjaeng)</webMaster>
+    <lastBuildDate>Mon, 09 Dec 2019 16:11:54 +0900</lastBuildDate>
+    
+	<atom:link href="https://leejaengjaeng.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>123</title>
+      <link>https://leejaengjaeng.github.io/tags/123/</link>
+      <pubDate>Mon, 09 Dec 2019 16:11:54 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/tags/123/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>345</title>
+      <link>https://leejaengjaeng.github.io/tags/345/</link>
+      <pubDate>Mon, 09 Dec 2019 16:11:54 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/tags/345/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
