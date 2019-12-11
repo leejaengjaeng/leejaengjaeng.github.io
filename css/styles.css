@@ -17,15 +17,15 @@ img {
 .navbar {
   height: 40px;
   background: white;
-  padding: 8px 16px 4px 16px;
+  padding: 10px 16px 0 16px;
   border-bottom: #eeeeee solid 1px;
-}
-.navbar > .logo {
-  float: left;
 }
 .navbar > .menu {
   margin-right: 40px;
   z-index: 10;
+}
+.navbar > .menu > ul > .site-title{
+  font-weight: bold;
 }
 .navbar > .burger {
   display: none;
@@ -33,6 +33,7 @@ img {
 .navbar > .menu > ul {
   display: inline;
   background: white;
+  padding-left: 0 !important;
 }
 .navbar > .menu > ul > li {
   display: inline-block;
@@ -112,17 +113,20 @@ img {
   background: #f4f4f4;
 }
 
+.flex-wrapper {
+  display:flex;
+}
 /* Summary */
-.summary-sep {
-  border: 0;
-  height: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-  margin: 20px auto;
-  width: 120px;
+.summary-more-wrap {
+  justify-content: center;
+}
+.post .summary-text {
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  overflow:hidden;
 }
 .post .summary-more {
-  margin-left: 5px;
+  margin-top: 10px;;
   padding: 1px 5px 1px 5px;
   border-radius: 5px;
   border: #00b2a0 solid 1px;
@@ -141,6 +145,7 @@ img {
   padding: 30px;
   max-width: 940px;
   background: white;
+  border-top: 20px solid #f4f4f4;
 }
 .post a {
   text-decoration: none;

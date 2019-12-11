@@ -3,18 +3,18 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hugo 사용법  | $HELLO_PROG^</title>
-  <meta name="description" content=" 'Hugo 사용법'read this article.">
-  <meta property="og:title" content="Hugo 사용법">
+  <title>Hugo 시작하기  | 이쟁쟁의 블로그</title>
+  <meta name="description" content=" 'Hugo 시작하기'을 한 번 살펴보세요.">
+  <meta property="og:title" content="Hugo 시작하기">
   
   <meta property="og:type" content="article">
   <meta property="article:published_time" content="2019-12-10">
   
-  <meta property="og:description" content=" 'Hugo 사용법'read this article.">
+  <meta property="og:description" content=" 'Hugo 시작하기'을 한 번 살펴보세요.">
   <meta property="og:url" content="https://leejaengjaeng.github.io/post/howtousehugo/">
-  <meta property="og:site_name" content="$HELLO_PROG^">
+  <meta property="og:site_name" content="이쟁쟁의 블로그">
   
-  <meta property="og:image" content="https://leejaengjaeng.github.io/images/thumbnail.png">
+  <meta property="og:image" content="https://i.imgur.com/7MXE1AC.png">
   
   
   <meta property="og:tags" content="blog">
@@ -45,41 +45,36 @@
   </script>
 </head>
 <body>
-  <div class="navbar">    
-    <div class="logo">
-      <a href="/">
-        <img src="/images/logo.png" height="34px" />
-      </a>
-    </div>
+  <div class="navbar">
     <div class="burger">
       <button onclick="toggle_visibility('menu')">
-        <i class="fa fa-bars" aria-hidden="true"></i> Menu
+        <i class="fa fa-bars" aria-hidden="true"></i> 메뉴
       </button>
     </div>
     <div id="menu" class="menu hidden">
       <ul>
-        <li><a href="/">#$HELLO_PROG^</a></li>
-        <li><a href="/categories">#Categories</a></li>
-        <li><a href="/tags">#Tags</a></li>
-        <li><a href="/projects">#Projects</a></li>        
+        <li class="site-title"><a href="/">#이쟁쟁의 블로그</a></li>
+        <li><a href="/categories">#카테고리</a></li>
+        <li><a href="/tags">#태그</a></li>
       </ul>
-      <input class="search" id="search-input" type="search" placeholder="Keyword" value="">
+      <input class="search" id="search-input" type="search" placeholder="검색어" value="">
     </div>
   </div>
-  <div class="container">    
+  <div class="container">
+
 
 <div class="post">
   <div class="post-title">
     <a href="https://leejaengjaeng.github.io/post/howtousehugo/">
       <img src="/images/post-title-icon.png" />
       <div class="post-meta">
-        <time>Tuesday, Dec 10, 2019 14:43</time>
-        <h1>Hugo 사용법</h1>
+        <time>2019년 12월 10일 14시 43분</time>
+        <h1>Hugo 시작하기</h1>
       </div>
     </a>
   </div>
   <div class="post-toc">
-    <span class="title">TOC</span>
+    <span class="title">차례</span>
     <nav id="TableOfContents">
   <ul>
     <li><a href="#1-hugo-">1. Hugo 설치</a></li>
@@ -166,17 +161,17 @@
   </section>
   <div class="share">    
     <a
-      href="//www.facebook.com/sharer.php?src=bm&u=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fhowtousehugo%2f&t=Hugo%20%ec%82%ac%ec%9a%a9%eb%b2%95"
+      href="//www.facebook.com/sharer.php?src=bm&u=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fhowtousehugo%2f&t=Hugo%20%ec%8b%9c%ec%9e%91%ed%95%98%ea%b8%b0"
       onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
       ><i class="fa fa-facebook"></i
     ></a>
     <a
-      href="//twitter.com/intent/tweet?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fhowtousehugo%2f&text=Hugo%20%ec%82%ac%ec%9a%a9%eb%b2%95&tw_p=tweetbutton"
+      href="//twitter.com/intent/tweet?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fhowtousehugo%2f&text=Hugo%20%ec%8b%9c%ec%9e%91%ed%95%98%ea%b8%b0&tw_p=tweetbutton"
       onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
       ><i class="fa fa-twitter"></i
     ></a>
     <a
-      href="//getpocket.com/edit?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fhowtousehugo%2f&title=Hugo%20%ec%82%ac%ec%9a%a9%eb%b2%95"
+      href="//getpocket.com/edit?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fhowtousehugo%2f&title=Hugo%20%ec%8b%9c%ec%9e%91%ed%95%98%ea%b8%b0"
       onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
       ><i class="fa fa-get-pocket"></i
     ></a>
@@ -188,18 +183,18 @@
   </div>
   <div class="post-meta-code">
     <div class="desc">
-      Friendly
+      친절한
       
       <a href="mailto:leejaengjaeng@naver.com">leejaengjaeng</a>
       
-      wrotes this article at
-      <span class="highlight">Tuesday, Dec 10, 2019 14:43</span> 
-      for you.
+      님이
+      <span class="highlight">2019년 12월 10일 14시 43분</span> 
+      에 작성한 글입니다.
     </div>
     <div class="desc">
       
       <div class="desc">
-        <span class="fixed-desc">_Categories</span>
+        <span class="fixed-desc">_카테고리</span>
         
         
         <a href="https://leejaengjaeng.github.io//categories/blog">#blog</a>
@@ -207,7 +202,7 @@
       </div>
       
       <div class="desc">
-        <span class="fixed-desc">_Tags</span>
+        <span class="fixed-desc">_태그</span>
         
         
         <a href="https://leejaengjaeng.github.io/tags/blog">#blog</a>
@@ -226,7 +221,7 @@
   </div>
   
   <div class="recommend-articles">
-    Recommend these articles
+    다음으로 읽을만한 글입니다.
     <ul>
       
       
@@ -237,7 +232,7 @@
 <div class="go-top">
   <a href="#" class="go-top-button">
     <i class="fa fa-angle-double-up"></i>
-    <span>Top</span>
+    <span>위로</span>
   </a>
 </div>
 <footer class="footer">

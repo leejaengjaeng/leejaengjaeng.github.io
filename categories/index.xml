@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on $HELLO_PROG^</title>
+    <title>Categories on 이쟁쟁의 블로그</title>
     <link>https://leejaengjaeng.github.io/categories/</link>
-    <description>Recent content in Categories on $HELLO_PROG^</description>
+    <description>Recent content in Categories on 이쟁쟁의 블로그</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>kr-ko</language>
+    <language>ko-KR</language>
     <managingEditor>leejaengjaeng@naver.com (leejaengjaeng)</managingEditor>
     <webMaster>leejaengjaeng@naver.com (leejaengjaeng)</webMaster>
     <lastBuildDate>Tue, 10 Dec 2019 14:43:17 +0900</lastBuildDate>
