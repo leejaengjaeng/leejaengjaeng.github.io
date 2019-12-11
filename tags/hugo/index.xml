@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>$HELLO_PROG^</title>
-    <link>https://leejaengjaeng.github.io/</link>
-    <description>Recent content on $HELLO_PROG^</description>
+    <title>hugo on $HELLO_PROG^</title>
+    <link>https://leejaengjaeng.github.io/tags/hugo/</link>
+    <description>Recent content in hugo on $HELLO_PROG^</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>kr-ko</language>
     <managingEditor>leejaengjaeng@naver.com (leejaengjaeng)</managingEditor>
     <webMaster>leejaengjaeng@naver.com (leejaengjaeng)</webMaster>
     <lastBuildDate>Tue, 10 Dec 2019 14:43:17 +0900</lastBuildDate>
     
-	<atom:link href="https://leejaengjaeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://leejaengjaeng.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>

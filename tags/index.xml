@@ -8,26 +8,35 @@
     <language>kr-ko</language>
     <managingEditor>leejaengjaeng@naver.com (leejaengjaeng)</managingEditor>
     <webMaster>leejaengjaeng@naver.com (leejaengjaeng)</webMaster>
-    <lastBuildDate>Mon, 09 Dec 2019 16:11:54 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 10 Dec 2019 14:43:17 +0900</lastBuildDate>
     
 	<atom:link href="https://leejaengjaeng.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>123</title>
-      <link>https://leejaengjaeng.github.io/tags/123/</link>
-      <pubDate>Mon, 09 Dec 2019 16:11:54 +0900</pubDate>
+      <title>blog</title>
+      <link>https://leejaengjaeng.github.io/tags/blog/</link>
+      <pubDate>Tue, 10 Dec 2019 14:43:17 +0900</pubDate>
       <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
-      <guid>https://leejaengjaeng.github.io/tags/123/</guid>
+      <guid>https://leejaengjaeng.github.io/tags/blog/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>345</title>
-      <link>https://leejaengjaeng.github.io/tags/345/</link>
-      <pubDate>Mon, 09 Dec 2019 16:11:54 +0900</pubDate>
+      <title>hugo</title>
+      <link>https://leejaengjaeng.github.io/tags/hugo/</link>
+      <pubDate>Tue, 10 Dec 2019 14:43:17 +0900</pubDate>
       <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
-      <guid>https://leejaengjaeng.github.io/tags/345/</guid>
+      <guid>https://leejaengjaeng.github.io/tags/hugo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pages</title>
+      <link>https://leejaengjaeng.github.io/tags/pages/</link>
+      <pubDate>Tue, 10 Dec 2019 14:43:17 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/tags/pages/</guid>
       <description></description>
     </item>
     
