@@ -8,18 +8,45 @@
     <language>ko-KR</language>
     <managingEditor>leejaengjaeng@naver.com (leejaengjaeng)</managingEditor>
     <webMaster>leejaengjaeng@naver.com (leejaengjaeng)</webMaster>
-    <lastBuildDate>Tue, 10 Dec 2019 14:43:17 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 20 Dec 2019 21:51:58 +0900</lastBuildDate>
     
 	<atom:link href="https://leejaengjaeng.github.io/tags/todo/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>TODO</title>
-      <link>https://leejaengjaeng.github.io/todo/todosample/</link>
-      <pubDate>Tue, 10 Dec 2019 14:43:17 +0900</pubDate>
+      <link>https://leejaengjaeng.github.io/todo/ci/</link>
+      <pubDate>Fri, 20 Dec 2019 21:51:58 +0900</pubDate>
       <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
-      <guid>https://leejaengjaeng.github.io/todo/todosample/</guid>
-      <description>TODO가 들어올 자리~ </description>
+      <guid>https://leejaengjaeng.github.io/todo/ci/</guid>
+      <description>Jenkins Pr builder AWS </description>
+    </item>
+    
+    <item>
+      <title>TODO</title>
+      <link>https://leejaengjaeng.github.io/todo/kubernetes/</link>
+      <pubDate>Fri, 20 Dec 2019 21:51:58 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/todo/kubernetes/</guid>
+      <description>Kubernetes </description>
+    </item>
+    
+    <item>
+      <title>TODO</title>
+      <link>https://leejaengjaeng.github.io/todo/restful/</link>
+      <pubDate>Fri, 20 Dec 2019 21:51:58 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/todo/restful/</guid>
+      <description>Restful API </description>
+    </item>
+    
+    <item>
+      <title>TODO</title>
+      <link>https://leejaengjaeng.github.io/todo/vue/</link>
+      <pubDate>Fri, 20 Dec 2019 21:51:58 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/todo/vue/</guid>
+      <description>Vue.js </description>
     </item>
     
   </channel>
