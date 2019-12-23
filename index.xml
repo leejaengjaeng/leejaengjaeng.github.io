@@ -8,13 +8,49 @@
     <language>ko-KR</language>
     <managingEditor>leejaengjaeng@naver.com (leejaengjaeng)</managingEditor>
     <webMaster>leejaengjaeng@naver.com (leejaengjaeng)</webMaster>
-    <lastBuildDate>Fri, 20 Dec 2019 21:51:58 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 23 Dec 2019 17:08:58 +0900</lastBuildDate>
     
 	<atom:link href="https://leejaengjaeng.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>TODO</title>
+      <title>Http layer Cache</title>
+      <link>https://leejaengjaeng.github.io/todo/httpcache/</link>
+      <pubDate>Mon, 23 Dec 2019 17:08:58 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/todo/httpcache/</guid>
+      <description>Http layer cache </description>
+    </item>
+    
+    <item>
+      <title>HTTP2.0</title>
+      <link>https://leejaengjaeng.github.io/todo/http2.0/</link>
+      <pubDate>Mon, 23 Dec 2019 17:08:58 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/todo/http2.0/</guid>
+      <description>Http 2.0 설명 적용 비교 </description>
+    </item>
+    
+    <item>
+      <title>Juul</title>
+      <link>https://leejaengjaeng.github.io/todo/juul/</link>
+      <pubDate>Mon, 23 Dec 2019 17:08:58 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/todo/juul/</guid>
+      <description>Juul </description>
+    </item>
+    
+    <item>
+      <title>WebFlux</title>
+      <link>https://leejaengjaeng.github.io/todo/webflux/</link>
+      <pubDate>Mon, 23 Dec 2019 17:08:58 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/todo/webflux/</guid>
+      <description>Http layer cache </description>
+    </item>
+    
+    <item>
+      <title>CI</title>
       <link>https://leejaengjaeng.github.io/todo/ci/</link>
       <pubDate>Fri, 20 Dec 2019 21:51:58 +0900</pubDate>
       <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
@@ -23,7 +59,7 @@
     </item>
     
     <item>
-      <title>TODO</title>
+      <title>Kubernetes</title>
       <link>https://leejaengjaeng.github.io/todo/kubernetes/</link>
       <pubDate>Fri, 20 Dec 2019 21:51:58 +0900</pubDate>
       <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
@@ -32,7 +68,7 @@
     </item>
     
     <item>
-      <title>TODO</title>
+      <title>Restful API</title>
       <link>https://leejaengjaeng.github.io/todo/restful/</link>
       <pubDate>Fri, 20 Dec 2019 21:51:58 +0900</pubDate>
       <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
@@ -41,7 +77,7 @@
     </item>
     
     <item>
-      <title>TODO</title>
+      <title>Vue.js</title>
       <link>https://leejaengjaeng.github.io/todo/vue/</link>
       <pubDate>Fri, 20 Dec 2019 21:51:58 +0900</pubDate>
       <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
