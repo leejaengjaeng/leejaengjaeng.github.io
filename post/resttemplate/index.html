@@ -120,50 +120,75 @@ String result = restTemplate.postForObject(uri, requestObject, String.class);
 </blockquote>
 <h4 id="1-resttemplate">1. RestTemplate</h4>
 <ul>
-<li>인스턴스 생성 방식에 따라서 사용하는 <code>ClientHttpRequestFactory</code>가 바뀌게 됩니다.</li>
-<li>인스턴스 생성 방식
-| 방식 | ClientHttpRequestFactory 구현체 | 코드 |
-|&mdash;|&mdash;|&mdash;|
-|arguments가 없는 default 생성자를 호출|<code>SimpleClientHttpReqeustFactory`|</code>RestTemplate restTemplate = new RestTemplate();<code>| |requestFactory를 argument로 하는 생성자 호출|argument로 넣은 구현체|</code>RestTemplate template = new RestTemplate(new SomethingClientHttpRequestFactoryImpl());<code>| |RestTemplateBuilder를 사용| 가지고있는 후보 중에 클래스 패스에 존재하는게 있다면 사용, 없다면 </code>SimpleClientHttpReqeustFactory<code>|</code>RestTemplate restTemplate = new RestTemplateBuilder().build();`|
-<ul>
 <li>
-<pre><code>package org.springframework.boot.web.client;
+<p>인스턴스 생성 방식에 따라서 사용하는 <code>ClientHttpRequestFactory</code>가 바뀌게 됩니다.</p>
+</li>
+<li>
+<p>인스턴스 생성 방식</p>
+<table>
+<thead>
+<tr>
+<th align="left">방식</th>
+<th align="left">ClientHttpRequestFactory 구현체</th>
+<th align="left">코드</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">arguments가 없는 default 생성자를 호출</td>
+<td align="left"><code>SimpleClientHttpReqeustFactory</code></td>
+<td align="left"><code>RestTemplate restTemplate = new RestTemplate();</code></td>
+</tr>
+<tr>
+<td align="left">requestFactory를 argument로 하는 생성자 호출</td>
+<td align="left">argument로 넣은 구현체</td>
+<td align="left"><code>RestTemplate template = new RestTemplate(new SomethingClientHttpRequestFactoryImpl());</code></td>
+</tr>
+<tr>
+<td align="left">RestTemplateBuilder를 사용</td>
+<td align="left">가지고있는 후보 중에 클래스 패스에 존재하는게 있다면 사용, 없다면 <code>SimpleClientHttpReqeustFactory</code></td>
+<td align="left"><code>RestTemplate restTemplate = new RestTemplateBuilder().build();</code></td>
+</tr>
+</tbody>
+</table>
+<pre><code>  ```
+  package org.springframework.boot.web.client;
 
-public class RestTemplateBuilder {
+  public class RestTemplateBuilder {
 
-  private static final Map&lt;String, String&gt; REQUEST_FACTORY_CANDIDATES;
+    private static final Map&lt;String, String&gt; REQUEST_FACTORY_CANDIDATES;
 
-  static {
-    Map&lt;String, String&gt; candidates = new LinkedHashMap&lt;String, String&gt;();
-    candidates.put(&quot;org.apache.http.client.HttpClient&quot;,
-        &quot;org.springframework.http.client.HttpComponentsClientHttpRequestFactory&quot;);
-    candidates.put(&quot;okhttp3.OkHttpClient&quot;, &quot;org.springframework.http.client.OkHttp3ClientHttpRequestFactory&quot;);
-    candidates.put(&quot;com.squareup.okhttp.OkHttpClient&quot;,
-        &quot;org.springframework.http.client.OkHttpClientHttpRequestFactory&quot;);
-    candidates.put(&quot;io.netty.channel.EventLoopGroup&quot;,
-        &quot;org.springframework.http.client.Netty4ClientHttpRequestFactory&quot;);
-    REQUEST_FACTORY_CANDIDATES = Collections.unmodifiableMap(candidates);
-  }
-
-  ...
-
-  private ClientHttpRequestFactory detectRequestFactory() {
-    for (Map.Entry&lt;String, String&gt; candidate : REQUEST_FACTORY_CANDIDATES.entrySet()) {
-      ClassLoader classLoader = getClass().getClassLoader();
-      if (ClassUtils.isPresent(candidate.getKey(), classLoader)) {
-        Class&lt;?&gt; factoryClass = ClassUtils.resolveClassName(candidate.getValue(), classLoader);
-        ClientHttpRequestFactory requestFactory = (ClientHttpRequestFactory) BeanUtils.instantiate(factoryClass);
-        initializeIfNecessary(requestFactory);
-        return requestFactory;
-      }
+    static {
+      Map&lt;String, String&gt; candidates = new LinkedHashMap&lt;String, String&gt;();
+      candidates.put(&quot;org.apache.http.client.HttpClient&quot;,
+          &quot;org.springframework.http.client.HttpComponentsClientHttpRequestFactory&quot;);
+      candidates.put(&quot;okhttp3.OkHttpClient&quot;, &quot;org.springframework.http.client.OkHttp3ClientHttpRequestFactory&quot;);
+      candidates.put(&quot;com.squareup.okhttp.OkHttpClient&quot;,
+          &quot;org.springframework.http.client.OkHttpClientHttpRequestFactory&quot;);
+      candidates.put(&quot;io.netty.channel.EventLoopGroup&quot;,
+          &quot;org.springframework.http.client.Netty4ClientHttpRequestFactory&quot;);
+      REQUEST_FACTORY_CANDIDATES = Collections.unmodifiableMap(candidates);
     }
-    // 후보중에 찾지 못하면 default 생성자로 호출하는 방식처럼 SimpleClientHttpReqeustFactory를 사용한다
-    return new SimpleClientHttpRequestFactory();
+
+    ...
+
+    private ClientHttpRequestFactory detectRequestFactory() {
+      for (Map.Entry&lt;String, String&gt; candidate : REQUEST_FACTORY_CANDIDATES.entrySet()) {
+        ClassLoader classLoader = getClass().getClassLoader();
+        if (ClassUtils.isPresent(candidate.getKey(), classLoader)) {
+          Class&lt;?&gt; factoryClass = ClassUtils.resolveClassName(candidate.getValue(), classLoader);
+          ClientHttpRequestFactory requestFactory = (ClientHttpRequestFactory) BeanUtils.instantiate(factoryClass);
+          initializeIfNecessary(requestFactory);
+          return requestFactory;
+        }
+      }
+      // 후보중에 찾지 못하면 default 생성자로 호출하는 방식처럼 SimpleClientHttpReqeustFactory를 사용한다
+      return new SimpleClientHttpRequestFactory();
+    }
+    ...
   }
-  ...
-}
-</code></pre></li>
-</ul>
+  ```
+</code></pre>
 </li>
 </ul>
 <h4 id="2-clienthttprequestfactory">2. ClientHttpRequestFactory</h4>

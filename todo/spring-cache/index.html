@@ -3,15 +3,15 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebFlux  | 이쟁쟁의 블로그</title>
-  <meta name="description" content=" 'WebFlux'을 한 번 살펴보세요.">
-  <meta property="og:title" content="WebFlux">
+  <title>Spring Cacheable  | 이쟁쟁의 블로그</title>
+  <meta name="description" content=" 'Spring Cacheable'을 한 번 살펴보세요.">
+  <meta property="og:title" content="Spring Cacheable">
   
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2019-12-23">
+  <meta property="article:published_time" content="2019-12-20">
   
-  <meta property="og:description" content=" 'WebFlux'을 한 번 살펴보세요.">
-  <meta property="og:url" content="https://leejaengjaeng.github.io/todo/webflux/">
+  <meta property="og:description" content=" 'Spring Cacheable'을 한 번 살펴보세요.">
+  <meta property="og:url" content="https://leejaengjaeng.github.io/todo/spring-cache/">
   <meta property="og:site_name" content="이쟁쟁의 블로그">
   
   <meta property="og:image" content="https://leejaengjaeng.github.io/images/thumbnail.png">
@@ -20,7 +20,7 @@
   <meta property="og:tags" content="todo">
   
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="canonical" href="https://leejaengjaeng.github.io/todo/webflux/">
+  <link rel="canonical" href="https://leejaengjaeng.github.io/todo/spring-cache/">
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/agate.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap">
@@ -60,11 +60,11 @@
 
 <div class="post">
   <div class="post-title">
-    <a href="https://leejaengjaeng.github.io/todo/webflux/">
+    <a href="https://leejaengjaeng.github.io/todo/spring-cache/">
       <img src="/images/post-title-icon.png" />
       <div class="post-meta">
-        <time>2019년 12월 23일 17시 08분</time>
-        <h1>WebFlux</h1>
+        <time>2019년 12월 20일 21시 51분</time>
+        <h1>Spring Cacheable</h1>
       </div>
     </a>
   </div>
@@ -73,27 +73,35 @@
     <nav id="TableOfContents"></nav>
   </div>
   <section class="post-content">
-    <h1 id="webflux">WebFlux</h1>
+    <p>#Spring Cacheable</p>
+<p>두 번째는 큰 이슈는 아니었는데 파스타에서 제공받는 User 정보에 사용자의 이름이 없다는 점이었습니다.
+Pasta 연동 가이드를 보니 사용자의 이름을 얻기 위해서는 별도로 API를 통해 질의 해야 했고 해당 API가 그렇게 가볍지 않으니 캐싱을 권장하는 내용이 있었습니다.
+그래서 API 호출 후 캐싱을 하도록 구현을 했는데 캐시를 evict 하는 방식이 고민되었습니다.
+사용자 이름을 캐싱하는 것이기 때문에 evict을 수행할만한 적절한 위치가 존재하지 않았고 LRU 방식으로 자동으로 처리되면 좋겠다고 생각했습니다.
+Spring boot를 사용했기 때문에 별도의 설정이 없이도 @Cacheable 어노테이션은 잘 동작했지만, 캐싱 관련해서 bean으로 등록된 구현체가 어떤 것인지는 모르고 있었습니다.
+스프링 부트 레퍼런스를 보니 dependency에 포함된 cache provider가 없으면 SimpleCacheManager를 사용한다고 되어있어서 해당 구현체를 확인해봤는데 단순히 ConcurrentHashMap을 사용해서 캐싱하고 별도의 eviction 정책은 제공하지 않았습니다.
+그래서 적합한 cache provider를 찾아보기 전에 우선 정말 SimpleCacheManager를 사용하고 있는지 확인을 해봤는데 알고 보니 Pasta-SDK에 포함된 GuavaCacheManager를 사용하고 있는 것을 확인했습니다.
+GuavaCacheManager가 제공하는 여러 가지 eviction 정책 중에 처음 생각했던 LRU 방식은 아니었지만 간단하게 적용 가능한 TTL 방식이 있어서 해당 방식으로 캐싱을 적용한 기억이 있습니다.</p>
 
   </section>
   <div class="share">    
     <a
-      href="//www.facebook.com/sharer.php?src=bm&u=https%3a%2f%2fleejaengjaeng.github.io%2ftodo%2fwebflux%2f&t=WebFlux"
+      href="//www.facebook.com/sharer.php?src=bm&u=https%3a%2f%2fleejaengjaeng.github.io%2ftodo%2fspring-cache%2f&t=Spring%20Cacheable"
       onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
       ><i class="fa fa-facebook"></i
     ></a>
     <a
-      href="//twitter.com/intent/tweet?url=https%3a%2f%2fleejaengjaeng.github.io%2ftodo%2fwebflux%2f&text=WebFlux&tw_p=tweetbutton"
+      href="//twitter.com/intent/tweet?url=https%3a%2f%2fleejaengjaeng.github.io%2ftodo%2fspring-cache%2f&text=Spring%20Cacheable&tw_p=tweetbutton"
       onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
       ><i class="fa fa-twitter"></i
     ></a>
     <a
-      href="//getpocket.com/edit?url=https%3a%2f%2fleejaengjaeng.github.io%2ftodo%2fwebflux%2f&title=WebFlux"
+      href="//getpocket.com/edit?url=https%3a%2f%2fleejaengjaeng.github.io%2ftodo%2fspring-cache%2f&title=Spring%20Cacheable"
       onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
       ><i class="fa fa-get-pocket"></i
     ></a>
     <a
-      href="//plus.google.com/share?url=https%3a%2f%2fleejaengjaeng.github.io%2ftodo%2fwebflux%2f"
+      href="//plus.google.com/share?url=https%3a%2f%2fleejaengjaeng.github.io%2ftodo%2fspring-cache%2f"
       onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
       ><i class="fa fa-google-plus"></i
     ></a>
@@ -105,7 +113,7 @@
       <a href="mailto:leejaengjaeng@naver.com">leejaengjaeng</a>
       
       님이
-      <span class="highlight">2019년 12월 23일 17시 08분</span> 
+      <span class="highlight">2019년 12월 20일 21시 51분</span> 
       에 작성한 글입니다.
     </div>
     <div class="desc">
@@ -134,15 +142,15 @@
     <ul>
       
       <li>
-        <a href="https://leejaengjaeng.github.io/todo/ci/" rel="prev">
-          <span>CI</span>
+        <a href="https://leejaengjaeng.github.io/todo/vue/" rel="prev">
+          <span>Vue.js</span>
         </a>
       </li>
       
       
       <li>
-        <a href="https://leejaengjaeng.github.io/todo/juul/" rel="next">
-          <span>Juul</span>
+        <a href="https://leejaengjaeng.github.io/todo/restful/" rel="next">
+          <span>Restful API</span>
         </a>
       </li>
       

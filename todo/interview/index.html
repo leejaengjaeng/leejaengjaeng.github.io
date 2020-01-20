@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interview  | 이쟁쟁의 블로그</title>
+  <meta name="description" content=" 'Interview'을 한 번 살펴보세요.">
+  <meta property="og:title" content="Interview">
+  
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2019-12-20">
+  
+  <meta property="og:description" content=" 'Interview'을 한 번 살펴보세요.">
+  <meta property="og:url" content="https://leejaengjaeng.github.io/todo/interview/">
+  <meta property="og:site_name" content="이쟁쟁의 블로그">
+  
+  <meta property="og:image" content="https://leejaengjaeng.github.io/images/thumbnail.png">
+  
+  
+  <meta property="og:tags" content="todo">
+  
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="canonical" href="https://leejaengjaeng.github.io/todo/interview/">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/agate.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+  <script type="text/javascript">
+  function toggle_visibility(id) {
+    var e = document.getElementById(id);
+    if (e.className === 'menu')
+      e.className = 'menu hidden';
+    else
+      e.className = 'menu';
+  }
+  </script>
+</head>
+<body>
+  <div class="navbar">
+    <div class="burger">
+      <button onclick="toggle_visibility('menu')">
+        <i class="fa fa-bars" aria-hidden="true"></i> 메뉴
+      </button>
+    </div>
+    <div id="menu" class="menu hidden">
+      <ul>
+        <li class="site-title"><a href="/post">이쟁쟁의 블로그</a></li>
+        <li><a href="/categories">카테고리</a></li>
+        <li><a href="/tags">#태그</a></li>
+        <li><a href="/todo">Todo</a></li>
+      </ul>
+      <input class="search" id="search-input" type="search" placeholder="검색어" value="">
+    </div>
+  </div>
+  <div class="container">
+
+
+<div class="post">
+  <div class="post-title">
+    <a href="https://leejaengjaeng.github.io/todo/interview/">
+      <img src="/images/post-title-icon.png" />
+      <div class="post-meta">
+        <time>2019년 12월 20일 21시 51분</time>
+        <h1>Interview</h1>
+      </div>
+    </a>
+  </div>
+  <div class="post-toc">
+    <span class="title">차례</span>
+    <nav id="TableOfContents"></nav>
+  </div>
+  <section class="post-content">
+    <p>#Interview</p>
+<hr>
+<ol start="8">
+<li>자바8을 주로 사용하셨는데 7과 차이점을 설명해주세요
+○ 문법적인 추가도 몇가지 있었는데 가장큰 차이점은 JVM의 메모리 구조 차이라고 생각합니다, 기존에 메타정보나 static 데이터를 저장하던 permenet 영역이 제거되고 metaspace 영역이 새로 생겼고, static 데이터나 String pool이 이 heap으로 옮겨져서 GC의 대상이 되도록 변경됐다고 알고 있습니다
+○ Static 데이터는 그럼 언제 GC의 대상이 되나?
+<ul>
+<li>안그래도 궁금해서 찾아봤는데 명확한 답을 찾지는 못했습니다</li>
+<li>생각엔 다른 데이터와 마찬가지로 참조를 잃거나, null을 직접 할당하는 경우에 GC의 대상이 되지 않을까 생각합니다.
+○ 아는 GC 방식에 대해서 설명해주세요</li>
+<li>G1 GC에 대해서만 기억이 납니다</li>
+<li>GC는 heap영역에서 일어나는데 G1 GC가 아닌경우 GC의 대상이 되는 heap 영역을 old와 young영역으로 나누고 GC가 일어납니다.
+New 키워드를 통해 객체가 할당되면 처음엔 young 영역중에 eden 영역에 할당이 되게 됩니다. Young 영역에서는 주기적으로 minor gc가 일어나는데 이때 참조를 잃은 객체를 메모리에서 해제하게 되고, 여기서 살아남은 객체를 survivor 영역으로 이동시킵니다, suvivor 영역에서도 계속 살아남은 객체는 old 영역으로 이동하게 되는데 Old 영역의 GC는 major GC라고 하고 GC가 수행될때 stop the world가 발생하게 됩니다.
+G1 GC는 이전의 다른 GC와는 다르게 GC 대상이되는 영역 전체를 대상으로 GC가 일어나지 않고, 영역을 분할해서 해당 분할된 구역마다 young, old 등으로 구분되게 됩니다. 또 다른 차이점은 g1 gc는 minor gc에도 stop the world가 발상해는데 이전까지의 GC보다 stop the world의 대상이 되는 영역의 크기가 작기 때문에 시간이 매우 짧습니다
+i. G1의 단점은?
+□ 아무래도 한번에 region의 크기보다 덩치가 큰 객체를 할당하면 최적화가 잘 되지 않는다고 하던데 체감은 아직 못해봤습니다
+○ 참조를 잃은 객체인지는 어떻게 아는가?
+§ 객체간 참조관계를 가지고있는 RootSet이라는게 있다고 알고있습니다.
+이 RootSet에서 도달할수 없는 객체는 UnReachable로 판단되고 이런 객체들이 GC의 대상이 됩니다</li>
+</ul>
+</li>
+</ol>
+<hr>
+<ol start="9">
+<li>
+<p>최근 자바진영에서 이슈가 뭐가 있을까요?
+○ 사용해보진 않았지만 var 키워드 추가가 아닐까요?
+혹시 사용하시나요?
+ㄴㄴ -&gt; 개인적으로는 자바의 타입 추론이 있긴하지만 타입언 어에서 var를 추가하는것이 얼마나 많은 이득이 있을지는 모르겠습니다.</p>
+</li>
+<li>
+<p>스프링에서 쓰는 디자인 패턴에 어떤게 있나요
+○ 대표적인건 IOC / DI 패턴과 SingleTone 패턴이 있다고 생각합니다.
+그리고 추가적으로 기억나는건 spring security를 공부할때 delegate 패턴을 사용해서 인증기능이 구현되어있던게 기억 나네요
+○ Bean의 기본 Scope가 singletone이고,
+스프링에서 제공하는 기능 대부분이 IOC/DI를 기반으로 동작하기 때문입니다.
+a. SingleTone 패턴 손코딩
+§ Public class SingleToneSomething {
+Private SingleToneSomething() {}
+Private final Object singleTone = new Object();
+Public static Object getInstance() {
+Return this.singleTone();
+}
+}
+b. IOC/DI에 대해서 설명해주세요
+§ IOC는 gui환경이 나오면서 등장했다는 이야기가 있는데,
+CLI 환경에선 프로그램의 주체가 개발자였지만,
+GUI 환경이 되면서 event 기반이 되어서 GUI 인터페이스가 개발자가 작성한 코드를 호출하는 방식이 되어서 등장했다는 썰을 봤습니다.
+마찬가지로 스프링에서 IOC는 제가 작성한 소스코드가 스프링 프레임워크를 호출하는게 아니라 스프링의 소스가 제가 작성한 코드를 호출하는 형태고 이렇기 때문에 얻게되는 이점중에 DI도 있습니다.
+§ DI를 설명할땐 숫자 3을 사용하면 이해가 쉬울것 같습니다.
+우선 주입될 대상과 의존성을 주입받을 대상이있고, 실제로 주입을 시켜줄 녀석이 있는데 스프링에서는 bean이 주입될 대상이고, @Autowired 같은 형식으로 의존성을 주입받을 대상을 정해주면, spring container가 @Autowired된 타입과 자신이 가지고있는 bean의 타입을 비교해서 의존성을 주입해줍니다.
+이 방식의 장점은 아무래도 객체간에 의존관계를 낮추고 변화에 유연하다는 점일텐데
+구현체가 아닌 인터페이스로 코드를 하게되면 runtime에 spring에서 구현체를 주입해주기 때문에 구현체가 바뀌더라고 bean에 등록되는 객체만 변경해주면 된다는 장점이 있습니다.
+c. 스프링 시큐리티에서 delegate 패턴이 어떻게 사용되고 있던가요?
+§ 스프링 시큐리티는 인증과 인가를 분리해서 각각을 확장가능하게 구현되어있는데요
+이 확장 방식을 delegate 패턴을 사용해서 구현되어있었습니다.
+인증기능을 제공하는 AuthenticationManager 의 구현체로 ProviderManager라는걸 사용하게 되는데 이 ProviderManager는 AuthenticationProvider라는 인터페이스의 체인을 가지고있고 인증 요청이 들어오면 이 AuthenticationProvider에게 실제 인증을 위임합니다.
+이 방식을 사용해서 ProviderManager의 코드를 수정하지 않아도 인증하는 방식을 여러가지로 등록할 수 있습니다.
+delegate 패턴의 다른 예는..?
+클래스 로더가 델리게이트 패턴으로 되어있다고 알고있습니다
+클래스 로더는 클래스를 컴파일 시점이 아니라 런타임에 실제로 해당 클래스가 필요할때 오딘해주는 도구</p>
+</li>
+<li>
+<p>좋아하는 디자인 패턴은?
+○ 아무래도 스프링을 주로 사용하니깐 IOC, DI 패턴이나,
+Spring securiy를 공부할때 봤던 delegate 패턴도 기억이 나고,
+그냥 코드 작성할때 재밌는 패턴은 template method 패턴이라고 생각합니다
+○ 구현은 추상 클래스 하나 만들고 두개 상속받기
+§ public abstract class Base {
+private void beforeCall() {
+sout(&ldquo;before Call&rdquo;);
+}
+protected abstract void callAction();
+public void call() {
+this.beforeCall();
+this.callAction();
+}
+}
+public class ExtendedBase extends Base {
+@Override
+protected void callAction() {
+sout(&ldquo;Call&rdquo;);
+}
+}</p>
+</li>
+<li>
+<p>OOP에 대해서 설명해주세요
+○ 대상을 상태화 행동으로 나눠서 표현하는 방식이라고 생각합니다.
+자판기를 프로그램으로 구현한다고 할때 자판기와 음료를 나누고
+자판기에 음료를 뱉는 행동, 돈을 입력받는 행동, 잔돈을 주는 행동을 추가하고,
+가지고있는 음료에 대한 상태, 가지고있는 돈에 대한 상태등을 추가해서 구현을 합니다.
+그리고 음료는 음료의 종류, 가격 등의 상태를 가지고
+행동은.. 뭐가있을까요 캔따기? 같은걸 추가해 줘서
+자판기라는 프로그램을 구현하는 방식이 OOP 입니다.</p>
+</li>
+<li>
+<p>클로져에 대해서 설명해주세요
+○ 어떤 함수 스코프 내부에 있는 값을 함수 외부에서 접근하기 위한 방법입니다.
+○ function myName() {
+let myName = &lsquo;abc&rsquo;;
+return {
+setMyName : (name) =&gt; {myName = name},
+printMyName : () =&gt; {console.log(myName)}
+            }
+}</p>
+</li>
+<li>
+<p>devops에 대해서 설명해주세요
+○ 개발과 운영을 함께하는걸 의미하는데 어떤 글에서 데브옵스는 뭐하는 사람이라고 설명하기 어려울 정도로 이것저것 다하는 사람이라는 글을 봤습니다.
+개발자가 운영까지 함께 해서 얻게되는 장점은 그만큼 해당 서비스에 대해서 구석구석 알게되고 그로 인해 잦은 배포와 빠른 이슈 대응이 가능하다는 점이 있지 않을까 싶습니다.</p>
+</li>
+<li>
+<p>현재에 어떻게 충실하고 있나요
+○ 우선.. 개발을 열심히 하고있고요 ㅎㅎ..
+팀원들과 스터디를 계속 진행하고 있습니다.
+지금은 EJS 3판을 진행중인데 거의 끝났고,
+다음엔 시큐리티나 TDD 아니면 ELK 스택에 대해서 할 것 같습니다.</p>
+</li>
+<li>
+<p>코드리뷰는 어떤식으로 했나요
+○ 주로 PR 올리면 팀장급이신 분이 보시고 코멘트 남겨주시는 방식이었고,
+주기적이진 않았지만 다른 팀원분이 이 코드좀 봐주세요 하면 함께 몰려가서 어떤것 같다 어떻게 하는게 좋은것 같다 요런 식이었습니다</p>
+</li>
+<li>
+<p>팀원들과 분위기가 좋았나본데 안좋으면 어떻게 할건가요?
+○ 제 장점에 대해서 생각해본적이 있는데 특별히 유난히 잘하는게 떠오른건 없었지만,
+적응을 잘한다는거 하나는 있던것 같습니다 ㅎㅎ
+북한에 떨어져도 잘 살 자신있습니다.</p>
+</li>
+<li>
+<p>Spring boot에 대해서 설명해주세요
+○ Spring의 설정들을 자동으로 해줘서 기존 Spring을 사용하는것 보다 간단히 stand alone 웹 어플리케이션을 만들 수 있는 스프링의 프로젝트 입니다.</p>
+</li>
+<li>
+<p>Spring boot에서 자동으로 설정되는것들은 어떻게 설정되는건가요?
+○ @EnableAutoConfiguration이라는 어노테이션에 의해서 설정이 되는데,
+이 어노테이션은 dependency에 포함된 모듈들이 가지고있는 spring.factories 파일을 읽어서 미리 정의된 configuration들을 bean에 추가해주는 방식으로 동작한다고 알고있습니다.</p>
+</li>
+<li>
+<p>순환참조를 어떻게 끊었나요?
+○ 순환참조가 시작되는 부분까지만 select 해오고 참조되는 부분은 필요한 시점에 다시 로딩하도록 하여서 구현했습니다</p>
+</li>
+<li>
+<p>깊이 우선 탐색을 어떻게 사용했는지 설명해주세요 (모델 구조 포함)
+○ 이거 DFS로 구현했다고 생각했는데 면접 준비하면서 코드를 확인해보니깐 BFS로 구현했었습니다
+○ 오픈소스와 네이버 소스가 참조될 수 있었는데 결국 네이버소스에서 오픈소스들을 중복없이 추출해야했습니다. 확인한 네이버 소스를 담은 set과 앞으로 검사해야하는 네이버 소스를 담은 queue를 두고 찾아낸 오픈소스를 담을 list를 하나 둔 다음에 마지막에 오픈소스 list에서 stream api의 distinct를 사용해서 중복없는 오픈소스 list를 추출할 수 있었습니다
+§ Stream API의 distinct가 어떤 기준으로 구분을 하는건지 궁금해서 확인해보니
+equals와 hashCode를 사용해서 구분하는걸 확인해서 오픈소스에서 두 메서드를 오버라이드 해줬습니다</p>
+</li>
+<li>
+<p>text 입력을 담당하는 vue 컴포넌트는 어떻게 즉시 반영되게 만들었나요?
+○ 사실 이 컴포넌트에서 바로 반영해주진 못하고 입력버튼이 없이 저장되는 UI구현에 사용된게 맞는거 같습니다. 글자 클릭시 input 형태로 변경되고 blur 이벤트 발생시 변경된 내용을 상위 컴포넌트로 emit 해주도록 구현했습니다
+○ 업데이트 방식은 필드별로 update하기엔 무리가 있다고 생각해서 해당 모델 객체 전체를 현재 값으로 update 하도록 구현했습니다.</p>
+</li>
+<li>
+<p>세션에 대해서 설명해주세요, 세션을 갱신할 순 없었나요?
+○ HTTP는 비연결성 프로토콜임으로 클라이언트를 식별하기 위해서 세션이나 쿠키를 사용하게 됩니다. 둘의 차이점은 세션은 서버에 내용이 저장되고, 쿠키는 브라우저에 저장된다는 점인데
+사용자가 처음 웹사이트를 방문하면 웹서버에서는 response에 sessionId를 내려주고, 브라우저는 이 값을 쿠키에 저장하게 됩니다. 이후 서버에 재요청시 request 쿠키에 sessionId가 포함되게 되고 서버는 이 세션Id로 사용자를 식별하게 됩니다.
+(자바 기반 서버에서 이 sessionId로 사용되는게 JSessionId)
+○ 세션을 갱신 할 수도 있었겠지만 그러면 사용자가 닫기전까지 세션이 무제한 갱신될것이기 때문에 그 방법은 고려하지 않았습니다</p>
+</li>
+<li>
+<p>LRU에 대해서 설명해주세요
+○ 교체 알고리즘의 하나인데 가장 오래 사용되지 않은 요소를 제거하는 방식입니다</p>
+</li>
+<li>
+<p>구현 한다면 어떻게 해야할까요?
+i. LinkedList랑 HashMap을 사용해서 할 수 있을 것 같습니다
+새로들어오는 요소를 List의 맨뒤에 추가하고 hashMap에 추가합니다
+캐시 hit가 되면 map에서 요소를 꺼내서 앞과 뒤를 연결해준 후에 맨뒤에 추가합니다
+expire는 맨앞 요소를 제거하고 map에서도 제거합니다</p>
+</li>
+<li>
+<p>HashMap이 어떻게 구현되어있나요?
+§
+§ Separate chaining 방식으로 추가된 요소의 hash코드를 사용해서 저장하고,
+데이터 개수가 많아지면 해시 버킷 resize 시에
+Separate chaining 시에 링크드리스트 대신 Tree 형태로 저장한다고 알고있습니다</p>
+</li>
+<li>
+<p>LRU외에 다른 페이징 방식에 대해 설명해주세요
+○ FIFO, LIFO 같은게 있겠죠..? ㅎㅎ</p>
+</li>
+<li>
+<p>Spring boot를 사용하면 그냥 @Cacheable 만 붙이면 캐싱이 되나요?
+○ 디펜던시에 boot-starter-cahce를 추가하고 @EnableCaching만 붙이면 동작은 합니다</p>
+</li>
+<li>
+<p>SimpleCacheManager를 구현해볼수 있나요?
+○ 자세히는 못하지만 그냥 HashMap하나 만들어서 put, get 하면 욕먹을라나..</p>
+</li>
+<li>
+<p>TTL 방식을 사용해서 발생가능한 문제는 뭐가있을까요?
+○ 짧은시간에 엄청 많은 사용자가 접근해서 캐싱된 데이터가 많이 쌓이면 OOM이 날 수 도 있을것 같지만 서비스 특성상 동접자가 많지 않아서 문제 없을것으로 생각됩니다.</p>
+</li>
+<li>
+<p>Same-Origin-Policy 아냐? 해결법은?</p>
+</li>
+</ol>
+<ul>
+<li>페이지를 제공한 서버와 다른 도메인을 갖는 서버에서 받은 내용을 읽지 못하도록 한 정책</li>
+<li>Pasta.navercorp.com 페이지에서 <a href="http://www.naver.com">www.naver.com</a>에 Ajax 요청을 하여서 받은 응답으로 뭔가 하려고 하면 CORS 에러 남</li>
+<li>우회 방법은?
+§ JSONP를 통해 호출
+□ <!-- raw HTML omitted --> 태그는 다른 도메인이어도 포함 할 수 있다는걸 이용한 우회 방법
+® 페이지를 그릴때를 생각해보면 알 수 있는데..
+기존 ajax 요청은 client에서 요청을 보내고 Response 데이터만 text로 넣어주는 느낌이라면?
+JSONP 요청은 처음 페이지를 요청받아서 서버에서 그릴때 처럼 <!-- raw HTML omitted --> 부분을 실행한 후 Response가 가는 느낌?
+® GET 방식만 가능
+§  CORS(Cross Origin Resource Sharing) 설정
+□ 요청을 받는 도메인이 다른 서버쪽에서 HTTP의 OPTIONS 메서드를 핸들링 하도록 설정해야함
+□ 과정
+® 외부 도메인으로 요청을 하는경우 클라이언트에서 HTTP OPTIONS 메서드를 통해 preflight 요청을 날려봄
+® 요청을 받은 서버에서는 OPTIONS 메서드에 대한 핸들링을 해줘야 하는데
+Response에 Access-Control-Allow-Origin, Access-Control-Allow-Method 같은 header를 넣어줘야함
+® Preflight 요청에 대해서 정상 응답을 받은 클라이언트는 실제 데이터를 요청함</li>
+</ul>
+<ol start="30">
+<li>객체지향의 5원칙에 대해 말해보세요</li>
+</ol>
+<ul>
+<li>Single responsibility principal  (단일 책임 원칙)
+§ 모든 클래스는 하나의 책임만을 가져야 한다는 원칙, 클래스가 변경되어야 한다면 그 이유는 오직 하나여야 한다는 의미 입니다.
+§ 이 원칙을 지키면 클래스간 커플링을 낮출 수 있어서 유지 보수성이 좋아집니다.
+§ 예시
+□ xml에서 sql 쿼리를 가지고 와서 제공해주는 sql 쿼리 유틸이란게 있다고 했을때
+xml에서 쿼리를 가지고 오는 클래스와, 쿼리를 다른곳에 제공해주는 클래스 2개를 만들어서 각각 유지하거나, sql 쿼리 유틸이 위 2개의 클래스를 포함한 형태가 되어야 합니다.</li>
+<li>Open close principal (개방 폐쇄 원칙)
+§ 확장에는 열려있고 수정에는 닫혀있어야 한다는 원칙
+§ 추상화를 잘해서 결합도는 낮추고 응집도는 높히자는 원칙입니다.
+§ 예시
+□ 직원 관리 프로그램 같은걸 만든다고 할때, 사원 클래스를 복사후 수정해서 대리 클래스를 만드는게 아니라,
+직원 인터페이스를 구현하고 이 직원 인터페이스를 사용해서 사원/대리 등을 구현해야 합니다.</li>
+<li>Liskov substitution principle (리스코프 치환 법칙)
+§ 상위 타입 객체를 하위 타입으로 바꿔도 상위 타입을 사용하는 프로그램은 정상적으로 동작해야 한다는 법칙
+§ 예시
+□ 위의 예에서 직원 인터페이스가 있고 사원 구현체가 있다고 할때
+직원 인터페이스를 DI 받아서 작성된 코드에 사원 클래스를 명시적으로 DI 받더라도 정상적으로 동작해야 한다는 의미입니다.</li>
+<li>Interface segregation principle (인터페이스 분리 법칙)
+§ 사용하지 않는 인터페이스는 구현하지 말아야 하고, 이런일이 발생하지 않도록 인터페이스를 분리해야 한다는 법칙
+§ SRP가 클래스의 단일 책임을 말한다면 ISP는 인터페이스의 단일 책임을 말한다고 할 수 있습니다
+§ 예시
+□ 카메라, 전화, 일정 기록 같은 함수를 갖는 스마트폰이라는 인터페이스가 있다고 했을때
+카메라 기능, 전화 기능, 일정 기록 기능을 분리하고,
+스마트폰의 구현체를 만들때 필요한 기능의 인터페이스만을 사용해서 구현해야 한다 라는 법칙입니다.</li>
+<li>Dependency inversion principle (의존성 역전 법칙)
+§ 상위 모듈이 하위 모듈의 구현에 의존해서는 안된다는 법칙인데,
+간단히 이야기해서 클래스에 참조가 필요할때 구현체를 사용하지 말고, 추상화된 타입을 사용해야 한다는 법칙입니다
+§ 예시
+□ 다시 직원 관리 프로그램으로 돌아와서 &ldquo;승진 심사&rdquo; 클래스 같은게있고 &ldquo;심사 대상&rdquo; 변수가 있을때
+이 심사 대상의 타입이 사원이나 대리 클래스가 아니라
+직원 인터페이스 여야 한다는 내용입니다.
+□ xml에서 쿼리를 읽어오고, 쿼리를 다른곳에 제공해주는 sql 쿼리 유틸이라는 클래스가 있다고 할때 SRP을 지키기 위해서는
+<ol>
+<li>XML에서 쿼리를 읽어오는 XmlReader와  2. 쿼리를 제공해주는 QueryProvider 같은 녀석으로 분리한 후에 1,2 를 포함하는 형태로 작성하게 되는데
+이때 sql 쿼리 유틸이 상위 모듈이고, XmlReader, QueryProvider가 하위 모듈이 됩니다.
+Sql 쿼리 유틸은 XmlReader, QueryProvider의 구현체를 포함하는게 아니라
+Reader, Provider 같은 식으로 추상화된 타입을 포함해야 한다는 의미 입니다.</li>
+</ol>
+</li>
+</ul>
+<ol start="31">
+<li>샤딩, 클러스터링, 파티셔닝의 차이</li>
+</ol>
+<ul>
+<li>파티셔닝
+<ul>
+<li>테이블을 쪼개는것</li>
+<li>수직 파티셔닝, 수평 파티셔닝(샤딩)이 있음
+§  수직 파티셔닝
+□ 필드를 여러 테이블로 분산 시키는것
+□ 스키마가 다른 테이블이 여러개 생김
+§ 수평 파티셔닝(샤딩)
+□ 데이터를 여러 테이블로 분산 시키는것
+□ 스키마가 같은 테이블이 여러개 생김</li>
+</ul>
+</li>
+<li>샤딩
+<ul>
+<li>파티셔닝 방법중 데이터를 쪼개는 방식</li>
+<li>어떤 테이블에 데이터가 있는지 찾기 위한(Shard Key) 알고리즘 등이 필요
+§ 샤딩을 한다면 키를 어떻게 나누겠나?
+□ 키 값을 가지고 모듈러 연산을 하는 방식을 취할것 같다 -&gt; 샤딩의 크기가 늘어난다면? 대응 불가 이 방식 사용 하면 안될듯
+□ 데이터 생성일 기준으로? -&gt; 샤딩 크기가 늘어나는거에 대한 대비는 할 수 있지만, 최근에 생성된 값일수록 사용할 경우가 많을것 같다</li>
+<li>기준(ex : id)에 따라 어디~ 어디 까지는 데이터는 A테이블, 다른 범위 데이터는 B테이블에 담는 방식</li>
+<li>키 알고리즘으로는 그냥 해시한걸 모듈러 연산 해도 되지않을까?</li>
+<li>한계점
+§ 두 개 이상의 샤드에 대한 JOIN 연산을 할 수 없다.
+§ auto increment (serial) 등은 샤드별로 달라질 수 있다.
+§ last_insert_id() 값은 유효하지 않다.
+§ shard key column 값은 update하면 안 된다(delete - insert 사용).
+§ 하나의 트랜잭션에서 두 개 이상의 샤드에 접근할 수 없다.</li>
+</ul>
+</li>
+<li>클러스터링
+<ul>
+<li>사실 위의 두개랑은 다른 개념</li>
+<li>클러스터링은 군집화, 여러개가 병렬로 있는것
+§ 네이버게임 웹서버가 6개인거 같은것!</li>
+</ul>
+</li>
+</ul>
+<ol start="32">
+<li>SSL에 대해서 설명해주세요</li>
+</ol>
+<ul>
+<li>Secure Socket Layer로 보안에 취약한 HTTP를 보안하기위한 layer</li>
+<li>데이터를 공개키/개인키로 암호화 하여 전송</li>
+<li>HTTP와 SSL을 결합한 프로토콜이 HTTPS</li>
+</ul>
+<ol start="33">
+<li>파스타 인증을 어케함?</li>
+</ol>
+<ul>
+<li>파스타에 입점한 서비스들은 모두 파스타에서 리버스 프록시 되는 형태인데
+파스타에서 입점 서비스로 request header에 인증 토큰을 전달해 줍니다
+입점 서비스에서는 해당 토큰을 마찬가지로
+Pasta SDK 에서 제공하는 pastaClient로 이 토큰을 조회해서 사용자ID과 권한을 얻어 올 수 있는데 이걸로 User 객체를 만들어서 인증을 합니다</li>
+<li>Spring security에서 다른 시스템에서 이미 인증된 정보에 대한 동작을 수행하는 PreAuthenticationProvider를 AuthenticationFilterChain에 추가하고 여기에 사용되는 UserDetailService를 pastaClient를 통해 생성한 유저를 만들어주는 형태로 구현해서 넣었습니다</li>
+</ul>
+<ol start="33">
+<li>Dispacther Servlet에 대해 설명</li>
+</ol>
+<ul>
+<li>모든 요청을 받으며 컨트롤러의 메서드와 매핑시켜주는 front controller</li>
+<li><a href="https://minwan1.github.io/2018/11/21/2018-11-21-jsp-springboot-%EB%8F%99%EC%9E%91%EA%B3%BC%EC%A0%95/">https://minwan1.github.io/2018/11/21/2018-11-21-jsp-springboot-%EB%8F%99%EC%9E%91%EA%B3%BC%EC%A0%95/</a></li>
+</ul>
+<ol start="34">
+<li>httpMessageConvertor 에 대해 설명</li>
+</ol>
+<ul>
+<li>HTTP요청을 객체로 변경할때나, 객체를 HTTP 응답 body로 변경할때 사용</li>
+</ul>
+<ol start="35">
+<li>JDBC란?
+§ DB 벤더마다 다를 구체적인 구현요소들을 사용자는 추상화된 JDBC 레이어를 통해서 벤더사에 종속되지 않고 사용할 수 있음</li>
+</ol>
+<hr>
+<p>동시성/세션관리/멀티쓰레드 이런거에서 가장 중요한 키워드는 &lsquo;상태(state)', 상태를 갖지 않는게 관리하기 좋음</p>
+<hr>
+<p>AOP
+스프링AOP란사실메서드에대한프록시호출</p>
+<p>@Autowired가Factory패턴을가지고DI를구현한거였다면
+new를하지않으면커플링이걸리지않음으로wired하는애를따로두자</p>
+<p>@Transactional은template-method패턴을가지고AOP를구현한것
+Service객체들을빈에등록하는이유는@Transactional처리같은벌도의매커니즘에껴넣어주기위해서</p>
+<p>AOP용어
+advice
+joinPoint
+pointCut
+Aspect</p>
+<p>데이트코스를짤때어디갈까하는후보들(joinPoint)중에내가고른곳(pointCut),
+그래서가서뭐할래?(Advice)이데이트내용을여자친구한테말해주는것(어디서뭐할꺼-&gt;Aspect)</p>
+<p>전체소스코드중에서내가aop를적용할곳(joinPoint),그중에어떤service에걸꺼야(pointCut),
+여기에무슨기능을넣을껀데?(Advice)-&gt;트랜잭션관리를위해서OOService에aop를적용할꺼야(Aspect)</p>
+
+  </section>
+  <div class="share">    
+    <a
+      href="//www.facebook.com/sharer.php?src=bm&u=https%3a%2f%2fleejaengjaeng.github.io%2ftodo%2finterview%2f&t=Interview"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-facebook"></i
+    ></a>
+    <a
+      href="//twitter.com/intent/tweet?url=https%3a%2f%2fleejaengjaeng.github.io%2ftodo%2finterview%2f&text=Interview&tw_p=tweetbutton"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-twitter"></i
+    ></a>
+    <a
+      href="//getpocket.com/edit?url=https%3a%2f%2fleejaengjaeng.github.io%2ftodo%2finterview%2f&title=Interview"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-get-pocket"></i
+    ></a>
+    <a
+      href="//plus.google.com/share?url=https%3a%2f%2fleejaengjaeng.github.io%2ftodo%2finterview%2f"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-google-plus"></i
+    ></a>
+  </div>
+  <div class="post-meta-code">
+    <div class="desc">
+      친절한
+      
+      <a href="mailto:leejaengjaeng@naver.com">leejaengjaeng</a>
+      
+      님이
+      <span class="highlight">2019년 12월 20일 21시 51분</span> 
+      에 작성한 글입니다.
+    </div>
+    <div class="desc">
+      
+      <div class="desc">
+        <span class="fixed-desc">_카테고리</span>
+        
+        
+        <a href="https://leejaengjaeng.github.io//categories/todo">#TODO</a>
+        
+      </div>
+      
+      <div class="desc">
+        <span class="fixed-desc">_태그</span>
+        
+        
+        <a href="https://leejaengjaeng.github.io/tags/todo">#todo</a>
+        
+        
+      </div>
+    </div>
+  </div>  
+  
+  <div class="recommend-articles">
+    다음으로 읽을만한 글입니다.
+    <ul>
+      
+      <li>
+        <a href="https://leejaengjaeng.github.io/todo/kubernetes/" rel="prev">
+          <span>Kubernetes</span>
+        </a>
+      </li>
+      
+      
+      <li>
+        <a href="https://leejaengjaeng.github.io/todo/ci/" rel="next">
+          <span>CI</span>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="go-top">
+  <a href="#" class="go-top-button">
+    <i class="fa fa-angle-double-up"></i>
+    <span>위로</span>
+  </a>
+</div>
+<footer class="footer">
+  COPYRIGHT (C) <a href="https://blog.lulab.net">DONGGEUN,BANG (LUBANG).</a><br />
+  ALL RIGHTS RESERVED.
+</footer>
+</body>
+</html>
+
