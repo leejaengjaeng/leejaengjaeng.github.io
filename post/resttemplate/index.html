@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RestTemplate 들여다보기  | 이쟁쟁의 블로그</title>
+  <meta name="description" content=" 'RestTemplate 들여다보기'을 한 번 살펴보세요.">
+  <meta property="og:title" content="RestTemplate 들여다보기">
+  
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2020-01-16">
+  
+  <meta property="og:description" content=" 'RestTemplate 들여다보기'을 한 번 살펴보세요.">
+  <meta property="og:url" content="https://leejaengjaeng.github.io/post/resttemplate/">
+  <meta property="og:site_name" content="이쟁쟁의 블로그">
+  
+  <meta property="og:image" content="https://i.imgur.com/B4PixB9.png">
+  
+  
+  <meta property="og:tags" content="Spring">
+  
+  <meta property="og:tags" content="RestTemplate">
+  
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="canonical" href="https://leejaengjaeng.github.io/post/resttemplate/">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/agate.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+  
+  
+  <script type="text/javascript">
+  function toggle_visibility(id) {
+    var e = document.getElementById(id);
+    if (e.className === 'menu')
+      e.className = 'menu hidden';
+    else
+      e.className = 'menu';
+  }
+  </script>
+</head>
+<body>
+  <div class="navbar">
+    <div class="burger">
+      <button onclick="toggle_visibility('menu')">
+        <i class="fa fa-bars" aria-hidden="true"></i> 메뉴
+      </button>
+    </div>
+    <div id="menu" class="menu hidden">
+      <ul>
+        <li class="site-title"><a href="/post">이쟁쟁의 블로그</a></li>
+        <li><a href="/categories">카테고리</a></li>
+        <li><a href="/tags">#태그</a></li>
+        <li><a href="/todo">Todo</a></li>
+      </ul>
+      <input class="search" id="search-input" type="search" placeholder="검색어" value="">
+    </div>
+  </div>
+  <div class="container">
+
+
+<div class="post">
+  <div class="post-title">
+    <a href="https://leejaengjaeng.github.io/post/resttemplate/">
+      <img src="/images/post-title-icon.png" />
+      <div class="post-meta">
+        <time>2020년 01월 16일 14시 41분</time>
+        <h1>RestTemplate 들여다보기</h1>
+      </div>
+    </a>
+  </div>
+  <div class="post-toc">
+    <span class="title">차례</span>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#resttemplate">RestTemplate</a>
+      <ul>
+        <li><a href="#heading">필요성</a></li>
+        <li><a href="#-">동작 구조</a></li>
+        <li><a href="#-1">약간의 팁</a></li>
+        <li><a href="#heading1">마치며</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+  <section class="post-content">
+    <p>Spring 4.3.25 기준으로 변경사항이 존재할 수 있습니다.</p>
+<blockquote>
+<p><a href="https://docs.spring.io/spring/docs/4.3.25.RELEASE/spring-framework-reference/htmlsingle/#rest-resttemplate">https://docs.spring.io/spring/docs/4.3.25.RELEASE/spring-framework-reference/htmlsingle/#rest-resttemplate</a></p>
+</blockquote>
+<h2 id="resttemplate">RestTemplate</h2>
+<p><code>org.springframework.web.client</code>패키지에 속한 클래스로 client-side에서 Restful한 서비스에 접근하는것에 도움을 줍니다.</p>
+<h3 id="heading">필요성</h3>
+<p>Restful한 API를 호출하기위해서 java에서는 전통적으로 Apache의 HttpClient같은 헬퍼클래스를 사용해 왔지만, 이 HttpClient는 편하게 사용하기엔 너무 low level의 컴포넌트 였습니다.</p>
+<pre><code>String uri = &quot;https://example.com/hotels/1/bookings&quot;;
+
+PostMethod post = new PostMethod(uri);
+String request = // create booking request content
+post.setRequestEntity(new StringRequestEntity(request));
+
+httpClient.executeMethod(post);
+
+if (HttpStatus.SC_CREATED == post.getStatusCode()) {
+    Header location = post.getRequestHeader(&quot;Location&quot;);
+    if (location != null) {
+        System.out.println(&quot;Created new booking at :&quot; + location.getValue());
+    }
+}
+</code></pre><p>RestTemplate은 HTTPMethod들에 대해서 더욱 high level의 메서드를 제공함으로써 Restful한 서비스를 사용하는것을 쉽게 도와줍니다.</p>
+<pre><code>String uri = &quot;https://example.com/hotels/1/bookings&quot;;
+String result = restTemplate.postForObject(uri, requestObject, String.class);
+</code></pre><h3 id="-">동작 구조</h3>
+<p><img src="https://i.imgur.com/B4PixB9.png" alt="restTemplateFlow"></p>
+<blockquote>
+<p>동작 방식을 이해하는데 필요한 컴포넌트</p>
+</blockquote>
+<h4 id="1-resttemplate">1. RestTemplate</h4>
+<ul>
+<li>인스턴스 생성 방식에 따라서 사용하는 <code>ClientHttpRequestFactory</code>가 바뀌게 됩니다.</li>
+<li>인스턴스 생성 방식
+| 방식 | ClientHttpRequestFactory 구현체 | 코드 |
+|&mdash;|&mdash;|&mdash;|
+|arguments가 없는 default 생성자를 호출|<code>SimpleClientHttpReqeustFactory`|</code>RestTemplate restTemplate = new RestTemplate();<code>| |requestFactory를 argument로 하는 생성자 호출|argument로 넣은 구현체|</code>RestTemplate template = new RestTemplate(new SomethingClientHttpRequestFactoryImpl());<code>| |RestTemplateBuilder를 사용| 가지고있는 후보 중에 클래스 패스에 존재하는게 있다면 사용, 없다면 </code>SimpleClientHttpReqeustFactory<code>|</code>RestTemplate restTemplate = new RestTemplateBuilder().build();`|
+<ul>
+<li>
+<pre><code>package org.springframework.boot.web.client;
+
+public class RestTemplateBuilder {
+
+  private static final Map&lt;String, String&gt; REQUEST_FACTORY_CANDIDATES;
+
+  static {
+    Map&lt;String, String&gt; candidates = new LinkedHashMap&lt;String, String&gt;();
+    candidates.put(&quot;org.apache.http.client.HttpClient&quot;,
+        &quot;org.springframework.http.client.HttpComponentsClientHttpRequestFactory&quot;);
+    candidates.put(&quot;okhttp3.OkHttpClient&quot;, &quot;org.springframework.http.client.OkHttp3ClientHttpRequestFactory&quot;);
+    candidates.put(&quot;com.squareup.okhttp.OkHttpClient&quot;,
+        &quot;org.springframework.http.client.OkHttpClientHttpRequestFactory&quot;);
+    candidates.put(&quot;io.netty.channel.EventLoopGroup&quot;,
+        &quot;org.springframework.http.client.Netty4ClientHttpRequestFactory&quot;);
+    REQUEST_FACTORY_CANDIDATES = Collections.unmodifiableMap(candidates);
+  }
+
+  ...
+
+  private ClientHttpRequestFactory detectRequestFactory() {
+    for (Map.Entry&lt;String, String&gt; candidate : REQUEST_FACTORY_CANDIDATES.entrySet()) {
+      ClassLoader classLoader = getClass().getClassLoader();
+      if (ClassUtils.isPresent(candidate.getKey(), classLoader)) {
+        Class&lt;?&gt; factoryClass = ClassUtils.resolveClassName(candidate.getValue(), classLoader);
+        ClientHttpRequestFactory requestFactory = (ClientHttpRequestFactory) BeanUtils.instantiate(factoryClass);
+        initializeIfNecessary(requestFactory);
+        return requestFactory;
+      }
+    }
+    // 후보중에 찾지 못하면 default 생성자로 호출하는 방식처럼 SimpleClientHttpReqeustFactory를 사용한다
+    return new SimpleClientHttpRequestFactory();
+  }
+  ...
+}
+</code></pre></li>
+</ul>
+</li>
+</ul>
+<h4 id="2-clienthttprequestfactory">2. ClientHttpRequestFactory</h4>
+<ul>
+<li>API 서버와 연결을 위한 Http request를 생성하는 팩토리</li>
+<li><code>SimpleClientHttpReqeustFactory</code>
+<ul>
+<li><code>java.net</code> 패키지에 속한 <code>HttpUrlConnection</code>을 사용하여 http request 생성</li>
+<li>성공이 아닌 응답코드에 대해 exception을 발생시킬 수 있고, <code>PATCH</code> method를 지원하지 않습니다.</li>
+</ul>
+</li>
+<li><code>HttpComponentsClientHttpRequestFactory</code>
+<ul>
+<li>Spring에서 제공하는 구현체로 http request 생성에 apache의 <code>HttpClient</code>를 사용</li>
+<li><code>HttpClient</code>는 gzip 인코딩을 지원함으로 아래와 같은 방식으로 <code>RestTemplate</code>을 생성하면 gzip 인코딩을 사용할 수 있습니다.
+<pre><code>  HttpClient httpClient = HttpClientBuilder.create().build();
+  ClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+  RestTemplate restTemplate = new RestTemplate(requestFactory);
+</code></pre></li>
+</ul>
+</li>
+</ul>
+<h4 id="3-resqeustcallback">3. ResqeustCallback</h4>
+<ul>
+<li>request의 header를 조작하거나 <code>HttpMessageConverter</code>를 통해서 request의 body를 쓰는데 사용됩니다.</li>
+</ul>
+<h4 id="4-responseerrorhandler">4. ResponseErrorHandler</h4>
+<ul>
+<li>돌아온 response의 에러여부 확인에 사용됩니다.</li>
+<li>Http request를 처리하다가 예외가 발생하면 <code>RestClientException</code>을 던지게 되는데, 커스텀한 <code>ResponseErrorHandler</code>를 set해줌으로써 커스터마이즈 가능합니다.</li>
+</ul>
+<h4 id="5-responseextractor">5. ResponseExtractor</h4>
+<ul>
+<li><code>HttpMessageConverter</code>를 통해서 response를 원하는 타입으로 컨버팅하는데 사용됩니다.</li>
+<li><code>HttpMessageConverter</code> 인터페이스는 아래와 같으며 Spring에서 전형적으로 사용되는 위임(deletation)패턴의 위임 대상 인터페이스와 비슷한 모습입니다.
+<pre><code>  public interface HttpMessageConverter&lt;T&gt; {
+
+    boolean canRead(Class&lt;?&gt; clazz, MediaType mediaType);
+
+    boolean canWrite(Class&lt;?&gt; clazz, MediaType mediaType);
+
+    List&lt;MediaType&gt; getSupportedMediaTypes();
+
+    T read(Class&lt;T&gt; clazz, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException;
+
+    void write(T t, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException;
+  }
+</code></pre></li>
+<li>Default로 등록되는 컨버터는 <code>ByteArrayHttpMessageConverter</code>, <code>StringHttpMessageConverter</code>, <code>ResourceHttpMessageConverter</code>, <code>SourceHttpMessageConverter</code>, <code>AllEncompassingFormHttpMessageConverter</code>가 있습니다.
+<ul>
+<li>추가적으로 classpath에 존재하는 메세지 컨버터도 등록됩니다.</li>
+<li>e.g. classpath에 jackson이 존재한다면 <code>MappingJackson2HttpMessageConverter</code>가 추가로 등록됩니다.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="-1">약간의 팁</h3>
+<h4 id="1-resttemplate-clienthttprequestinterceptor--request-interceptor----">1. RestTemplate에 <code>ClientHttpRequestInterceptor</code>의 구현체인 request interceptor를 등록해 줄 수 있습니다.</h4>
+<h4 id="2-uri-">2. URI 다루기</h4>
+<ul>
+<li>methodForObject 같은 메서드들을 보면 uri로 <code>String</code> 또는 <code>java.net.URI</code>를 사용할 수 있는데 둘의 차이점은 URL의 인코딩 여부 입니다.</li>
+<li>String URI를 사용하면 URL이 인코딩되지 않았음을 가정하고 요청시에 인코딩을 수행
+<pre><code>  restTemplate.getForObject(&quot;https://example.com/hotel list&quot;, String.class);
+  -&gt; GET https://example.com/hotel%20list
+
+  restTemplate.getForObject(&quot;https://example.com/hotel%20list&quot;, String.class);
+  -&gt; GET https://example.com/hotel%2520list
+</code></pre></li>
+<li>URI 인스턴스를 사용하면 인코딩이 된것으로 가정하고 요청을 수행
+<pre><code>  UriComponents uriComponents = UriComponentsBuilder.fromUriString(
+      &quot;https://example.com/hotels/{hotel}/bookings/{booking}&quot;).build()
+      .expand(&quot;42&quot;, &quot;21&quot;)
+      .encode();
+  URI uri = uriComponents.toUri();
+</code></pre><blockquote>
+<p>재사용 할 수도 있습니다.</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="3-request-body-hashmap------">3. request Body에 HashMap을 등록하면 값이 전달되지 않을 수 있습니다.</h4>
+<ul>
+<li>Map을 처리하는 HttpMessageConverter가 Default로 등록이 되어있지만, <code>HashMap</code>이 아닌 <code>MultiValueMap</code>을 지원하기 때문에 <code>HashMap</code>을 위한 <code>HttpMessageConverter</code>가 추가로 등록되어있지 않다면 body에 값이 전달되지 않습니다</li>
+</ul>
+<hr>
+<h3 id="heading1">마치며</h3>
+<ol>
+<li>Document에는 생각보다 자세한 설명이 없었지만, 러프한 동작 구조가 코드상에 잘 들어나있음</li>
+<li>들여다본 목적은 response를 맵핑할때 복잡한 구조의 클래스로 어떻게 하는지 궁금해서 였는데 그런건 <code>MappingJackson2HttpMessageConverter</code>이거나 <code>ObjectMapper</code>를 봐야지 알 수 있을것 같음</li>
+<li><code>HttpMessageConverter</code>는 RestTemplate에만 사용하는게 아니기때문에 따로 공부를 해두면 좋을것 같다</li>
+</ol>
+
+  </section>
+  <div class="share">    
+    <a
+      href="//www.facebook.com/sharer.php?src=bm&u=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fresttemplate%2f&t=RestTemplate%20%eb%93%a4%ec%97%ac%eb%8b%a4%eb%b3%b4%ea%b8%b0"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-facebook"></i
+    ></a>
+    <a
+      href="//twitter.com/intent/tweet?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fresttemplate%2f&text=RestTemplate%20%eb%93%a4%ec%97%ac%eb%8b%a4%eb%b3%b4%ea%b8%b0&tw_p=tweetbutton"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-twitter"></i
+    ></a>
+    <a
+      href="//getpocket.com/edit?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fresttemplate%2f&title=RestTemplate%20%eb%93%a4%ec%97%ac%eb%8b%a4%eb%b3%b4%ea%b8%b0"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-get-pocket"></i
+    ></a>
+    <a
+      href="//plus.google.com/share?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fresttemplate%2f"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-google-plus"></i
+    ></a>
+  </div>
+  <div class="post-meta-code">
+    <div class="desc">
+      친절한
+      
+      <a href="mailto:leejaengjaeng@naver.com">leejaengjaeng</a>
+      
+      님이
+      <span class="highlight">2020년 01월 16일 14시 41분</span> 
+      에 작성한 글입니다.
+    </div>
+    <div class="desc">
+      
+      <div class="desc">
+        <span class="fixed-desc">_카테고리</span>
+        
+        
+        <a href="https://leejaengjaeng.github.io//categories/spring">#Spring</a>
+        
+      </div>
+      
+      <div class="desc">
+        <span class="fixed-desc">_태그</span>
+        
+        
+        <a href="https://leejaengjaeng.github.io/tags/spring">#Spring</a>
+        
+        <a href="https://leejaengjaeng.github.io/tags/resttemplate">#RestTemplate</a>
+        
+        
+      </div>
+    </div>
+  </div>  
+  
+  <div class="post-comment">    
+        
+  </div>
+  
+  <div class="recommend-articles">
+    다음으로 읽을만한 글입니다.
+    <ul>
+      
+      <li>
+        <a href="https://leejaengjaeng.github.io/todo/webpack/" rel="prev">
+          <span>Webpack</span>
+        </a>
+      </li>
+      
+      
+    </ul>
+  </div>
+</div>
+
+<div class="go-top">
+  <a href="#" class="go-top-button">
+    <i class="fa fa-angle-double-up"></i>
+    <span>위로</span>
+  </a>
+</div>
+<footer class="footer">
+  COPYRIGHT (C) <a href="https://blog.lulab.net">DONGGEUN,BANG (LUBANG).</a><br />
+  ALL RIGHTS RESERVED.
+</footer>
+</body>
+</html>
+

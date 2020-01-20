@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on 이쟁쟁의 블로그</title>
-    <link>https://leejaengjaeng.github.io/post/</link>
-    <description>Recent content in Posts on 이쟁쟁의 블로그</description>
+    <title>Spring on 이쟁쟁의 블로그</title>
+    <link>https://leejaengjaeng.github.io/tags/spring/</link>
+    <description>Recent content in Spring on 이쟁쟁의 블로그</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-KR</language>
     <managingEditor>leejaengjaeng@naver.com (leejaengjaeng)</managingEditor>
     <webMaster>leejaengjaeng@naver.com (leejaengjaeng)</webMaster>
     <lastBuildDate>Thu, 16 Jan 2020 14:41:00 +0900</lastBuildDate>
     
-	<atom:link href="https://leejaengjaeng.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://leejaengjaeng.github.io/tags/spring/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -24,21 +24,6 @@
  RestTemplate org.springframework.web.client패키지에 속한 클래스로 client-side에서 Restful한 서비스에 접근하는것에 도움을 줍니다.
 필요성 Restful한 API를 호출하기위해서 java에서는 전통적으로 Apache의 HttpClient같은 헬퍼클래스를 사용해 왔지만, 이 HttpClient는 편하게 사용하기엔 너무 low level의 컴포넌트 였습니다.
 String uri = &amp;quot;https://example.com/hotels/1/bookings&amp;quot;;PostMethod post = new PostMethod(uri);String request = // create booking request contentpost.setRequestEntity(new StringRequestEntity(request));httpClient.executeMethod(post);if (HttpStatus.SC_CREATED == post.getStatusCode()) {Header location = post.getRequestHeader(&amp;quot;Location&amp;quot;);if (location !</description>
-    </item>
-    
-    <item>
-      <title>Hugo 시작하기</title>
-      <link>https://leejaengjaeng.github.io/post/howtousehugo/</link>
-      <pubDate>Tue, 10 Dec 2019 14:43:17 +0900</pubDate>
-      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
-      <guid>https://leejaengjaeng.github.io/post/howtousehugo/</guid>
-      <description>1. Hugo 설치 https://gohugo.io/getting-started/installing/
-2. 프로젝트(사이트) 생성 hugo new site {이름}
-프로젝트 구조 https://gohugo.io/getting-started/directory-structure/
-  archetypes
- hugo new 커맨드를 통해 생성될 content file에 들어갈 front matter 등을 정의해 두는 디렉터리 front matter란 content file에 정의된 --- 부분 draft 필드는 프로젝트 빌드시 포함시킬지 여부    content
- 작성할 글이 들어가는 디렉터리 content 내부의 최상의 디렉터리는 section으로 취급    data
- 설정 파일이 들어가는 디렉터리 YAML, JSON, TOML 같은 포맷을 사용    layouts</description>
     </item>
     
   </channel>

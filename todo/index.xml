@@ -8,18 +8,27 @@
     <language>ko-KR</language>
     <managingEditor>leejaengjaeng@naver.com (leejaengjaeng)</managingEditor>
     <webMaster>leejaengjaeng@naver.com (leejaengjaeng)</webMaster>
-    <lastBuildDate>Mon, 23 Dec 2019 17:08:58 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 31 Dec 2019 17:18:58 +0900</lastBuildDate>
     
 	<atom:link href="https://leejaengjaeng.github.io/todo/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Http layer Cache</title>
-      <link>https://leejaengjaeng.github.io/todo/httpcache/</link>
-      <pubDate>Mon, 23 Dec 2019 17:08:58 +0900</pubDate>
+      <title>Webpack</title>
+      <link>https://leejaengjaeng.github.io/todo/webpack/</link>
+      <pubDate>Tue, 31 Dec 2019 17:18:58 +0900</pubDate>
       <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
-      <guid>https://leejaengjaeng.github.io/todo/httpcache/</guid>
-      <description>Http layer cache </description>
+      <guid>https://leejaengjaeng.github.io/todo/webpack/</guid>
+      <description>Webpack </description>
+    </item>
+    
+    <item>
+      <title>Zuul</title>
+      <link>https://leejaengjaeng.github.io/todo/zuul/</link>
+      <pubDate>Sat, 28 Dec 2019 18:24:58 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/todo/zuul/</guid>
+      <description>참고 : http://woowabros.github.io/r&amp;amp;d/2017/06/13/apigateway.html https://github.com/Netflix/zuul/wiki/How-We-Use-Zuul-At-Netflix</description>
     </item>
     
     <item>
@@ -38,15 +47,6 @@
       <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
       <guid>https://leejaengjaeng.github.io/todo/juul/</guid>
       <description>Juul </description>
-    </item>
-    
-    <item>
-      <title>WebFlux</title>
-      <link>https://leejaengjaeng.github.io/todo/webflux/</link>
-      <pubDate>Mon, 23 Dec 2019 17:08:58 +0900</pubDate>
-      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
-      <guid>https://leejaengjaeng.github.io/todo/webflux/</guid>
-      <description>Http layer cache </description>
     </item>
     
     <item>
@@ -73,7 +73,7 @@
       <pubDate>Fri, 20 Dec 2019 21:51:58 +0900</pubDate>
       <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
       <guid>https://leejaengjaeng.github.io/todo/restful/</guid>
-      <description>Restful API </description>
+      <description>Restful API https://yobi.navercorp.com/common_share/posts/1405#1579003522894</description>
     </item>
     
     <item>

@@ -8,15 +8,33 @@
     <language>ko-KR</language>
     <managingEditor>leejaengjaeng@naver.com (leejaengjaeng)</managingEditor>
     <webMaster>leejaengjaeng@naver.com (leejaengjaeng)</webMaster>
-    <lastBuildDate>Mon, 23 Dec 2019 17:08:58 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 16 Jan 2020 14:41:00 +0900</lastBuildDate>
     
 	<atom:link href="https://leejaengjaeng.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>RestTemplate</title>
+      <link>https://leejaengjaeng.github.io/tags/resttemplate/</link>
+      <pubDate>Thu, 16 Jan 2020 14:41:00 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/tags/resttemplate/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Spring</title>
+      <link>https://leejaengjaeng.github.io/tags/spring/</link>
+      <pubDate>Thu, 16 Jan 2020 14:41:00 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/tags/spring/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>todo</title>
       <link>https://leejaengjaeng.github.io/tags/todo/</link>
-      <pubDate>Mon, 23 Dec 2019 17:08:58 +0900</pubDate>
+      <pubDate>Tue, 31 Dec 2019 17:18:58 +0900</pubDate>
       <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
       <guid>https://leejaengjaeng.github.io/tags/todo/</guid>
       <description></description>
