@@ -8,10 +8,23 @@
     <language>ko-KR</language>
     <managingEditor>leejaengjaeng@naver.com (leejaengjaeng)</managingEditor>
     <webMaster>leejaengjaeng@naver.com (leejaengjaeng)</webMaster>
-    <lastBuildDate>Thu, 16 Jan 2020 14:41:00 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 28 Jan 2020 16:10:00 +0900</lastBuildDate>
     
 	<atom:link href="https://leejaengjaeng.github.io/categories/spring/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Spring Docs #Core &gt; IoC Container</title>
+      <link>https://leejaengjaeng.github.io/post/spring5-doc-1/</link>
+      <pubDate>Tue, 28 Jan 2020 16:10:00 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/post/spring5-doc-1/</guid>
+      <description>Spring framework Document 읽기
+ 현재 담당하는 서비스가 Spring5를 사용하진 않지만 5의 문서를 읽으면서 추가된 내용이 아니라 Spring framework 자체의 내용에 집중해볼 예정입니다.   Docs : https://docs.spring.io/spring/docs/5.2.3.RELEASE/spring-framework-reference/core.html#spring-core Repo : https://github.com/spring-projects/spring-framework Github repository에서 &amp;ldquo;T&amp;quot;를 누르면 파일 검색이 가능합니다.
+ The IoC Container 스프링에서 IOC container를 어떻게 구현했는지 알아봅니다.
+Bean과 IoC Container   org.springframework.beans와 org.springframework.context 패키지가 Spring IoC container의 근간이 되는 패키지 입니다.
+  Spring IOC Container에서 관리되는 모든 객체를 Bean이라고 합니다.</description>
+    </item>
     
     <item>
       <title>RestTemplate 들여다보기</title>

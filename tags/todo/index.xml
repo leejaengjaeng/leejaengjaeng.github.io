@@ -59,15 +59,6 @@
     </item>
     
     <item>
-      <title>Kubernetes</title>
-      <link>https://leejaengjaeng.github.io/todo/kubernetes/</link>
-      <pubDate>Fri, 20 Dec 2019 21:51:58 +0900</pubDate>
-      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
-      <guid>https://leejaengjaeng.github.io/todo/kubernetes/</guid>
-      <description>Kubernetes </description>
-    </item>
-    
-    <item>
       <title>Restful API</title>
       <link>https://leejaengjaeng.github.io/todo/restful/</link>
       <pubDate>Fri, 20 Dec 2019 21:51:58 +0900</pubDate>
@@ -83,6 +74,18 @@
       <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
       <guid>https://leejaengjaeng.github.io/todo/vue/</guid>
       <description>Vue.js </description>
+    </item>
+    
+    <item>
+      <title>알아보자 Kubernetes</title>
+      <link>https://leejaengjaeng.github.io/todo/kubernetes/</link>
+      <pubDate>Fri, 20 Dec 2019 21:51:58 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/todo/kubernetes/</guid>
+      <description>Kubernetes 사내 Kubernetes 플랫폼을 사용함에 있어 공부해볼 필요성을 느껴 정리합니다
+구성 클러스터  생성   minikube (네이버에선 ncc)  관리   blue green update - p.146  보안, 제한, 계정설정  프로비저닝1
+  필요시 즉시 사용할 수 있도록 자원을 미리 할당하고 배포 상태로 준비해두는것&amp;#8617;
+   </description>
     </item>
     
   </channel>
