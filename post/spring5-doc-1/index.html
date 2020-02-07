@@ -487,8 +487,14 @@ applicationContext가 생성되는 시점에 A가 생성되고, 이 singletone b
 </li>
 <li>@ComponentScan
 <ul>
-<li><code>@ComponentScan</code> 어노테이션을 <code>@Configuration</code>클래스에 사용하여 bean으로 등록할 대상을 찾아낼 수 있습니다</li>
+<li>Configuration 클래스 (<code>@Configuration</code>)에 <code>@ComponentScan</code> 어노테이션을 사용함으로써 bean으로 등록할 대상을 찾아낼 수 있습니다.
+<ul>
+<li>attribute로 basePackages를 지정함으로써 스캔의 시작 위치를 지정할 수 있습니다.</li>
+<li>attribute로 includeFilters / excludeFilters를 지정함으로써 스캔에 포함/제외시킬 대상을 커스터마이징이 가능합니.</li>
+</ul>
+</li>
 <li>찾아낸 클래스들은 그에 맞는 형태의 <code>BeanDefinition</code>인스턴스로 <code>ApplicationContext</code>에 등록 됩니다.</li>
+<li>JDK9부터 사용되는 module에서도 정상적으로 적용되지만 <code>module-info</code>에 Component 클래스들이 정상적으로 export되었는지 확인이 필요합니다.</li>
 </ul>
 </li>
 <li>Spring annotation을 대신해서 Java annotation을 사용하는 방법도 존재합니다.

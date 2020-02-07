@@ -53,47 +53,22 @@
   </url>
   
   <url>
-    <loc>https://leejaengjaeng.github.io/categories/todo/</loc>
-    <lastmod>2019-12-31T17:18:58+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://leejaengjaeng.github.io/tags/todo/</loc>
-    <lastmod>2019-12-31T17:18:58+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://leejaengjaeng.github.io/todo/</loc>
-    <lastmod>2019-12-31T17:18:58+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://leejaengjaeng.github.io/todo/webpack/</loc>
-    <lastmod>2019-12-31T17:18:58+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://leejaengjaeng.github.io/todo/zuul/</loc>
-    <lastmod>2019-12-28T18:24:58+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://leejaengjaeng.github.io/todo/http2.0/</loc>
-    <lastmod>2019-12-23T17:08:58+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://leejaengjaeng.github.io/todo/juul/</loc>
-    <lastmod>2019-12-23T17:08:58+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://leejaengjaeng.github.io/todo/ci/</loc>
+    <loc>https://leejaengjaeng.github.io/todo/restful/</loc>
     <lastmod>2019-12-20T21:51:58+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://leejaengjaeng.github.io/todo/restful/</loc>
+    <loc>https://leejaengjaeng.github.io/categories/todo/</loc>
+    <lastmod>2019-12-20T21:51:58+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://leejaengjaeng.github.io/tags/todo/</loc>
+    <lastmod>2019-12-20T21:51:58+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://leejaengjaeng.github.io/todo/</loc>
     <lastmod>2019-12-20T21:51:58+09:00</lastmod>
   </url>
   
@@ -108,12 +83,12 @@
   </url>
   
   <url>
-    <loc>https://leejaengjaeng.github.io/categories/blog/</loc>
+    <loc>https://leejaengjaeng.github.io/tags/blog/</loc>
     <lastmod>2019-12-10T14:43:17+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://leejaengjaeng.github.io/tags/blog/</loc>
+    <loc>https://leejaengjaeng.github.io/categories/blog/</loc>
     <lastmod>2019-12-10T14:43:17+09:00</lastmod>
   </url>
   
