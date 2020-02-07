@@ -18,12 +18,12 @@
   </url>
   
   <url>
-    <loc>https://leejaengjaeng.github.io/tags/spring/</loc>
+    <loc>https://leejaengjaeng.github.io/categories/spring/</loc>
     <lastmod>2020-01-28T16:10:00+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://leejaengjaeng.github.io/categories/spring/</loc>
+    <loc>https://leejaengjaeng.github.io/tags/spring/</loc>
     <lastmod>2020-01-28T16:10:00+09:00</lastmod>
   </url>
   
@@ -53,11 +53,6 @@
   </url>
   
   <url>
-    <loc>https://leejaengjaeng.github.io/todo/restful/</loc>
-    <lastmod>2019-12-20T21:51:58+09:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://leejaengjaeng.github.io/categories/todo/</loc>
     <lastmod>2019-12-20T21:51:58+09:00</lastmod>
   </url>
@@ -74,11 +69,6 @@
   
   <url>
     <loc>https://leejaengjaeng.github.io/todo/vue/</loc>
-    <lastmod>2019-12-20T21:51:58+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://leejaengjaeng.github.io/todo/kubernetes/</loc>
     <lastmod>2019-12-20T21:51:58+09:00</lastmod>
   </url>
   
