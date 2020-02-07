@@ -40,15 +40,6 @@ String uri = &amp;quot;https://example.com/hotels/1/bookings&amp;quot;;PostMeth
     </item>
     
     <item>
-      <title>Vue.js</title>
-      <link>https://leejaengjaeng.github.io/todo/vue/</link>
-      <pubDate>Fri, 20 Dec 2019 21:51:58 +0900</pubDate>
-      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
-      <guid>https://leejaengjaeng.github.io/todo/vue/</guid>
-      <description>Vue.js </description>
-    </item>
-    
-    <item>
       <title>Hugo 시작하기</title>
       <link>https://leejaengjaeng.github.io/post/howtousehugo/</link>
       <pubDate>Tue, 10 Dec 2019 14:43:17 +0900</pubDate>
