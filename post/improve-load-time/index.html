@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>페이지 로딩 속도 개선  | 이쟁쟁의 블로그</title>
+  <meta name="description" content=" '페이지 로딩 속도 개선'을 한 번 살펴보세요.">
+  <meta property="og:title" content="페이지 로딩 속도 개선">
+  
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2020-02-17">
+  
+  <meta property="og:description" content=" '페이지 로딩 속도 개선'을 한 번 살펴보세요.">
+  <meta property="og:url" content="https://leejaengjaeng.github.io/post/improve-load-time/">
+  <meta property="og:site_name" content="이쟁쟁의 블로그">
+  
+  <meta property="og:image" content="https://leejaengjaeng.github.io/images/thumbnail.png">
+  
+  
+  <meta property="og:tags" content="Issue">
+  
+  <meta property="og:tags" content="Web">
+  
+  <meta property="og:tags" content="Mybatis">
+  
+  <meta property="og:tags" content="Vue.js">
+  
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="canonical" href="https://leejaengjaeng.github.io/post/improve-load-time/">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/agate.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+  
+  
+  <script type="text/javascript">
+  function toggle_visibility(id) {
+    var e = document.getElementById(id);
+    if (e.className === 'menu')
+      e.className = 'menu hidden';
+    else
+      e.className = 'menu';
+  }
+  </script>
+</head>
+<body>
+  <div class="navbar">
+    <div class="burger">
+      <button onclick="toggle_visibility('menu')">
+        <i class="fa fa-bars" aria-hidden="true"></i> 메뉴
+      </button>
+    </div>
+    <div id="menu" class="menu hidden">
+      <ul>
+        <li class="site-title"><a href="/post">이쟁쟁의 블로그</a></li>
+        <li><a href="/categories">카테고리</a></li>
+        <li><a href="/tags">#태그</a></li>
+        <li><a href="/todo">Todo</a></li>
+      </ul>
+      <input class="search" id="search-input" type="search" placeholder="검색어" value="">
+    </div>
+  </div>
+  <div class="container">
+
+
+<div class="post">
+  <div class="post-title">
+    <a href="https://leejaengjaeng.github.io/post/improve-load-time/">
+      <img src="/images/post-title-icon.png" />
+      <div class="post-meta">
+        <time>2020년 02월 17일 15시 05분</time>
+        <h1>페이지 로딩 속도 개선</h1>
+      </div>
+    </a>
+  </div>
+  <div class="post-toc">
+    <span class="title">차례</span>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#heading">문제점</a></li>
+    <li><a href="#-">문제 확인</a></li>
+    <li><a href="#---server-side">문제 해결 - Server Side</a></li>
+    <li><a href="#----">문제 해결 - 브라우저 렌더링</a></li>
+    <li><a href="#--">결론 & 느낀점</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+  <section class="post-content">
+    <h1 id="-----">페이지 로딩 속도 개선 사례 기록</h1>
+<h2 id="heading">문제점</h2>
+<p>새로 개발한 서비스의 핵심 기능을 제공하는 페이지에 로딩 속도 관련된 이슈가 있었습니다.</p>
+<p>해당 페이지에서 보여줄 데이터가 일반적인 수준에서는 불편함이 없었지만,
+보여줘야 하는 데이터가 일정 수준이 넘어가면 로딩 속도가 눈에 띄게 느려지고,
+Worst case에서는 처음 페이지 로딩시 20여초 가량 소요되었습니다.</p>
+<h2 id="-">문제 확인</h2>
+<p>문제가 되는 지점을 확인하기 위해서 우선 브라우저의 네트워크 도구를 사용해보니 두가지 문제가 발견되었습니다.
+<img src="https://i.imgur.com/REqa86O.png" alt="worst 케이스"></p>
+<ol>
+<li>서버쪽 응답 자체가 느리다 (8초 가량 소요)</li>
+<li>브라우저의 렌더링 과정에도 문제가 되는 지점이 있다 (11초 가량 소요)</li>
+</ol>
+<p>결과적으로 이 두가지 포인트에 대해서 개선 방향을 잡고 문제를 조금 더 파악해 보기로 했습니다.</p>
+<h2 id="---server-side">문제 해결 - Server Side</h2>
+<p>API 자체에 별다른 로직이 없었기 때문에 자연스럽게 응답 지연 지점은 DB로 의심하게 되었고,
+DAO단의 응답시간을 확인해 본 후 실제로 문제가 된 쿼리들을 확인 할 수 있었습니다.
+<img src="https://i.imgur.com/fyaqr3W.png" alt="worst 케이스-서버"></p>
+<p>DB 접근에 Mybatis를 사용중이기 때문에 관련 내용을 검색해보다가 이유를 찾을 수 있었는데요.
+<code>N+1 Select Problem</code>이 원인이었습니다.</p>
+<blockquote>
+<p><code>N+1 Select Problem</code>이란 간단히 N건의 쿼리 결과를 완성하기 위해서 N번 더 DB에 접근하게 되는 문제를 말합니다.
+<a href="https://zetawiki.com/wiki/N%2B1_%EC%BF%BC%EB%A6%AC_%EB%AC%B8%EC%A0%9C">https://zetawiki.com/wiki/N%2B1_%EC%BF%BC%EB%A6%AC_%EB%AC%B8%EC%A0%9C</a></p>
+</blockquote>
+<p>Mybatis에서는 크게 두가지 방식으로 join을 처리할 수 있습니다.</p>
+<ol>
+<li>Nested Select</li>
+</ol>
+<ul>
+<li><code>resultMap</code>에 포함된 <code>association</code> 혹은 <code>collection</code>에 해당값을 맵핑해줄 select 쿼리를 명시해 주는 방식입니다.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">  <span style="color:#f92672">&lt;resultMap</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;inspection&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;com.somepackage.model.Inspection&#34;</span> <span style="color:#a6e22e">extends=</span><span style="color:#e6db74">&#34;inspectionBase&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;association</span> <span style="color:#a6e22e">property=</span><span style="color:#e6db74">&#34;releaseScope&#34;</span> <span style="color:#a6e22e">column=</span><span style="color:#e6db74">&#34;release_scope&#34;</span>
+           <span style="color:#a6e22e">javaType=</span><span style="color:#e6db74">&#34;com.somepackage.common.model.SelectValue&#34;</span>
+           <span style="color:#a6e22e">select=</span><span style="color:#e6db74">&#34;com.somepackage.common.repository.SelectValueMapper.selectByCode&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;collection</span> <span style="color:#a6e22e">property=</span><span style="color:#e6db74">&#34;repositories&#34;</span> <span style="color:#a6e22e">column=</span><span style="color:#e6db74">&#34;id&#34;</span>
+                <span style="color:#a6e22e">javaType=</span><span style="color:#e6db74">&#34;java.util.ArrayList&#34;</span>
+                <span style="color:#a6e22e">ofType=</span><span style="color:#e6db74">&#34;com.somepackage.model.Repository&#34;</span>
+                <span style="color:#a6e22e">select=</span><span style="color:#e6db74">&#34;com.somepackage.repository.RepositoryMapper.selectRepositoriesByInspectionId&#34;</span><span style="color:#f92672">/&gt;</span>
+  <span style="color:#f92672">&lt;/resultMap&gt;</span>
+</code></pre></div></li>
+<li>Pros.
+<ol>
+<li>쿼리에 직접 join을 사용하지 않아도 됩니다.</li>
+<li>사용이 간편하고 가독성이 좋아집니다.</li>
+<li>쿼리를 재사용하기 용이합니다.</li>
+</ol>
+</li>
+<li>Cons.
+<ol>
+<li><em><strong>N+1 Select</strong></em> 문제를 유발합니다.</li>
+</ol>
+</li>
+</ul>
+<ol start="2">
+<li>Nested Results</li>
+</ol>
+<ul>
+<li><code>resultMap</code>에 포함된 <code>association</code> 혹은 <code>collection</code>에 직접 맵핑될 결과를 명시해 주는 방식입니다.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">  <span style="color:#f92672">&lt;resultMap</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;inspection&#34;</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;com.somepackage.model.Inspection&#34;</span> <span style="color:#a6e22e">extends=</span><span style="color:#e6db74">&#34;inspectionBase&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;association</span> <span style="color:#a6e22e">property=</span><span style="color:#e6db74">&#34;releaseScope&#34;</span> <span style="color:#a6e22e">javaType=</span><span style="color:#e6db74">&#34;com.somepackage.common.model.SelectValue&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;result</span> <span style="color:#a6e22e">property=</span><span style="color:#e6db74">&#34;selectType&#34;</span> <span style="color:#a6e22e">column=</span><span style="color:#e6db74">&#34;rs_select_type&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;result</span> <span style="color:#a6e22e">property=</span><span style="color:#e6db74">&#34;name&#34;</span> <span style="color:#a6e22e">column=</span><span style="color:#e6db74">&#34;rs_name&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;result</span> <span style="color:#a6e22e">property=</span><span style="color:#e6db74">&#34;nameEnglish&#34;</span> <span style="color:#a6e22e">column=</span><span style="color:#e6db74">&#34;rs_name_eng&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;result</span> <span style="color:#a6e22e">property=</span><span style="color:#e6db74">&#34;code&#34;</span> <span style="color:#a6e22e">column=</span><span style="color:#e6db74">&#34;rs_code&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;result</span> <span style="color:#a6e22e">property=</span><span style="color:#e6db74">&#34;order&#34;</span> <span style="color:#a6e22e">column=</span><span style="color:#e6db74">&#34;rs_select_value_order&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/association&gt;</span>
+    <span style="color:#f92672">&lt;collection</span> <span style="color:#a6e22e">property=</span><span style="color:#e6db74">&#34;repositories&#34;</span>
+                <span style="color:#a6e22e">javaType=</span><span style="color:#e6db74">&#34;java.util.ArrayList&#34;</span>
+                <span style="color:#a6e22e">ofType=</span><span style="color:#e6db74">&#34;com.somepackage.model.Repository&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;result</span> <span style="color:#a6e22e">property=</span><span style="color:#e6db74">&#34;id&#34;</span> <span style="color:#a6e22e">column=</span><span style="color:#e6db74">&#34;r_id&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;result</span> <span style="color:#a6e22e">property=</span><span style="color:#e6db74">&#34;ossUrl&#34;</span> <span style="color:#a6e22e">column=</span><span style="color:#e6db74">&#34;r_oss_url&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;result</span> <span style="color:#a6e22e">property=</span><span style="color:#e6db74">&#34;reviewBranch&#34;</span> <span style="color:#a6e22e">column=</span><span style="color:#e6db74">&#34;r_review_branch&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;result</span> <span style="color:#a6e22e">property=</span><span style="color:#e6db74">&#34;inspectionId&#34;</span> <span style="color:#a6e22e">column=</span><span style="color:#e6db74">&#34;r_inspection_id&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;result</span> <span style="color:#a6e22e">property=</span><span style="color:#e6db74">&#34;newRepo&#34;</span> <span style="color:#a6e22e">column=</span><span style="color:#e6db74">&#34;r_new_repo&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/collection&gt;</span>
+  <span style="color:#f92672">&lt;/resultMap&gt;</span>
+</code></pre></div></li>
+<li>Pros.
+<ol>
+<li>Nested Select 방식에 비해 응답시간이 매우 단축됩니다.</li>
+</ol>
+</li>
+<li>Cons.
+<ol>
+<li>관련된 모든 테이블의 join 쿼리를 직접 작성해야 하며 각 result에 column 속성에 맞춰 alias를 지정해줘야 합니다.</li>
+<li>가독성이 나빠집니다.</li>
+<li>쿼리를 재사용하기 어렵습니다.</li>
+</ol>
+</li>
+</ul>
+<p>현재 서비스에서는 모든 join이 <code>Nested Select</code>방식으로 처리되고 있었고
+문제가 된 페이지의 응답을 위해서는 최소 4개 테이블의 join이 필요하였기 때문에 더욱 큰 성능 하락이 발생했습니다.</p>
+<p>모든 join을 <code>Nested Result</code> 방식으로 변경하는것은 공수도 많이들 뿐더러 질의 결과가 작은 쿼리들에 대해서는 단점들만 부각되기 때문에
+질의 결과가 많을것으로 예상되는 쿼리들에 대해서만 <code>Nested Select</code> 방식으로 변경하였습니다.</p>
+<p>그 결과 응답속도가 1/10 수준으로 개선되었습니다.</p>
+<p><img src="https://i.imgur.com/xT7IcIb.png" alt="worst 케이스-서버개선-crop"></p>
+<h2 id="----">문제 해결 - 브라우저 렌더링</h2>
+<p>브라우저쪽 이슈에서 의아했던 부분은 11초나 걸려서 받아오는 파일이 단순히 웹폰트 였다는 점이었습니다.
+그래서 네트워크 탭을 더 자세히 들여다보니 실제 다운로드에는 22μs밖에 들지 않았고, 11초는 대기(stalled) 시간이었습니다.
+<img src="https://i.imgur.com/SakgZ9M.png" alt="stalled"></p>
+<blockquote>
+<p><code>Stalled. The request could be stalled for any of the reasons described in Queueing.</code>
+<a href="https://developers.google.com/web/tools/chrome-devtools/network/reference#timing-explanation">https://developers.google.com/web/tools/chrome-devtools/network/reference#timing-explanation</a></p>
+</blockquote>
+<p>결과적으로 11초가 걸리는건 네트워크 탭에 찍힌 웹폰트 문제가 아니였고,
+Api 응답값을 통해 받은 데이터를 렌더링하는 과정에서 지연이 생기는것이라는 추측을 하게되었습니다.</p>
+<p>현재 서비스에 front-end로는 vue.js를 사용하고 있는데
+처음 의심했던 내용은 컴포넌트의 상속 구조 때문에 렌더링 과정에서 예상보다 많은 컴포넌트가 생성되었고 이 때문에 지연이 발생하는게 아닐까 하는것 이었습니다.</p>
+<p>가장 많이 그려지는 컴포넌트인 <code>UsedSourceInfo</code>는 내부에 몇가지 다른 컴포넌트들을 가지고 있었는데,
+이 컴포넌트들 모두 또 다시 상속 구조로 상위 컴포넌트를 매번 생성하는 형태였습니다.
+<img src="https://i.imgur.com/qOfECQz.png" alt="UsedSourceInfo"></p>
+<p>이 추측을 확인해보기 위해 상속 구조를 모두 제거해보니 실제로 로딩 속도가 1/10 수준이 된 것을 확인할 수 있었습니다.</p>
+<blockquote>
+<p>이때 1/10 수준으로 로딩 속도가 빨라진것은 맞았지만 상속구조를 제거해서 빨라진것은 아니였습니다&hellip;</p>
+</blockquote>
+<p>상속구조로 인해 수백~수천개 정도의 컴포넌트가 더 생기는것이 성능 저하의 원인이라면 Vue.js를 사용해도 되는게 맞나? 라는 생각을 하고있었는데&hellip;
+<img src="https://i.imgur.com/KCjY3c1.png" alt="동규님 확인"></p>
+<blockquote>
+<p>결론 : 10000개 컴포넌트에 대해서 상속유무에 따른 렌더링 시간 차이는 4초 정도</p>
+</blockquote>
+<p>물론 4초면 적지 않은 차이지만 현재 문제되는 11초 보다는 훨씬 짧은 시간임으로 원인이 상속 구조는 아니라는것을 알았습니다.</p>
+<p>그렇다면 의심되는 내용은 상속과 관련있는 이벤트 였습니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">Component</span>({
+    <span style="color:#a6e22e">components</span><span style="color:#f92672">:</span> {<span style="color:#a6e22e">Status</span>}
+})
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">InspectionDetailBase</span> <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">Base</span> {
+
+    <span style="color:#a6e22e">mounted</span>() {
+        <span style="color:#66d9ef">this</span>.<span style="color:#66d9ef">super</span>(); <span style="color:#75715e">//의심스럽다..
+</span><span style="color:#75715e"></span>    }
+    ...
+}    
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">Component</span>
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Base</span> <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">Vue</span> {
+
+  <span style="color:#66d9ef">super</span>() {
+      <span style="color:#75715e">// 이중에 뭐가 문제일까..
+</span><span style="color:#75715e"></span>      <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#pasta-main-content&#34;</span>).<span style="color:#a6e22e">find</span>(<span style="color:#e6db74">&#34;.scrollbar-inner&#34;</span>).<span style="color:#a6e22e">scrollbar</span>();
+      <span style="color:#66d9ef">if</span> (window.<span style="color:#a6e22e">pasta</span>.<span style="color:#a6e22e">menu</span>) {
+          window.<span style="color:#a6e22e">pasta</span>.<span style="color:#a6e22e">menu</span>.<span style="color:#a6e22e">refresh</span>();
+      }
+  }
+  ...
+}
+</code></pre></div><p>결론적으로는 jquery 라이브러리로 추가한 <code>scrollbar</code> 메서드가 문제였습니다.</p>
+<blockquote>
+<p>상속구조를 제거해서 로딩속도가 감소된것은 결론적으로 해당 메서드를 호출하지 않게되어서 였습니다.</p>
+</blockquote>
+<p>컴포넌트 생성시 마다 lifecycle hook으로 스크롤바가 생성될 영역을 계산하고 적용하여 렌더링 시간이 길어졌고,
+대기 시간이 길어짐에 따라 리소스를 다운로드 하는 커넥션이 오랜시간 대기하고 있던 것 이었습니다.</p>
+<p>이를 해결하기 위해 <code>super()</code> 메서드에서 해당 함수를 호출하지 않도록 수정하였고
+최종적으로 응답속도를 1/10 수준으로 개선할 수 있었습니다.
+<img src="https://i.imgur.com/OJLQRtw.png" alt="worst 케이스-개선완료"></p>
+<h2 id="--">결론 &amp; 느낀점</h2>
+<h6 id="1-mybatis----row---nested-result---n1-select-problem--">1. Mybatis 사용시 쿼리에 예상되는 row수가 많은 경우 <code>Nested Result</code> 방식을 사용하여 <code>N+1 Select Problem</code>을 예방해야 합니다.</h6>
+<h6 id="2----------------------">2. 예상했던 방식으로 이슈를 해결했다고 해서 성급하게 결론 내리지 말고, 정말 그 방식이 답이었는지, 다른 이유로 해결된 것은 아닌지 다시 한번 검토해 봐야겠습니다.</h6>
+<h6 id="3-worst-case------------worst-case-1------">3. Worst case라고는 해도 절대적인 시간으로 보면 아직도 로딩속도가 느린편에 속하는것 같습니다. 기회를 봐서 Worst case도 1초 이내로 응답을 받을 수 있도록 개선해봐야겠습니다.</h6>
+
+  </section>
+  <div class="share">    
+    <a
+      href="//www.facebook.com/sharer.php?src=bm&u=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fimprove-load-time%2f&t=%ed%8e%98%ec%9d%b4%ec%a7%80%20%eb%a1%9c%eb%94%a9%20%ec%86%8d%eb%8f%84%20%ea%b0%9c%ec%84%a0"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-facebook"></i
+    ></a>
+    <a
+      href="//twitter.com/intent/tweet?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fimprove-load-time%2f&text=%ed%8e%98%ec%9d%b4%ec%a7%80%20%eb%a1%9c%eb%94%a9%20%ec%86%8d%eb%8f%84%20%ea%b0%9c%ec%84%a0&tw_p=tweetbutton"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-twitter"></i
+    ></a>
+    <a
+      href="//getpocket.com/edit?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fimprove-load-time%2f&title=%ed%8e%98%ec%9d%b4%ec%a7%80%20%eb%a1%9c%eb%94%a9%20%ec%86%8d%eb%8f%84%20%ea%b0%9c%ec%84%a0"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-get-pocket"></i
+    ></a>
+    <a
+      href="//plus.google.com/share?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fimprove-load-time%2f"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-google-plus"></i
+    ></a>
+  </div>
+  <div class="post-meta-code">
+    <div class="desc">
+      친절한
+      
+      <a href="mailto:leejaengjaeng@naver.com">leejaengjaeng</a>
+      
+      님이
+      <span class="highlight">2020년 02월 17일 15시 05분</span> 
+      에 작성한 글입니다.
+    </div>
+    <div class="desc">
+      
+      <div class="desc">
+        <span class="fixed-desc">_카테고리</span>
+        
+        
+        <a href="https://leejaengjaeng.github.io//categories/issue">#Issue</a>
+        
+      </div>
+      
+      <div class="desc">
+        <span class="fixed-desc">_태그</span>
+        
+        
+        <a href="https://leejaengjaeng.github.io/tags/issue">#Issue</a>
+        
+        <a href="https://leejaengjaeng.github.io/tags/web">#Web</a>
+        
+        <a href="https://leejaengjaeng.github.io/tags/mybatis">#Mybatis</a>
+        
+        <a href="https://leejaengjaeng.github.io/tags/vue.js">#Vue.js</a>
+        
+        
+      </div>
+    </div>
+  </div>  
+  
+  <div class="post-comment">    
+        
+  </div>
+  
+  <div class="recommend-articles">
+    다음으로 읽을만한 글입니다.
+    <ul>
+      
+      <li>
+        <a href="https://leejaengjaeng.github.io/post/spring5-doc-1/" rel="prev">
+          <span>Spring Docs #Core &gt; IoC Container</span>
+        </a>
+      </li>
+      
+      
+    </ul>
+  </div>
+</div>
+
+<div class="go-top">
+  <a href="#" class="go-top-button">
+    <i class="fa fa-angle-double-up"></i>
+    <span>위로</span>
+  </a>
+</div>
+<footer class="footer">
+  COPYRIGHT (C) <a href="https://blog.lulab.net">DONGGEUN,BANG (LUBANG).</a><br />
+  ALL RIGHTS RESERVED.
+</footer>
+</body>
+</html>
+

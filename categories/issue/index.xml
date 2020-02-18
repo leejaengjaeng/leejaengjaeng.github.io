@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Issue on 이쟁쟁의 블로그</title>
+    <link>https://leejaengjaeng.github.io/categories/issue/</link>
+    <description>Recent content in Issue on 이쟁쟁의 블로그</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko-KR</language>
+    <managingEditor>leejaengjaeng@naver.com (leejaengjaeng)</managingEditor>
+    <webMaster>leejaengjaeng@naver.com (leejaengjaeng)</webMaster>
+    <lastBuildDate>Mon, 17 Feb 2020 15:05:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://leejaengjaeng.github.io/categories/issue/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>페이지 로딩 속도 개선</title>
+      <link>https://leejaengjaeng.github.io/post/improve-load-time/</link>
+      <pubDate>Mon, 17 Feb 2020 15:05:00 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/post/improve-load-time/</guid>
+      <description>페이지 로딩 속도 개선 사례 기록 문제점 새로 개발한 서비스의 핵심 기능을 제공하는 페이지에 로딩 속도 관련된 이슈가 있었습니다.
+해당 페이지에서 보여줄 데이터가 일반적인 수준에서는 불편함이 없었지만, 보여줘야 하는 데이터가 일정 수준이 넘어가면 로딩 속도가 눈에 띄게 느려지고, Worst case에서는 처음 페이지 로딩시 20여초 가량 소요되었습니다.
+문제 확인 문제가 되는 지점을 확인하기 위해서 우선 브라우저의 네트워크 도구를 사용해보니 두가지 문제가 발견되었습니다.  서버쪽 응답 자체가 느리다 (8초 가량 소요) 브라우저의 렌더링 과정에도 문제가 되는 지점이 있다 (11초 가량 소요)  결과적으로 이 두가지 포인트에 대해서 개선 방향을 잡고 문제를 조금 더 파악해 보기로 했습니다.</description>
+    </item>
+    
+  </channel>
+</rss>
