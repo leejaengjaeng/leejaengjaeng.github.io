@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Spring on 이쟁쟁의 블로그</title>
-    <link>https://leejaengjaeng.github.io/categories/spring/</link>
-    <description>Recent content in Spring on 이쟁쟁의 블로그</description>
+    <title>AOP on 이쟁쟁의 블로그</title>
+    <link>https://leejaengjaeng.github.io/tags/aop/</link>
+    <description>Recent content in AOP on 이쟁쟁의 블로그</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-KR</language>
     <managingEditor>leejaengjaeng@naver.com (leejaengjaeng)</managingEditor>
     <webMaster>leejaengjaeng@naver.com (leejaengjaeng)</webMaster>
     <lastBuildDate>Fri, 07 Feb 2020 18:13:00 +0900</lastBuildDate>
     
-	<atom:link href="https://leejaengjaeng.github.io/categories/spring/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://leejaengjaeng.github.io/tags/aop/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -33,32 +33,6 @@
       <description>Spring framework Document 읽기
  현재 담당하는 서비스가 Spring5를 사용하진 않지만 5의 문서를 읽으면서 추가된 내용이 아니라 Spring framework 자체의 내용에 집중해볼 예정입니다.   Docs : https://docs.spring.io/spring/docs/5.2.3.RELEASE/spring-framework-reference/core.html#spring-core Repo : https://github.com/spring-projects/spring-framework Github repository에서 &amp;ldquo;T&amp;quot;를 누르면 파일 검색이 가능합니다.
  Aspect Oriented Programming with Spring  OOP의 핵심 단위로 객체(class)가 있다면 AOP의 핵심 단위로는 aspect가 있습니다. AOP는 DI만큼이나 Spring의 핵심 기능입니다.  IoC 컨테이너는 AOP에 의존하진 않지만, AOP는 IoC 컨테이너를 보완하며 유용한 기능을 제공하는데 도움을 줍니다.</description>
-    </item>
-    
-    <item>
-      <title>Spring Docs #Core &gt; IoC Container</title>
-      <link>https://leejaengjaeng.github.io/post/spring5-doc-1/</link>
-      <pubDate>Tue, 28 Jan 2020 16:10:00 +0900</pubDate>
-      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
-      <guid>https://leejaengjaeng.github.io/post/spring5-doc-1/</guid>
-      <description>Spring framework Document 읽기
- 현재 담당하는 서비스가 Spring5를 사용하진 않지만 5의 문서를 읽으면서 추가된 내용이 아니라 Spring framework 자체의 내용에 집중해볼 예정입니다.   Docs : https://docs.spring.io/spring/docs/5.2.3.RELEASE/spring-framework-reference/core.html#spring-core Repo : https://github.com/spring-projects/spring-framework Github repository에서 &amp;ldquo;T&amp;quot;를 누르면 파일 검색이 가능합니다.
- The IoC Container 스프링에서 IOC container를 어떻게 구현했는지 알아봅니다.
-Bean과 IoC Container   org.springframework.beans와 org.springframework.context 패키지가 Spring IoC container의 근간이 되는 패키지 입니다.
-  Spring IOC Container에서 관리되는 모든 객체를 Bean이라고 합니다.</description>
-    </item>
-    
-    <item>
-      <title>RestTemplate 들여다보기</title>
-      <link>https://leejaengjaeng.github.io/post/resttemplate/</link>
-      <pubDate>Thu, 16 Jan 2020 14:41:00 +0900</pubDate>
-      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
-      <guid>https://leejaengjaeng.github.io/post/resttemplate/</guid>
-      <description>Spring 4.3.25 기준으로 변경사항이 존재할 수 있습니다.
- https://docs.spring.io/spring/docs/4.3.25.RELEASE/spring-framework-reference/htmlsingle/#rest-resttemplate
- RestTemplate org.springframework.web.client패키지에 속한 클래스로 client-side에서 Restful한 서비스에 접근하는것에 도움을 줍니다.
-필요성 Restful한 API를 호출하기위해서 java에서는 전통적으로 Apache의 HttpClient같은 헬퍼클래스를 사용해 왔지만, 이 HttpClient는 편하게 사용하기엔 너무 low level의 컴포넌트 였습니다.
-String uri = &amp;quot;https://example.com/hotels/1/bookings&amp;quot;;PostMethod post = new PostMethod(uri);String request = // create booking request contentpost.setRequestEntity(new StringRequestEntity(request));httpClient.executeMethod(post);if (HttpStatus.SC_CREATED == post.getStatusCode()) {Header location = post.getRequestHeader(&amp;quot;Location&amp;quot;);if (location !</description>
     </item>
     
   </channel>

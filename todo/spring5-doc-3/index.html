@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spring Docs #Core &gt; AOP  | 이쟁쟁의 블로그</title>
+  <meta name="description" content=" 'Spring Docs #Core &gt; AOP'을 한 번 살펴보세요.">
+  <meta property="og:title" content="Spring Docs #Core &gt; AOP">
+  
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2020-02-07">
+  
+  <meta property="og:description" content=" 'Spring Docs #Core &gt; AOP'을 한 번 살펴보세요.">
+  <meta property="og:url" content="https://leejaengjaeng.github.io/todo/spring5-doc-3/">
+  <meta property="og:site_name" content="이쟁쟁의 블로그">
+  
+  <meta property="og:image" content="https://leejaengjaeng.github.io/images/thumbnail.png">
+  
+  
+  <meta property="og:tags" content="Spring">
+  
+  <meta property="og:tags" content="Docs">
+  
+  <meta property="og:tags" content="AOP">
+  
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="canonical" href="https://leejaengjaeng.github.io/todo/spring5-doc-3/">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/agate.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+  
+  
+  <script type="text/javascript">
+  function toggle_visibility(id) {
+    var e = document.getElementById(id);
+    if (e.className === 'menu')
+      e.className = 'menu hidden';
+    else
+      e.className = 'menu';
+  }
+  </script>
+</head>
+<body>
+  <div class="navbar">
+    <div class="burger">
+      <button onclick="toggle_visibility('menu')">
+        <i class="fa fa-bars" aria-hidden="true"></i> 메뉴
+      </button>
+    </div>
+    <div id="menu" class="menu hidden">
+      <ul>
+        <li class="site-title"><a href="/post">이쟁쟁의 블로그</a></li>
+        <li><a href="/categories">카테고리</a></li>
+        <li><a href="/tags">#태그</a></li>
+        <li><a href="/todo">Todo</a></li>
+      </ul>
+      <input class="search" id="search-input" type="search" placeholder="검색어" value="">
+    </div>
+  </div>
+  <div class="container">
+
+
+<div class="post">
+  <div class="post-title">
+    <a href="https://leejaengjaeng.github.io/todo/spring5-doc-3/">
+      <img src="/images/post-title-icon.png" />
+      <div class="post-meta">
+        <time>2020년 02월 07일 18시 13분</time>
+        <h1>Spring Docs #Core &gt; AOP</h1>
+      </div>
+    </a>
+  </div>
+  <div class="post-toc">
+    <span class="title">차례</span>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#aop-concepts">AOP Concepts</a></li>
+    <li><a href="#spring-aop--">Spring AOP의 기능과 목표</a></li>
+    <li><a href="#aspectj">@AspectJ</a>
+      <ul>
+        <li><a href="#aspect">@Aspect</a></li>
+        <li><a href="#pointcut">@Pointcut</a></li>
+        <li><a href="#advice">@Advice</a></li>
+        <li><a href="#introductions">Introductions</a></li>
+        <li><a href="#aspect-instantiation-models">Aspect Instantiation Models</a></li>
+      </ul>
+    </li>
+    <li><a href="#spring-aop--aspectj-">Spring AOP가 아닌 AspectJ 사용하기</a></li>
+  </ul>
+</nav>
+  </div>
+  <section class="post-content">
+    <p>Spring framework Document 읽기</p>
+<ul>
+<li>현재 담당하는 서비스가 Spring5를 사용하진 않지만 5의 문서를 읽으면서 추가된 내용이 아니라 Spring framework 자체의 내용에 집중해볼 예정입니다.</li>
+</ul>
+<blockquote>
+<p>Docs : <a href="https://docs.spring.io/spring/docs/5.2.3.RELEASE/spring-framework-reference/core.html#spring-core">https://docs.spring.io/spring/docs/5.2.3.RELEASE/spring-framework-reference/core.html#spring-core</a>
+Repo : <a href="https://github.com/spring-projects/spring-framework">https://github.com/spring-projects/spring-framework</a>
+Github repository에서 &ldquo;T&quot;를 누르면 파일 검색이 가능합니다.</p>
+</blockquote>
+<h1 id="aspect-oriented-programming-with-spring">Aspect Oriented Programming with Spring</h1>
+<ul>
+<li>OOP의 핵심 단위로 객체(class)가 있다면 AOP의 핵심 단위로는 aspect가 있습니다.</li>
+<li>AOP는 DI만큼이나 Spring의 핵심 기능입니다.
+<ul>
+<li>IoC 컨테이너는 AOP에 의존하진 않지만, AOP는 IoC 컨테이너를 보완하며 유용한 기능을 제공하는데 도움을 줍니다.</li>
+</ul>
+</li>
+<li>Spring은 &ldquo;schema-based&rdquo; 방식과 &ldquo;@AspectJ&rdquo; 방식으로 간편하게 커스텀 aspect를 만드는것을 지원합니다.</li>
+</ul>
+<h2 id="aop-concepts">AOP Concepts</h2>
+<ul>
+<li>
+<p>용어 정리</p>
+<blockquote>
+<p>전체 코드 중에서 aop를 적용 가능한 위치들(Joinpoint)<br>
+&ldquo;Aservice.Afunction&quot;에 aop를 적용시킬 것이다(Pointcut)<br>
+&ldquo;Aservice.Afunction&quot;이 실행되기 전,후에(&ldquo;around&rdquo;) &ldquo;로깅&quot;을 할것이다(Advice)<br>
+-&gt; 로깅을 위해서 Aservice.Afunction에 aop를 적용할 것이다 (Aspect)</p>
+</blockquote>
+<ol>
+<li>Aspect
+<ul>
+<li>여러 클래스를 가로지르는 관점의 단위</li>
+<li>Spring AOP의 aspect는  &ldquo;schema-based&rdquo; 방식과 &ldquo;@AspectJ&rdquo; 방식으로 구현할 수 있습니다.</li>
+</ul>
+</li>
+<li>Join point
+<ul>
+<li>실행중인 프로그램의 메소드의 실행, 예외의 처리 같은 어떠한 지점들, AOP를 적용시킬 후보들</li>
+<li>Spring AOP에서는 <em><strong>method 실행</strong></em> 에만 가능합니다.</li>
+</ul>
+</li>
+<li>Advice
+<ul>
+<li><em><strong>선택한 join point (=pointcut)</strong></em> 에서 수행할 동작</li>
+<li><code>@Before</code>, <code>@AfterReturning</code>, <code>@AfterThrowing</code>, <code>@After</code>(finally) <code>@Around</code>로 동작을 수행할 위치를 지정가능</li>
+</ul>
+</li>
+<li>Pointcut
+<ul>
+<li>Joint point 중에서 aop를 적용하기 위해 선택한 지점</li>
+</ul>
+</li>
+<li>Introduction
+<ul>
+<li>프록시 대상에 메소드나 필드를 추가해주는 방법</li>
+</ul>
+</li>
+<li>Target object (Advised Object)
+<ul>
+<li>Aspect에 의해 다뤄지는 객체, Spring에서는 언제나 runtime에 <em><strong>proxy 객체</strong></em> 로 생성됩니다.</li>
+</ul>
+</li>
+<li>AOP proxy
+<ul>
+<li>Aspect를 적용하기 위해 AOP 프레임워크가 생성한 proxy 객체</li>
+<li>Spring에서는 <em><strong>JDK dynamic proxy</strong></em> 또는 <em><strong>CGLIB proxy</strong></em> 가 사용됩니다.
+<ul>
+<li>JDK dynamic proxy는 JDK에 포함되어있고 CGLIB는 오픈소스지만 spring-core에 repackage 되어있습니다.</li>
+<li>Proxy 대상이 interface의 구현체라면 JDK dynamic proxy를 사용하며 그렇지 않다면 CGLIB가 사용됩니다.</li>
+<li>JDK dynamic proxy는 reflection을 사용해서 proxy object를 생성하기 때문에 성능 저하의 원인이 될 수 있으며
+CGLIB는 상속을 이용해서 proxy object를 생성하기 때문에 final이나 private method에 대한 AOP가 불가능 합니다.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Weaving
+<ul>
+<li>Target object를 생성하기 위해서 aspect를 다른 application이나 객체와 연결하는 행위</li>
+<li><em><strong>AspectJ</strong></em> 컴파일러를 사용해서 <em><strong>compile time</strong></em> 에 완료될 수 있고, <em><strong>Spring AOP</strong></em> 처럼 <em><strong>run time</strong></em> 에 수행될 수도있습니다.</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="spring-aop--">Spring AOP의 기능과 목표</h2>
+<ul>
+<li>
+<p>Spring AOP는 pure java로 구현되어있기 때문에 추가적인 컴파일 설정이 필요 없습니다.</p>
+</li>
+<li>
+<p>현재 method에 관련된 join point만 제공하기때문에 field interception이 필요하다면 &ldquo;AspectJ&quot;를 사용해야합니다.</p>
+</li>
+<li>
+<p>다른 AOP 프레임워크와 다른점은 Spring IoC 컨테이너와 결합하여 사용하기 쉽게하기 위해 완벽한 AOP를 구현하지 않는다는 점입니다.</p>
+<ul>
+<li>Method excution에 대한 처리만 가능하다는점, proxy 방식으로만 동작한다는 점을 의미합니다.</li>
+<li>완벽한 AOP를 위해서는 AspectJ같은 AOP 프레임워크가 필요하며, 필요시 Spring기반의 Spring AoP + AspectJ 통합 환경을 구성할 수 있습니다.</li>
+<li>상세한 aop 설정은 불가능 하지만, enterprise java 환경에서 필요로 하는 일반적인 설정들은 간단하게 가능합니다.
+<blockquote>
+<p>Spring의 핵심 원칙중 하나는 비침습성(non-invasiveness)으로 spring에 의존적인 코드를 사용하는것을 강제하지 않습니다. Spring AOP, AspectJ 혹은 둘다 사용하는것 모두 사용자가 선택할 수 있고, @AspectJ 스타일의 설정, xml 스타일의 설정 등도 모두 선택하여 사용할 수 있습니다.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p>Spring AOP는 <em><strong>proxy 기반</strong></em> 이기 때문에 객체내 호출은 가로채지 못합니다.</p>
+<ul>
+<li>객체 내 호출에 AOP를 적용하기 위해서는 native AspectJ weaving을 사용하거나
+<code>AopContext</code>를 통해 직접 proxy 객체를 다시 꺼내와서 호출하는 방법이 있습니다.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// 참고용 커스텀 클래스
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AopUtils</span> <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> T <span style="color:#a6e22e">proxy</span><span style="color:#f92672">(</span>T current<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+          <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>T<span style="color:#f92672">)</span>AopContext<span style="color:#f92672">.</span><span style="color:#a6e22e">currentProxy</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+      <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>IllegalStateException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+          <span style="color:#66d9ef">return</span> current<span style="color:#f92672">;</span>
+      <span style="color:#f92672">}</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@component</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProxyTest</span> <span style="color:#f92672">{</span>
+
+  <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">getValue</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">//getCachedValue를 직접 호출하면 this.getCachedValue()가 호출되기 때문에 @Cacheable이 동작하지 않습니다.
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> AopUtils<span style="color:#f92672">.</span><span style="color:#a6e22e">proxy</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">)</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getCachedValue</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+  <span style="color:#f92672">}</span>
+
+  <span style="color:#a6e22e">@Cacheable</span><span style="color:#f92672">(</span>CACHE_KEY<span style="color:#f92672">)</span>
+  <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">getCachedValue</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">//return value
+</span><span style="color:#75715e"></span>  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li>위의 방식을 사용하기 위해서는 configuration에서 <code>@EnableAspectJAutoProxy(exposeProxy = true)</code>와 같은 방법으로 proxy를 노출시켜줘야 합니다.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="aspectj">@AspectJ</h2>
+<ul>
+<li>
+<p>@AspectJ는 AspectJ의 어노테이션이지만, spring에서 pointcut을 표현하는데 사용할 수 있습니다.</p>
+<ul>
+<li>@AspectJ 어노테이션을 사용해도 여전히 pure Spring AOP로 동작하기 때문에 AspectJ의 컴파일러나 위버(weaver), 의존성 추가가 필요하지 않습니다.
+<blockquote>
+<p>AspectJ의 의존성 추가가 필요 없다는 의미로 spring aop의 의존성은 당연히 필요합니다.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p>@AspectJ 어노테이션을 사용하기 위해선 configuration에 <code>@EnableAspectJAutoProxy</code>를 추가해주면 됩니다.</p>
+<ul>
+<li>Auto-proxying이란 aspect에 의해 advised되는 bean을 자동으로 proxy객체로 생성함을 의미합니다.</li>
+</ul>
+</li>
+</ul>
+<h3 id="aspect">@Aspect</h3>
+<ul>
+<li><code>@Aspect</code>를 사용해서 aspect를 만들어 pointcut, advice, introduction 등을 선언 할 수 있습니다.</li>
+<li><code>@Aspect</code>어노테이션은 classpath에 존재한다고 해도 component scan을 통해서 자동으로 감지되지 않으며 <code>@component</code>등을 추가로 붙여서 감지되도록 해야 합니다.</li>
+<li><code>@Aspect</code>는 auto-proxying의 대상에서 제외하는 마커 인터페이스로 사용되기 때문에 다른 aspect의 대상이 되지 못합니다.</li>
+</ul>
+<h3 id="pointcut">@Pointcut</h3>
+<ul>
+<li><code>@Pointcut</code>은 advice를 적용할 위치를 찾는데 사용되며 expression과 signature 두 파트로 나뉩니다.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
+<span style="color:#75715e">// 모든 public 메서드의 경우
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@Pointcut</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;execution(public * (..))&#34;</span><span style="color:#f92672">)</span>             <span style="color:#75715e">// the pointcut expression
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">anyPublicOperation</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span><span style="color:#f92672">}</span>              <span style="color:#75715e">// the pointcut signature
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// com.xyz.someapp.trading 패키지에 포함된 경우
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@Pointcut</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;within(com.xyz.someapp.trading..)&#34;</span><span style="color:#f92672">)</span>    <span style="color:#75715e">// the pointcut expression
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">inTrading</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span><span style="color:#f92672">}</span>                       <span style="color:#75715e">// the pointcut signature
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// com.xyz.someapp.trading 패키지에 포함되는 모든 public 메서드
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@Pointcut</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;anyPublicOperation() &amp;&amp; inTrading()&#34;</span><span style="color:#f92672">)</span>  <span style="color:#75715e">// the pointcut expression
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">tradingOperation</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span><span style="color:#f92672">}</span>                <span style="color:#75715e">// the pointcut signature
+</span></code></pre></div><ul>
+<li>Expression은 AspectJ5의 pointcut 표현식을 따릅니다.</li>
+<li>Signature의 return type은 반드시 <em><strong>void</strong></em> 여야 합니다.</li>
+</ul>
+</li>
+<li>PointCut Designators(PCD)
+<ul>
+<li>Spring에서는 method excution만 지원하기 때문에 아래 종류의 PCD만 제공합니다.
+<img src="https://i.imgur.com/GniGLIT.png" alt="PCD">
+<ul>
+<li>Spring에서는 추가적으로 bean name으로 적용할 수 있는 <code>bean</code> PCD를 제공합니다.</li>
+</ul>
+</li>
+<li>PCD는 크게 3가지 그룹으로 나눌 수 있습니다.
+<ol>
+<li>Kinded
+<ul>
+<li>특정 종류의 join point 선택에 사용</li>
+<li><code>execution</code>, <code>get</code>, <code>set</code>, <code>call</code>, <code>handler</code></li>
+</ul>
+</li>
+<li>Scoping
+<ul>
+<li>join point의 그룹 선택에 사용</li>
+<li><code>within</code>, <code>withincode</code></li>
+</ul>
+</li>
+<li>Contextual
+<ul>
+<li>컨텍스트와 관련 내용에 사용</li>
+<li><code>this</code>, <code>target</code>, <code>@annotation</code></li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>사용법 cheat sheet
+<ul>
+<li><a href="https://docs.spring.io/spring/docs/5.2.3.RELEASE/spring-framework-reference/core.html#aop-pointcuts-examples">https://docs.spring.io/spring/docs/5.2.3.RELEASE/spring-framework-reference/core.html#aop-pointcuts-examples</a></li>
+</ul>
+</li>
+<li>Pointcut <em><strong>잘</strong></em> 쓰는법
+<ul>
+<li>포인트컷 매칭은 AspectJ가 컴파일타임에 최적화 시키기 때문에 일반적으로 크게 신경 쓸 필요는 없지만, 성능을 더욱 향상 시키기 탐색범위를 줄여주는 것이 좋습니다.</li>
+<li>잘 쓰여진 Pointcut은 최소한 Kinded &amp;&amp; Scoping 타입을 포함해야 합니다.</li>
+<li>Scoping 타입 없이 Kinded 또는 Contextual 타입을 사용하는것은 동작에는 문제가 없지만 weaving 성능에 영향을 줄 수 있습니다.</li>
+<li>Scoping 타입은 매우 빠르게 처리되고, 탐색범위를 좁히는데 큰 도움이 되기 때문에 가능하면 반드시 포함해야 합니다.</li>
+</ul>
+</li>
+</ul>
+<h3 id="advice">@Advice</h3>
+<ul>
+<li>Advice는 pointcut 표현식과 함께 표현되며, 매칭된 pointcut의 주변(<code>@before</code>, <code>@after</code>, <code>@around</code>)에서 수행됩니다.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">  <span style="color:#a6e22e">@Aspect</span>
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Example</span> <span style="color:#f92672">{</span>
+      <span style="color:#75715e">//@Before = advice
+</span><span style="color:#75715e"></span>      <span style="color:#75715e">//execution(* com.xyz.myapp.dao..(..)) = pointcut
+</span><span style="color:#75715e"></span>      <span style="color:#a6e22e">@Before</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;execution(* com.xyz.myapp.dao..(..))&#34;</span><span style="color:#f92672">)</span>
+      <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doAccessCheck</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+          <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>      <span style="color:#f92672">}</span>
+
+      <span style="color:#a6e22e">@AfterReturning</span><span style="color:#f92672">(</span>
+          pointcut<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;com.xyz.myapp.SystemArchitecture.dataAccessOperation()&#34;</span><span style="color:#f92672">,</span>
+          returning<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;retVal&#34;</span><span style="color:#f92672">)</span>
+      <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doAccessCheck</span><span style="color:#f92672">(</span>Object retVal<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+          <span style="color:#75715e">// retVal 자체를 다른 객체로 변경 할 수는 없습니다. (return type도 void)
+</span><span style="color:#75715e"></span>      <span style="color:#f92672">}</span>
+
+      <span style="color:#a6e22e">@Around</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;com.xyz.myapp.SystemArchitecture.businessService()&#34;</span><span style="color:#f92672">)</span>
+      <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">doBasicProfiling</span><span style="color:#f92672">(</span>ProceedingJoinPoint pjp<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Throwable <span style="color:#f92672">{</span>
+          <span style="color:#75715e">// start stopwatch
+</span><span style="color:#75715e"></span>          Object retVal <span style="color:#f92672">=</span> pjp<span style="color:#f92672">.</span><span style="color:#a6e22e">proceed</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+          <span style="color:#75715e">// stop stopwatch
+</span><span style="color:#75715e"></span>          <span style="color:#66d9ef">return</span> retVal<span style="color:#f92672">;</span>
+      <span style="color:#f92672">}</span>
+  <span style="color:#f92672">}</span>
+</code></pre></div></li>
+<li>Parameter
+<ul>
+<li>Advice 메서드는 첫번째 파라미터로 <code>JoinPoint</code>를 받을 수 있습니다.</li>
+<li><code>JoinPoint</code>말고도 <code>args</code>나 <code>@annotation</code>를 통해서 원하는 파라미터를 넣어주는것도 가능합니다.
+<ul>
+<li>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Pointcut</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;com.xyz.myapp.SystemArchitecture.dataAccessOperation() &amp;&amp; args(account,..)&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">accountDataAccessOperation</span><span style="color:#f92672">(</span>Account account<span style="color:#f92672">)</span> <span style="color:#f92672">{</span><span style="color:#f92672">}</span>
+
+<span style="color:#a6e22e">@Before</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;accountDataAccessOperation(account)&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">validateAccount</span><span style="color:#f92672">(</span>Account account<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+  <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+
+<span style="color:#75715e">//한줄로도 선언 가능
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@Before</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;com.xyz.myapp.SystemArchitecture.dataAccessOperation() &amp;&amp; args(account,..)&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">validateAccount2</span><span style="color:#f92672">(</span>Account account<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li><code>args(account,..)</code>를 선언함으로써 적어도 하나의 파라미터가 있는 <code>dataAccessOperation</code>에 대한 pointcut을 명시할 수 있고, account 객체를 advice에 제공해줄 수 있습니다.</li>
+</ul>
+</li>
+<li>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Retention</span><span style="color:#f92672">(</span>RetentionPolicy<span style="color:#f92672">.</span><span style="color:#a6e22e">RUNTIME</span><span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@Target</span><span style="color:#f92672">(</span>ElementType<span style="color:#f92672">.</span><span style="color:#a6e22e">METHOD</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@interface</span> Auditable <span style="color:#f92672">{</span>
+    AuditCode <span style="color:#a6e22e">value</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#a6e22e">@Before</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;com.xyz.lib.Pointcuts.anyPublicMethod() &amp;&amp; @annotation(auditable)&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">audit</span><span style="color:#f92672">(</span>Auditable auditable<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    AuditCode code <span style="color:#f92672">=</span> auditable<span style="color:#f92672">.</span><span style="color:#a6e22e">value</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</code></pre></div></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="introductions">Introductions</h3>
+<ul>
+<li>Introduction을 사용하면 adviced된 객체를 특정 인터페이스의 구현체인것 처럼 동작하게 만들 수 있습니다.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Aspect</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UsageTracking</span> <span style="color:#f92672">{</span>
+
+  <span style="color:#a6e22e">@DeclareParents</span><span style="color:#f92672">(</span>value<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;com.xzy.myapp.service.*+&#34;</span><span style="color:#f92672">,</span> defaultImpl<span style="color:#f92672">=</span>DefaultUsageTracked<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> UsageTracked mixin<span style="color:#f92672">;</span>
+
+  <span style="color:#a6e22e">@Before</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;com.xyz.myapp.SystemArchitecture.businessService() &amp;&amp; this(usageTracked)&#34;</span><span style="color:#f92672">)</span>
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">recordUsage</span><span style="color:#f92672">(</span>UsageTracked usageTracked<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+      usageTracked<span style="color:#f92672">.</span><span style="color:#a6e22e">incrementUseCount</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li><code>@DeclareParents</code>를 통해 introduction을 생성 할 수 있으며 value 값인 <code>com.xzy.myapp.service.*+</code> 패키지에 속한 bean들이 <code>UsageTracked</code> 인터페이스의 구현체 됩니다.
+<blockquote>
+<p>포인트컷 포현식을 잘 못 이해하고 있는건지 모르겠지만<br>
+&ldquo;com.xyz.myapp.SystemArchitecture.businessService()&rdquo; 가<br>
+&ldquo;com.xzy.myapp.service&rdquo; 패키지가 아니니깐 동작 안해야 하는거 아닌가.. 모르겠네요</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="aspect-instantiation-models">Aspect Instantiation Models</h3>
+<ul>
+<li>Aspect 인스턴스는 default로 application context 단위 싱글톤으로 생성됩니다.</li>
+<li>Aspect가 싱글톤이 아닌 다른 lifecycle을 갖게 하려면 <code>perthis</code> , <code>pertarget</code>를 사용하여 지정해 줄 수 있습니다.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">  <span style="color:#a6e22e">@Aspect</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;perthis(com.xyz.myapp.SystemArchitecture.businessService())&#34;</span><span style="color:#f92672">)</span>
+  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyAspect</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> someState<span style="color:#f92672">;</span>
+
+    <span style="color:#a6e22e">@Before</span><span style="color:#f92672">(</span>com<span style="color:#f92672">.</span><span style="color:#a6e22e">xyz</span><span style="color:#f92672">.</span><span style="color:#a6e22e">myapp</span><span style="color:#f92672">.</span><span style="color:#a6e22e">SystemArchitecture</span><span style="color:#f92672">.</span><span style="color:#a6e22e">businessService</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">recordServiceUsage</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+
+  <span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li>명시한 joinpoint당 하나의 aspect 인스턴스가 생성됩니다.</li>
+</ul>
+</li>
+</ul>
+<h2 id="spring-aop--aspectj-"><del>Spring AOP가 아닌 AspectJ 사용하기</del></h2>
+<ul>
+<li><a href="https://docs.spring.io/spring/docs/5.2.3.RELEASE/spring-framework-reference/core.html#aop-using-aspectj">https://docs.spring.io/spring/docs/5.2.3.RELEASE/spring-framework-reference/core.html#aop-using-aspectj</a></li>
+<li>필요할때 자세히 알아보도록 합시다</li>
+</ul>
+
+  </section>
+  <div class="share">    
+    <a
+      href="//www.facebook.com/sharer.php?src=bm&u=https%3a%2f%2fleejaengjaeng.github.io%2ftodo%2fspring5-doc-3%2f&t=Spring%20Docs%20%23Core%20%3e%20AOP"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-facebook"></i
+    ></a>
+    <a
+      href="//twitter.com/intent/tweet?url=https%3a%2f%2fleejaengjaeng.github.io%2ftodo%2fspring5-doc-3%2f&text=Spring%20Docs%20%23Core%20%3e%20AOP&tw_p=tweetbutton"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-twitter"></i
+    ></a>
+    <a
+      href="//getpocket.com/edit?url=https%3a%2f%2fleejaengjaeng.github.io%2ftodo%2fspring5-doc-3%2f&title=Spring%20Docs%20%23Core%20%3e%20AOP"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-get-pocket"></i
+    ></a>
+    <a
+      href="//plus.google.com/share?url=https%3a%2f%2fleejaengjaeng.github.io%2ftodo%2fspring5-doc-3%2f"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-google-plus"></i
+    ></a>
+  </div>
+  <div class="post-meta-code">
+    <div class="desc">
+      친절한
+      
+      <a href="mailto:leejaengjaeng@naver.com">leejaengjaeng</a>
+      
+      님이
+      <span class="highlight">2020년 02월 07일 18시 13분</span> 
+      에 작성한 글입니다.
+    </div>
+    <div class="desc">
+      
+      <div class="desc">
+        <span class="fixed-desc">_카테고리</span>
+        
+        
+        <a href="https://leejaengjaeng.github.io//categories/spring">#Spring</a>
+        
+      </div>
+      
+      <div class="desc">
+        <span class="fixed-desc">_태그</span>
+        
+        
+        <a href="https://leejaengjaeng.github.io/tags/spring">#Spring</a>
+        
+        <a href="https://leejaengjaeng.github.io/tags/docs">#Docs</a>
+        
+        <a href="https://leejaengjaeng.github.io/tags/aop">#AOP</a>
+        
+        
+      </div>
+    </div>
+  </div>  
+  
+  <div class="post-comment">    
+        
+  </div>
+  
+  <div class="recommend-articles">
+    다음으로 읽을만한 글입니다.
+    <ul>
+      
+      <li>
+        <a href="https://leejaengjaeng.github.io/post/spring5-doc-1/" rel="prev">
+          <span>Spring Docs #Core &gt; IoC Container</span>
+        </a>
+      </li>
+      
+      
+      <li>
+        <a href="https://leejaengjaeng.github.io/post/spring5-doc-3/" rel="next">
+          <span>Spring Docs #Core &gt; AOP</span>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="go-top">
+  <a href="#" class="go-top-button">
+    <i class="fa fa-angle-double-up"></i>
+    <span>위로</span>
+  </a>
+</div>
+<footer class="footer">
+  COPYRIGHT (C) <a href="https://blog.lulab.net">DONGGEUN,BANG (LUBANG).</a><br />
+  ALL RIGHTS RESERVED.
+</footer>
+</body>
+</html>
+

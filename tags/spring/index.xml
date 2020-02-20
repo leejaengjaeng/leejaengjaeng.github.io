@@ -8,10 +8,32 @@
     <language>ko-KR</language>
     <managingEditor>leejaengjaeng@naver.com (leejaengjaeng)</managingEditor>
     <webMaster>leejaengjaeng@naver.com (leejaengjaeng)</webMaster>
-    <lastBuildDate>Tue, 28 Jan 2020 16:10:00 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 07 Feb 2020 18:13:00 +0900</lastBuildDate>
     
 	<atom:link href="https://leejaengjaeng.github.io/tags/spring/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Spring Docs #Core &gt; AOP</title>
+      <link>https://leejaengjaeng.github.io/post/spring5-doc-3/</link>
+      <pubDate>Fri, 07 Feb 2020 18:13:00 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/post/spring5-doc-3/</guid>
+      <description>Spring framework Document 읽기
+ 현재 담당하는 서비스가 Spring5를 사용하진 않지만 5의 문서를 읽으면서 추가된 내용이 아니라 Spring framework 자체의 내용에 집중해볼 예정입니다.   Docs : https://docs.spring.io/spring/docs/5.2.3.RELEASE/spring-framework-reference/core.html#spring-core Repo : https://github.com/spring-projects/spring-framework Github repository에서 &amp;ldquo;T&amp;quot;를 누르면 파일 검색이 가능합니다.
+ Aspect Oriented Programming with Spring  OOP의 핵심 단위로 객체(class)가 있다면 AOP의 핵심 단위로는 aspect가 있습니다. AOP는 DI만큼이나 Spring의 핵심 기능입니다.  IoC 컨테이너는 AOP에 의존하진 않지만, AOP는 IoC 컨테이너를 보완하며 유용한 기능을 제공하는데 도움을 줍니다.</description>
+    </item>
+    
+    <item>
+      <title>Spring Docs #Core &gt; AOP</title>
+      <link>https://leejaengjaeng.github.io/todo/spring5-doc-3/</link>
+      <pubDate>Fri, 07 Feb 2020 18:13:00 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/todo/spring5-doc-3/</guid>
+      <description>Spring framework Document 읽기
+ 현재 담당하는 서비스가 Spring5를 사용하진 않지만 5의 문서를 읽으면서 추가된 내용이 아니라 Spring framework 자체의 내용에 집중해볼 예정입니다.   Docs : https://docs.spring.io/spring/docs/5.2.3.RELEASE/spring-framework-reference/core.html#spring-core Repo : https://github.com/spring-projects/spring-framework Github repository에서 &amp;ldquo;T&amp;quot;를 누르면 파일 검색이 가능합니다.
+ Aspect Oriented Programming with Spring  OOP의 핵심 단위로 객체(class)가 있다면 AOP의 핵심 단위로는 aspect가 있습니다. AOP는 DI만큼이나 Spring의 핵심 기능입니다.  IoC 컨테이너는 AOP에 의존하진 않지만, AOP는 IoC 컨테이너를 보완하며 유용한 기능을 제공하는데 도움을 줍니다.</description>
+    </item>
     
     <item>
       <title>Spring Docs #Core &gt; IoC Container</title>
