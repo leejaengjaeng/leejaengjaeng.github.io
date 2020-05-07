@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MVC on 이쟁쟁의 블로그</title>
+    <link>https://leejaengjaeng.github.io/tags/mvc/</link>
+    <description>Recent content in MVC on 이쟁쟁의 블로그</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko-KR</language>
+    <managingEditor>leejaengjaeng@naver.com (leejaengjaeng)</managingEditor>
+    <webMaster>leejaengjaeng@naver.com (leejaengjaeng)</webMaster>
+    <lastBuildDate>Mon, 13 Apr 2020 19:14:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://leejaengjaeng.github.io/tags/mvc/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Spring Docs #Web Servlet &gt; Filter</title>
+      <link>https://leejaengjaeng.github.io/post/spring5-filter/</link>
+      <pubDate>Mon, 13 Apr 2020 19:14:00 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/post/spring5-filter/</guid>
+      <description>Spring framework Document 읽기
+ 현재 담당하는 서비스가 Spring5를 사용하진 않지만 5의 문서를 읽으면서 추가된 내용이 아니라 Spring framework 자체의 내용에 집중해볼 예정입니다.   Docs : https://docs.spring.io/spring/docs/5.2.4.RELEASE/spring-framework-reference/web.html#filters Repo : https://github.com/spring-projects/spring-framework Github repository에서 &amp;ldquo;T&amp;quot;를 누르면 파일 검색이 가능합니다.
+ Filters   Spring Web MVC는 Servlet API 기반으로 만들어진 웹 프레임워크 이며 Spring의 시작부터 포함되어 있었습니다. Spring 5.0 부터는 Spring WebFlux가 소개되었고 MVC를 대체하여 사용할 수 있습니다.  DispatcherServlet  Spring MVC도 다른 web framework들과 마찬가지로 front controller 패턴을 중심으로 설계되었습니다.</description>
+    </item>
+    
+    <item>
+      <title>Spring Docs #Web Servlet &gt; Spring Web MVC</title>
+      <link>https://leejaengjaeng.github.io/post/spring5-doc-web_mvc/</link>
+      <pubDate>Wed, 18 Mar 2020 16:47:00 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/post/spring5-doc-web_mvc/</guid>
+      <description>Spring framework Document 읽기
+ 현재 담당하는 서비스가 Spring5를 사용하진 않지만 5의 문서를 읽으면서 추가된 내용이 아니라 Spring framework 자체의 내용에 집중해볼 예정입니다.   Docs : https://docs.spring.io/spring/docs/5.2.4.RELEASE/spring-framework-reference/web.html#spring-web Repo : https://github.com/spring-projects/spring-framework Github repository에서 &amp;ldquo;T&amp;quot;를 누르면 파일 검색이 가능합니다.
+ Spring Web MVC  Spring Web MVC는 Servlet API 기반으로 만들어진 웹 프레임워크 이며 Spring의 시작부터 포함되어 있었습니다. Spring 5.0 부터는 Spring WebFlux가 소개되었고 MVC를 대체하여 사용할 수 있습니다.  DispatcherServlet   Spring MVC도 다른 web framework들과 마찬가지로 front controller 패턴을 중심으로 설계되었습니다.</description>
+    </item>
+    
+  </channel>
+</rss>

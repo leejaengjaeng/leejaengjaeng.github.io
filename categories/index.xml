@@ -8,10 +8,19 @@
     <language>ko-KR</language>
     <managingEditor>leejaengjaeng@naver.com (leejaengjaeng)</managingEditor>
     <webMaster>leejaengjaeng@naver.com (leejaengjaeng)</webMaster>
-    <lastBuildDate>Mon, 17 Feb 2020 15:05:00 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 13 Apr 2020 19:14:00 +0900</lastBuildDate>
     
 	<atom:link href="https://leejaengjaeng.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Spring</title>
+      <link>https://leejaengjaeng.github.io/categories/spring/</link>
+      <pubDate>Mon, 13 Apr 2020 19:14:00 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/categories/spring/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Issue</title>
@@ -19,15 +28,6 @@
       <pubDate>Mon, 17 Feb 2020 15:05:00 +0900</pubDate>
       <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
       <guid>https://leejaengjaeng.github.io/categories/issue/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Spring</title>
-      <link>https://leejaengjaeng.github.io/categories/spring/</link>
-      <pubDate>Fri, 07 Feb 2020 18:13:00 +0900</pubDate>
-      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
-      <guid>https://leejaengjaeng.github.io/categories/spring/</guid>
       <description></description>
     </item>
     

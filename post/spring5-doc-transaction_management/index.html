@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spring Docs #Data Access &gt; Transaction Management  | 이쟁쟁의 블로그</title>
+  <meta name="description" content=" 'Spring Docs #Data Access &gt; Transaction Management'을 한 번 살펴보세요.">
+  <meta property="og:title" content="Spring Docs #Data Access &gt; Transaction Management">
+  
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2020-02-21">
+  
+  <meta property="og:description" content=" 'Spring Docs #Data Access &gt; Transaction Management'을 한 번 살펴보세요.">
+  <meta property="og:url" content="https://leejaengjaeng.github.io/post/spring5-doc-transaction_management/">
+  <meta property="og:site_name" content="이쟁쟁의 블로그">
+  
+  <meta property="og:image" content="https://leejaengjaeng.github.io/images/thumbnail.png">
+  
+  
+  <meta property="og:tags" content="Spring">
+  
+  <meta property="og:tags" content="Docs">
+  
+  <meta property="og:tags" content="Transaction">
+  
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="canonical" href="https://leejaengjaeng.github.io/post/spring5-doc-transaction_management/">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/agate.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+  
+  
+  <script type="text/javascript">
+  function toggle_visibility(id) {
+    var e = document.getElementById(id);
+    if (e.className === 'menu')
+      e.className = 'menu hidden';
+    else
+      e.className = 'menu';
+  }
+  </script>
+</head>
+<body>
+  <div class="navbar">
+    <div class="burger">
+      <button onclick="toggle_visibility('menu')">
+        <i class="fa fa-bars" aria-hidden="true"></i> 메뉴
+      </button>
+    </div>
+    <div id="menu" class="menu hidden">
+      <ul>
+        <li class="site-title"><a href="/post">이쟁쟁의 블로그</a></li>
+        <li><a href="/categories">카테고리</a></li>
+        <li><a href="/tags">#태그</a></li>
+        <li><a href="/todo">Todo</a></li>
+      </ul>
+      <input class="search" id="search-input" type="search" placeholder="검색어" value="">
+    </div>
+  </div>
+  <div class="container">
+
+
+<div class="post">
+  <div class="post-title">
+    <a href="https://leejaengjaeng.github.io/post/spring5-doc-transaction_management/">
+      <img src="/images/post-title-icon.png" />
+      <div class="post-meta">
+        <time>2020년 02월 21일 11시 35분</time>
+        <h1>Spring Docs #Data Access &gt; Transaction Management</h1>
+      </div>
+    </a>
+  </div>
+  <div class="post-toc">
+    <span class="title">차례</span>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#advantages-of-the-spring-frameworks-transaction-support-model">Advantages of the Spring Framework’s Transaction Support Model</a>
+      <ul>
+        <li><a href="#global-transaction">Global Transaction</a></li>
+        <li><a href="#local-transaction">Local Transaction</a></li>
+        <li><a href="#spring-frameworks-consistent-programming-model">Spring Framework’s Consistent Programming Model</a></li>
+      </ul>
+    </li>
+    <li><a href="#understanding-the-spring-framework-transaction-abstraction">Understanding the Spring Framework Transaction Abstraction</a></li>
+    <li><a href="#synchronizing-resources-with-transactions">Synchronizing Resources with Transactions</a>
+      <ul>
+        <li><a href="#highlevel-synchronization">High-level Synchronization</a></li>
+        <li><a href="#lowlevel-synchronization">Low-level Synchronization</a></li>
+        <li><a href="#transactionawaredatasourceproxy">TransactionAwareDataSourceProxy</a></li>
+      </ul>
+    </li>
+    <li><a href="#declarative-transaction-management">Declarative transaction management</a>
+      <ul>
+        <li><a href="#---">선언적 트랜잭션 관리 이해하기</a></li>
+        <li><a href="#transactional-">@Transactional 사용하기</a></li>
+        <li><a href="#spring-transaction-propagation">Spring에서의 Transaction Propagation</a></li>
+        <li><a href="#advice-transactional">Advice와 @Transactional</a></li>
+      </ul>
+    </li>
+    <li><a href="#programmatic-transaction-management">Programmatic Transaction Management</a>
+      <ul>
+        <li><a href="#transactiontemplate-">TransactionTemplate 사용하기</a></li>
+        <li><a href="#platformtransactionmanager-">PlatformTransactionManager 사용하기</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+  <section class="post-content">
+    <p>Spring framework Document 읽기</p>
+<ul>
+<li>현재 담당하는 서비스가 Spring5를 사용하진 않지만 5의 문서를 읽으면서 추가된 내용이 아니라 Spring framework 자체의 내용에 집중해볼 예정입니다.</li>
+</ul>
+<blockquote>
+<p>Docs : <a href="https://docs.spring.io/spring/docs/5.2.3.RELEASE/spring-framework-reference/data-access.html#spring-data-tier">https://docs.spring.io/spring/docs/5.2.3.RELEASE/spring-framework-reference/data-access.html#spring-data-tier</a>
+Repo : <a href="https://github.com/spring-projects/spring-framework">https://github.com/spring-projects/spring-framework</a>
+Github repository에서 &ldquo;T&quot;를 누르면 파일 검색이 가능합니다.</p>
+</blockquote>
+<h1 id="transaction-management">Transaction Management</h1>
+<ul>
+<li>Transaction 지원은 스프링을 사용함에 있어 가장 강력한 이유중에 하나입니다.</li>
+<li>Spring은 transaction 관리에 일관된 추상화 계층을 제공하고 그로인해서 아래와 같은 이점을 취할 수 있습니다.
+<ol>
+<li>JTA(Java Transaction API), JDBC, Hibernate, JPA등 다양한 transaction API에 대해 일관된 모델을 사용할 수 있습니다.</li>
+<li>선언적(declarative) 트랜잭션 관리방법 제공합니다.
+<blockquote>
+<p>Declarative는 programmatic한 방식과 다르게 어노테이션, xml 등으로 명시하여 동작하는 방식입니다</p>
+</blockquote>
+</li>
+<li>JTA와 같이 복잡한 트랜잭션 API에 비해 간단하게 programmatic 한 방식으로 트랜잭션을 관리 할 수 있는 API가 있습니다.</li>
+<li>Spring data access 추상화 계층과 완벽히 통합가능합니다.</li>
+</ol>
+</li>
+</ul>
+<h2 id="advantages-of-the-spring-frameworks-transaction-support-model">Advantages of the Spring Framework’s Transaction Support Model</h2>
+<ul>
+<li>전통적으로 자바 EE 개발자는 트랜잭션 관리에 global 혹은 local 두가지 선택을 할 수 있었습니다.</li>
+</ul>
+<h3 id="global-transaction">Global Transaction</h3>
+<ul>
+<li>Global transaction은 db, message queue등 여러 transactional resource에 대한 트랜잭션 관리를 할 수 있게 해줍니다.</li>
+<li>이전 시대의 Global transaction은 <em><strong>어플리케이션 서버</strong></em> 가 제공하는 트랜잭션 매니저를 JTA를 통해서 사용하는 형태로 동작했으며,    JTA의 <code>UserTransaction</code>은 JNDI(Java Naming and Directory Interface)가 필요함으로    global transaction을 사용하기 위해선 어플리케이션 서버와, JNDI가 필요했습니다.</li>
+</ul>
+<h3 id="local-transaction">Local Transaction</h3>
+<ul>
+<li>Local transaction은 JDBC connection과 같은 단일 리소스에 대한 트랜잭션 관리를 해줍니다.</li>
+<li>Local transaction은 사용하기 쉽지만 여러 transactional resource에 대한 작업을 할 수 없다는 단점이 있습니다.</li>
+</ul>
+<h3 id="spring-frameworks-consistent-programming-model">Spring Framework’s Consistent Programming Model</h3>
+<ul>
+<li>Spring은 global과 local 트랜잭션에 대한 단점을 해결하여 환경과 관계없이 일관성 있는 모델을 사용합니다.</li>
+<li>Global 트랜잭션을 사용하는 경우에도 더이상 어플리케이션 서버가 필요하지 않으며,<br>
+선언적인 방식으로 트랜잭션을 관리한다면 코드도 바꿀 필요없이 bean definition만 변경해주면 됩니다.</li>
+</ul>
+<h2 id="understanding-the-spring-framework-transaction-abstraction">Understanding the Spring Framework Transaction Abstraction</h2>
+<ul>
+<li>스프링 트랜잭션의 핵심은 트랜잭션 전략(transaction strategy)에 대한 개념입니다.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">PlatformTransactionManager</span> <span style="color:#f92672">{</span>
+  TransactionStatus <span style="color:#a6e22e">getTransaction</span><span style="color:#f92672">(</span>TransactionDefinition definition<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> TransactionException<span style="color:#f92672">;</span>
+
+  <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">commit</span><span style="color:#f92672">(</span>TransactionStatus status<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> TransactionException<span style="color:#f92672">;</span>
+
+  <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rollback</span><span style="color:#f92672">(</span>TransactionStatus status<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> TransactionException<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li>
+<p><code>PlatformTransactionManager</code>는 트랜잭션 관리를 위한 SPI(service provider interface)입니다.</p>
+<blockquote>
+<p>SPI는 같은 기능을 여러 벤더에서 제공할 수 있도록 만든 특별한 인터페이스(API)입니다.
+e.g. XML 파서의 경우 인터페이스만 제공하고, 실제 XML 파서는 여러 벤더사에서 구현</p>
+</blockquote>
+<ul>
+<li>선언적으로 트랜잭션 관리를 하더라도 JDBC, Hibernate등 각 환경에 맞는<code>PlatformTransactionManager</code>의 정의는 반드시 필요합니다.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;dataSource&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;org.apache.commons.dbcp.BasicDataSource&#34;</span> <span style="color:#a6e22e">destroy-method=</span><span style="color:#e6db74">&#34;close&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;driverClassName&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;${jdbc.driverClassName}&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;url&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;${jdbc.url}&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;username&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;${jdbc.username}&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;password&#34;</span> <span style="color:#a6e22e">value=</span><span style="color:#e6db74">&#34;${jdbc.password}&#34;</span> <span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/bean&gt;</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;txManager&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;org.springframework.jdbc.datasource.DataSourceTransactionManager&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;dataSource&#34;</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;dataSource&#34;</span><span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/bean&gt;</span>
+</code></pre></div><ul>
+<li><code>JtaTransactionManager</code>를 사용하는 경우에는 컨테이너의 global transaction management를 사용함으로 <code>DataSource</code>같은 리소스 정보가 필요없습니다</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>트랜잭션의 실패는 대부분 코드상에서 복구 할 수 없습니다, 따라서 트랜잭션 과정에서 발생하는 <code>TransactionException</code>은 <code>RuntimeException</code>으로 제공됩니다.</p>
+</li>
+<li>
+<p><code>getTransaction</code> 메서드는 <code>TransactionDefinition</code>를 받아서 <code>TransactionStatus</code>을 반환합니다.</p>
+<ul>
+<li><code>TransactionStatus</code>는 트랜잭션이 새로운 것인지, 기존의 트랜잭션인지를 나타냅니다.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">TransactionStatus</span> <span style="color:#66d9ef">extends</span> SavepointManager <span style="color:#f92672">{</span>
+
+    <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isNewTransaction</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">hasSavepoint</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setRollbackOnly</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isRollbackOnly</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">flush</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+
+    <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isCompleted</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>  
+</code></pre></div></li>
+</ul>
+</li>
+<li>
+<p><code>TransactionDefinition</code> spec</p>
+<ul>
+<li>
+<p>Propagation</p>
+<ul>
+<li>일반적으로 트랜잭션 내에서 실행된 코드는 해당 트랜잭션에만 영향을 받지만,<br>
+트랜잭션 컨텍스트가 이미 생성된 상태(트랜잭션 내부)에서 수행되는 트랜잭션의 행동은 명시적으로 설정할 수 있습니다.
+<blockquote>
+<p>e.g. 기존 트랜잭션 컨텍스트내에서 실행되는것이 일반적이지만, 기존 트랜잭션을 잠시 중지하고 새로운 트랜잭션을 만들 수 있습니다.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p>Isolation</p>
+<ul>
+<li>트랜잭션이 다른 트랜잭션과 얼마나 분리되어있는지를 나타냅니다.
+<blockquote>
+<p>e.g. 현재 트랜잭션이 다른 트랜잭션의 uncommitted write 정보를 볼 수 있는가?</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p>Timeout</p>
+<ul>
+<li>자동 rollback이 이뤄지는 시간을 나타냅니다.</li>
+</ul>
+</li>
+<li>
+<p>Read-only status</p>
+<ul>
+<li>데이터 변경이 없는 경우 read-only 트랜잭션을 사용할 수 있습니다.</li>
+<li>Hibernate 환경의 최적화 등에 사용할 수 있습니다.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="synchronizing-resources-with-transactions">Synchronizing Resources with Transactions</h2>
+<ul>
+<li>여러 트랜잭션 매니저를 만들고 관련된 트랜잭션 매니저간의 동기화 방법과, <br>
+<code>PlatformTransactionManager</code>을 통해서 동기화가 트리거되는 방법을 알아봅니다</li>
+</ul>
+<h3 id="highlevel-synchronization">High-level Synchronization</h3>
+<ul>
+<li>이 방식은 resource 생성, 사용, 제거, 트랜잭션 동기화 등이 모두 내부적으로 수행됨으로 사용자는 로직에 집중할 수 있습니다.</li>
+<li><code>JdbcTemplate</code>을 사용하여 JDBC에 접근하거나 native ORM API를 사용하는것이 이 방식에 속합니다.</li>
+</ul>
+<h3 id="lowlevel-synchronization">Low-level Synchronization</h3>
+<ul>
+<li>이 방식은 high-level 동기화에서 제공하는 기능들을 직접 구현할 때 사용될 수 있습니다.</li>
+<li><code>DataSourceUtils</code>(JDBC), <code>EntityManagerFactoryUtils</code>(JPA), <code>SessionFactoryUtils</code>(Hibernate) 등이 이 방식에 속합니다.
+<blockquote>
+<p>e.g. JDBC를 직접 사용할때 <code>getConnection</code>으로 커넥션을 열고 닫고 하는 동작</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="transactionawaredatasourceproxy">TransactionAwareDataSourceProxy</h3>
+<ul>
+<li><code>DataSource</code>에 대한 proxy 객체로 가장 low-level에 존재하는 클래스 입니다.</li>
+<li>대부분의 경우 직접 사용해서는 안되는 클래스입니다.
+<ul>
+<li>존재하는 <code>Datasource</code>를 수동으로 넣어주는것과 같이 <code>TransactionAwareDataSourceProxy</code>를 건드리게되면<br>
+해당 리소스는 Spring이 관리하는 트랜잭션에 참여하지 못하게됩니다.</li>
+</ul>
+</li>
+</ul>
+<h2 id="declarative-transaction-management">Declarative transaction management</h2>
+<ul>
+<li>대부분의 사람들이 트랜잭션 관리에 사용하는 방식입니다,<br>
+선언적 트랜잭션 관리는 코드에 미치는 영향이 적어서 컨테이너와의 커플링을 낮추는데 도움을 줍니다.</li>
+<li>AOP를 통해서 선언적 트랜잭션 관리가 동작하게 되지만 Spirng 내부적으로 동작함으로 AOP 개념이 없어도 트랜잭션을 사용할 수 있습니다.</li>
+<li>특징
+<ul>
+<li>
+<p>JTA, JDBC, JPA등 환경에 구분없이 동작합니다.</p>
+</li>
+<li>
+<p>어떤 클래스라도 대상이 될 수 있습니다.</p>
+</li>
+<li>
+<p>Rollback 규칙을 제공합니다.</p>
+<blockquote>
+<p>e.g. MyApplicationException이 발생하면 자동 롤백
+기본 동작은 unchecked exception인 경우 rollback 입니다.</p>
+</blockquote>
+</li>
+<li>
+<p>Remote call에 대한 propagation을 제공하지 않습니다</p>
+</li>
+<li>
+<p>AOP를 활용해서 트랜잭션 과정을 커스터마이즈 할 수 있습니다.</p>
+<blockquote>
+<p>e.g. 롤백되는 경우 로깅</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="---">선언적 트랜잭션 관리 이해하기</h3>
+<ul>
+<li><code>@EnableTransactionManagement</code>을 달고 <code>@Transactional</code>을 추가한 코드가 어떻게 동작하는지 알아봅니다.</li>
+<li>선언적 트랜잭션 관리의 가장 중요한 컨셉은 AOP 프록시를 통해서 동작한다는것 입니다.
+<img src="https://i.imgur.com/V8gDYR9.png" alt="transactional-flow-concept">
+<ul>
+<li>Transaction Advisor에서 트랜잭션과 관련된 AOP가 수행됩니다. Custom Advisor 와의 수행 순서는 설정에 따라 달라질 수 있습니다.</li>
+</ul>
+</li>
+<li>어노테이션과 같은 메타데이터를 사용해 생성된 AOP 프록시는 트랜잭션을 만들기 위해 <code>TransactionInterceptor</code>를 <code>PlatformTransactionManager</code>와 결합하여 사용합니다.</li>
+</ul>
+<h3 id="transactional-">@Transactional 사용하기</h3>
+<ul>
+<li>
+<p>Configuration 클래스에 <code>@EnableTransactionManagement</code>를 추가 함으로써 annotation-based의 트랜잭션을 사용할 수 있습니다.</p>
+</li>
+<li>
+<p><code>@Transactional</code>은 클래스에도 설정할 수 있지만, 이 경우 부모 클래스의 메소드 호출시에는 동작하지 않으며 추가하기 위해서는 자식 클래스에서 재선언 해 줘야 합니다.</p>
+<ul>
+<li>명시하지 않은 부모 클래스 메서드의 호출이 동작하지 않는건 <code>ProxiedSubInstance.super().method()</code>와 같은 식으로 동작해서 <code>this.method()</code>와 비슷한 이유 일 것으로 <em><strong>추측</strong></em> 되네요</li>
+</ul>
+<blockquote>
+<p>Spring팀에서는 인터페이스가 아닌 실제 클래스에만 <code>@Transactional</code>을 사용하길 권장합니다. 인터페이스에 해당 어노테이션을 붙였을때 transaction 방식이 interface-based가 아닌 class-based면 동작하기 않기 때문</p>
+</blockquote>
+</li>
+<li>
+<p><code>@Transactional</code>은 <code>pulbic</code> 메서드에만 동작하며 당연하게도 대상이 bean이여야 합니다.</p>
+</li>
+<li>
+<p>default 설정은 아래와 같습니다</p>
+<ul>
+<li>Propagation : <code>PROPAGATION_REQUIRED</code></li>
+<li>Isolation level : <code>ISOLATION_DEFAULT</code></li>
+<li>Transaction : read-write</li>
+<li>Timeout : transaction 시스템에 따르거나 없음</li>
+<li>Rollback : 모든 <code>RuntimeException</code>, checked exception 발생에 대해선 롤백하지 않음</li>
+</ul>
+</li>
+<li>
+<p>여러 트랜잭션 매니저 설정 및 커스텀 어노테이션</p>
+<ul>
+<li><code>PlatformTransactionManager</code>의 구현체를 transactionManager 구현체로 bean에 등록하며 다른 bean들과 마찬가지로 이름(qualifier)를 줄 수 있으며 이를 통해 하나의 어플리케이션에서 여러 트랜잭션 매니저를 등록할 수 있습니다.</li>
+<li><code>@Transactional(&quot;트랜잭션 매니저 이름&quot;)</code>으로 사용할 매니저를 지정할 수 있으며 커스텀 어노테이션을 통해서 더 편하게 사용할 수 있습니다
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Target</span><span style="color:#f92672">(</span><span style="color:#f92672">{</span>ElementType<span style="color:#f92672">.</span><span style="color:#a6e22e">METHOD</span><span style="color:#f92672">,</span> ElementType<span style="color:#f92672">.</span><span style="color:#a6e22e">TYPE</span><span style="color:#f92672">}</span><span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@Retention</span><span style="color:#f92672">(</span>RetentionPolicy<span style="color:#f92672">.</span><span style="color:#a6e22e">RUNTIME</span><span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@Transactional</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;order&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@interface</span> OrderTx <span style="color:#f92672">{</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#a6e22e">@Target</span><span style="color:#f92672">(</span><span style="color:#f92672">{</span>ElementType<span style="color:#f92672">.</span><span style="color:#a6e22e">METHOD</span><span style="color:#f92672">,</span> ElementType<span style="color:#f92672">.</span><span style="color:#a6e22e">TYPE</span><span style="color:#f92672">}</span><span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@Retention</span><span style="color:#f92672">(</span>RetentionPolicy<span style="color:#f92672">.</span><span style="color:#a6e22e">RUNTIME</span><span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@Transactional</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;account&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@interface</span> AccountTx <span style="color:#f92672">{</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TransactionalService</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@OrderTx</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setSomething</span><span style="color:#f92672">(</span>String name<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+    <span style="color:#a6e22e">@AccountTx</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doSomething</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div></li>
+</ul>
+</li>
+</ul>
+<h3 id="spring-transaction-propagation">Spring에서의 Transaction Propagation</h3>
+<ul>
+<li>PROPAGATION_REQUIRED
+<img src="https://i.imgur.com/KdtYQMn.png" alt="스크린샷 2020-03-01 오후 6.27.01">
+<ul>
+<li>
+<p>Default 설정입니다.</p>
+</li>
+<li>
+<p>트랜잭션이 없는경우 현재 scope의 트랜잭션을 만들고, 트랜잭션이 존재하는 경우 해당 트랜잭션에 참여하며 하나의 물리적인 트랜잭션 내에서 관리됩니다.</p>
+<ul>
+<li>물리적으로는 하나의 트랜잭션에서 동작하지만 논리적으로는 호출되는 트랜잭션 메서드마다의 스코프를 가지게 됩니다. 일반적인 경우엔 내부 트랜잭션에서 rollback(rollback-only)이 표시되면 외부 트랜잭션도 rollback이 수행되지만, <code>UnexpectedRollbackException</code> 을 외부 트랜잭션에서 잡음으로써 내부 트랜잭션의 rollback 여부와 관계없이 외부 transaction을 commit 할 수 있습니다.</li>
+</ul>
+</li>
+<li>
+<p>포함되는 transaction은 자신의 isolation level이나 timeout, read-only값이 무시됩니다, 이를 무시하지 않기위해서는 transaction manager에 <code>validateExistingTransactions</code> 플래그를 true로 설정하면 됩니다.</p>
+</li>
+</ul>
+</li>
+<li>PROPAGATION_REQUIRED_NEW
+<img src="https://i.imgur.com/1cR3dGK.png" alt="스크린샷 2020-03-01 오후 6.27.18">
+<ul>
+<li><code>PROPAGATION_REQUIRED</code> 과 다르게 매번 물리적으로 독립된 새로운 트랜잭션이 생성되고, 외부 트랜잭션은 내부 트랜잭션이 완료될때까지 대기 상태에 있게됩니다.</li>
+</ul>
+</li>
+<li>PROPAGATION_NESTED
+<ul>
+<li>하나의 물리적인 트랜잭션내에서 rollback을 위한 여러 <code>savepoint</code> 를 갖는 형태로 동작합니다.</li>
+<li>내부 트랜잭션에서 rollback이 일어나서 작업의 일부분이 rollback되더라도 외부 트랜잭션은 계속 트랜잭션 작업을 수행 할 수 있습니다.</li>
+<li>이 설정은 일반적으로 JDBC의 savepoint에 맵핑됨으로 <em><strong>JDBC transaction</strong></em> 에서만 동작합니다.</li>
+</ul>
+</li>
+</ul>
+<h3 id="advice-transactional">Advice와 @Transactional</h3>
+<ul>
+<li><code>@Transactional</code>의 기본 order는 <code>Ordered.LOWEST_PRECEDENCE</code>(=<code>Integer.MAX_VALUE</code>)이고 aspect도 <code>Ordered</code> 인터페이스를 구현하여 order 값을 명시하지 않으면 <code>Ordered.LOWEST_PRECEDENCE</code> 임으로로 order에 따른 결과를 예측하기 어렵습니다. 따라서 advice와 <code>@Transactional</code>을 함께 사용하기 위해선 order를 명시해주는것이 좋습니다.</li>
+<li><code>@Transactional</code>보다 <em><strong>높은 우선순위</strong></em> 를 명시한 aspect에서 수행 시간을 측정하는 advice의 동작 예
+<ol>
+<li>Transaction advice(<code>@Transactional</code>)와 높은 우선순위의 aspect에 포함된 advice 둘 모두의 대상이 되는 메서드 실행</li>
+<li>우선 순위가 높은 aspect의 advice 시작 (수행 시간 측정 시작)</li>
+<li>Transactional advice 실행 (transaction 시작)</li>
+<li>Advised object의 메서드 실행</li>
+<li>Transactional advice 종료 (transaction 종료)</li>
+<li>우선 순위가 높은 aspect의 advice 종료 (수행 시간 측정 종료)</li>
+</ol>
+</li>
+</ul>
+<h2 id="programmatic-transaction-management">Programmatic Transaction Management</h2>
+<p>Spring에서는 programmatic하게 트랜잭션을 관리하기 위한 방법으로 <code>TransactionTemplate</code>, <code>PlatformTransactionManager</code> 두가지를 지원하고 첫번째 방식을 추천합니다.</p>
+<blockquote>
+<p>Programmatic한 트랜잭션을 관리는 business로직에 transaction 관리 코드가 섞여 들어가게 됨으로 application에 transactional operation이 매우 적은 경우에만 권징됩니다.</p>
+</blockquote>
+<h3 id="transactiontemplate-">TransactionTemplate 사용하기</h3>
+<ul>
+<li>Spring의 다른 template과 마찬가지로 application에 독립적이기 위해 callback 방식으로 동작합니다.
+<ul>
+<li>Spring transaction에 커플링이 생기지만, 트랜잭션 관리는 대부분 트랜잭션 프레임워크에 커플링이 생길 수 밖에 없습니다.</li>
+<li>TransactionTemplate은 thread-safe 하지만 propagation, timeout 등 설정은 인스턴스별로 동일함으로 주의하여야 합니다.</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SimpleService</span> <span style="color:#66d9ef">implements</span> Service <span style="color:#f92672">{</span>
+
+    <span style="color:#75715e">// single TransactionTemplate shared amongst all methods in this instance
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> TransactionTemplate transactionTemplate<span style="color:#f92672">;</span>
+
+    <span style="color:#75715e">// use constructor-injection to supply the PlatformTransactionManager
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">SimpleService</span><span style="color:#f92672">(</span>PlatformTransactionManager transactionManager<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">transactionTemplate</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TransactionTemplate<span style="color:#f92672">(</span>transactionManager<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">transactionTemplate</span><span style="color:#f92672">.</span><span style="color:#a6e22e">setIsolationLevel</span><span style="color:#f92672">(</span>TransactionDefinition<span style="color:#f92672">.</span><span style="color:#a6e22e">ISOLATION_READ_UNCOMMITTED</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">transactionTemplate</span><span style="color:#f92672">.</span><span style="color:#a6e22e">setTimeout</span><span style="color:#f92672">(</span>30<span style="color:#f92672">)</span><span style="color:#f92672">;</span> <span style="color:#75715e">// 30 seconds
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">someServiceMethod</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> transactionTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">execute</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> TransactionCallback<span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#75715e">// the code in this method executes in a transactional context
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">doInTransaction</span><span style="color:#f92672">(</span>TransactionStatus status<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                updateOperation1<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+                <span style="color:#66d9ef">return</span> resultOfUpdateOperation2<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li>Return이 없다면 <code>TransactionCallbackWithoutResult</code> 를 사용하면 됩니다.</li>
+</ul>
+<h3 id="platformtransactionmanager-">PlatformTransactionManager 사용하기</h3>
+<p>PlatformTransactionManager의 구현체를 bean에 등록하고 <code>TransactionDefinition</code>와 <code>TransactionStatus</code>를 사용하 programmatic 하게 트랜잭션을 관리 할 수 있습니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">DefaultTransactionDefinition def <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DefaultTransactionDefinition<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#75715e">// explicitly setting the transaction name is something that can be done only programmatically
+</span><span style="color:#75715e"></span>def<span style="color:#f92672">.</span><span style="color:#a6e22e">setName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;SomeTxName&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+def<span style="color:#f92672">.</span><span style="color:#a6e22e">setPropagationBehavior</span><span style="color:#f92672">(</span>TransactionDefinition<span style="color:#f92672">.</span><span style="color:#a6e22e">PROPAGATION_REQUIRED</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+
+TransactionStatus status <span style="color:#f92672">=</span> txManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getTransaction</span><span style="color:#f92672">(</span>def<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// execute your business logic here
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+<span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>MyException ex<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    txManager<span style="color:#f92672">.</span><span style="color:#a6e22e">rollback</span><span style="color:#f92672">(</span>status<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">throw</span> ex<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+txManager<span style="color:#f92672">.</span><span style="color:#a6e22e">commit</span><span style="color:#f92672">(</span>status<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</code></pre></div>
+  </section>
+  <div class="share">    
+    <a
+      href="//www.facebook.com/sharer.php?src=bm&u=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fspring5-doc-transaction_management%2f&t=Spring%20Docs%20%23Data%20Access%20%3e%20Transaction%20Management"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-facebook"></i
+    ></a>
+    <a
+      href="//twitter.com/intent/tweet?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fspring5-doc-transaction_management%2f&text=Spring%20Docs%20%23Data%20Access%20%3e%20Transaction%20Management&tw_p=tweetbutton"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-twitter"></i
+    ></a>
+    <a
+      href="//getpocket.com/edit?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fspring5-doc-transaction_management%2f&title=Spring%20Docs%20%23Data%20Access%20%3e%20Transaction%20Management"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-get-pocket"></i
+    ></a>
+    <a
+      href="//plus.google.com/share?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fspring5-doc-transaction_management%2f"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-google-plus"></i
+    ></a>
+  </div>
+  <div class="post-meta-code">
+    <div class="desc">
+      친절한
+      
+      <a href="mailto:leejaengjaeng@naver.com">leejaengjaeng</a>
+      
+      님이
+      <span class="highlight">2020년 02월 21일 11시 35분</span> 
+      에 작성한 글입니다.
+    </div>
+    <div class="desc">
+      
+      <div class="desc">
+        <span class="fixed-desc">_카테고리</span>
+        
+        
+        <a href="https://leejaengjaeng.github.io//categories/spring">#Spring</a>
+        
+      </div>
+      
+      <div class="desc">
+        <span class="fixed-desc">_태그</span>
+        
+        
+        <a href="https://leejaengjaeng.github.io/tags/spring">#Spring</a>
+        
+        <a href="https://leejaengjaeng.github.io/tags/docs">#Docs</a>
+        
+        <a href="https://leejaengjaeng.github.io/tags/transaction">#Transaction</a>
+        
+        
+      </div>
+    </div>
+  </div>  
+  
+  <div class="post-comment">    
+        
+  </div>
+  
+  <div class="recommend-articles">
+    다음으로 읽을만한 글입니다.
+    <ul>
+      
+      <li>
+        <a href="https://leejaengjaeng.github.io/post/improve-load-time/" rel="prev">
+          <span>페이지 로딩 속도 개선</span>
+        </a>
+      </li>
+      
+      
+      <li>
+        <a href="https://leejaengjaeng.github.io/post/spring5-doc-web_mvc/" rel="next">
+          <span>Spring Docs #Web Servlet &gt; Spring Web MVC</span>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="go-top">
+  <a href="#" class="go-top-button">
+    <i class="fa fa-angle-double-up"></i>
+    <span>위로</span>
+  </a>
+</div>
+<footer class="footer">
+  COPYRIGHT (C) <a href="https://blog.lulab.net">DONGGEUN,BANG (LUBANG).</a><br />
+  ALL RIGHTS RESERVED.
+</footer>
+</body>
+</html>
+

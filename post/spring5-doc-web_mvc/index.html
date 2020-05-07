@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spring Docs #Web Servlet &gt; Spring Web MVC  | 이쟁쟁의 블로그</title>
+  <meta name="description" content=" 'Spring Docs #Web Servlet &gt; Spring Web MVC'을 한 번 살펴보세요.">
+  <meta property="og:title" content="Spring Docs #Web Servlet &gt; Spring Web MVC">
+  
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2020-03-18">
+  
+  <meta property="og:description" content=" 'Spring Docs #Web Servlet &gt; Spring Web MVC'을 한 번 살펴보세요.">
+  <meta property="og:url" content="https://leejaengjaeng.github.io/post/spring5-doc-web_mvc/">
+  <meta property="og:site_name" content="이쟁쟁의 블로그">
+  
+  <meta property="og:image" content="https://leejaengjaeng.github.io/images/thumbnail.png">
+  
+  
+  <meta property="og:tags" content="Spring">
+  
+  <meta property="og:tags" content="Docs">
+  
+  <meta property="og:tags" content="MVC">
+  
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="canonical" href="https://leejaengjaeng.github.io/post/spring5-doc-web_mvc/">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/agate.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+  
+  
+  <script type="text/javascript">
+  function toggle_visibility(id) {
+    var e = document.getElementById(id);
+    if (e.className === 'menu')
+      e.className = 'menu hidden';
+    else
+      e.className = 'menu';
+  }
+  </script>
+</head>
+<body>
+  <div class="navbar">
+    <div class="burger">
+      <button onclick="toggle_visibility('menu')">
+        <i class="fa fa-bars" aria-hidden="true"></i> 메뉴
+      </button>
+    </div>
+    <div id="menu" class="menu hidden">
+      <ul>
+        <li class="site-title"><a href="/post">이쟁쟁의 블로그</a></li>
+        <li><a href="/categories">카테고리</a></li>
+        <li><a href="/tags">#태그</a></li>
+        <li><a href="/todo">Todo</a></li>
+      </ul>
+      <input class="search" id="search-input" type="search" placeholder="검색어" value="">
+    </div>
+  </div>
+  <div class="container">
+
+
+<div class="post">
+  <div class="post-title">
+    <a href="https://leejaengjaeng.github.io/post/spring5-doc-web_mvc/">
+      <img src="/images/post-title-icon.png" />
+      <div class="post-meta">
+        <time>2020년 03월 18일 16시 47분</time>
+        <h1>Spring Docs #Web Servlet &gt; Spring Web MVC</h1>
+      </div>
+    </a>
+  </div>
+  <div class="post-toc">
+    <span class="title">차례</span>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#dispatcherservlet">DispatcherServlet</a>
+      <ul>
+        <li><a href="#special-bean-types">Special Bean Types</a></li>
+        <li><a href="#processing">Processing</a></li>
+        <li><a href="#interception">Interception</a></li>
+        <li><a href="#view-resolution">View Resolution</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+  <section class="post-content">
+    <p>Spring framework Document 읽기</p>
+<ul>
+<li>현재 담당하는 서비스가 Spring5를 사용하진 않지만 5의 문서를 읽으면서 추가된 내용이 아니라 Spring framework 자체의 내용에 집중해볼 예정입니다.</li>
+</ul>
+<blockquote>
+<p>Docs : <a href="https://docs.spring.io/spring/docs/5.2.4.RELEASE/spring-framework-reference/web.html#spring-web">https://docs.spring.io/spring/docs/5.2.4.RELEASE/spring-framework-reference/web.html#spring-web</a>
+Repo : <a href="https://github.com/spring-projects/spring-framework">https://github.com/spring-projects/spring-framework</a>
+Github repository에서 &ldquo;T&quot;를 누르면 파일 검색이 가능합니다.</p>
+</blockquote>
+<h1 id="spring-web-mvc">Spring Web MVC</h1>
+<ul>
+<li>Spring Web MVC는 Servlet API 기반으로 만들어진 웹 프레임워크 이며 Spring의 시작부터 포함되어 있었습니다.</li>
+<li>Spring 5.0 부터는 Spring WebFlux가 소개되었고 MVC를 대체하여 사용할 수 있습니다.</li>
+</ul>
+<h2 id="dispatcherservlet">DispatcherServlet</h2>
+<ul>
+<li>
+<p>Spring MVC도 다른 web framework들과 마찬가지로 front controller 패턴을 중심으로 설계되었습니다. <code>DispatcherServlet</code> 에서 request 처리를 위임 하기 위한 알고리즘을 제공하고 실제 동작 수행은 각 작업에 맞는 컴포넌트에서 수행하게 됩니다.</p>
+</li>
+<li>
+<p><code>DispatcherServlet</code> 도 다른 servlet과 마찬가지로 web.xml 혹은 java configuration 방식으로 선언 및 맵핑이 필요합니다. 이렇게 설정한 DispatcherServlet은 request mapping, view resolution, exception handling 등에 필요한 컴포넌트를 찾는데 사용합니다.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyWebApplicationInitializer</span> <span style="color:#66d9ef">implements</span> WebApplicationInitializer <span style="color:#f92672">{</span>
+
+<span style="color:#a6e22e">@Override</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onStartup</span><span style="color:#f92672">(</span>ServletContext servletCxt<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#75715e">// Load Spring web application configuration
+</span><span style="color:#75715e"></span>    AnnotationConfigWebApplicationContext ac <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> AnnotationConfigWebApplicationContext<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+    ac<span style="color:#f92672">.</span><span style="color:#a6e22e">register</span><span style="color:#f92672">(</span>AppConfig<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+    ac<span style="color:#f92672">.</span><span style="color:#a6e22e">refresh</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+
+    <span style="color:#75715e">// Create and register the DispatcherServlet
+</span><span style="color:#75715e"></span>    DispatcherServlet servlet <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DispatcherServlet<span style="color:#f92672">(</span>ac<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+    ServletRegistration<span style="color:#f92672">.</span><span style="color:#a6e22e">Dynamic</span> registration <span style="color:#f92672">=</span> servletCxt<span style="color:#f92672">.</span><span style="color:#a6e22e">addServlet</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;app&#34;</span><span style="color:#f92672">,</span> servlet<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+    registration<span style="color:#f92672">.</span><span style="color:#a6e22e">setLoadOnStartup</span><span style="color:#f92672">(</span>1<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+    registration<span style="color:#f92672">.</span><span style="color:#a6e22e">addMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/app/*&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-XML" data-lang="XML"><span style="color:#f92672">&lt;web-app</span><span style="color:#f92672">&gt;</span>
+
+  <span style="color:#f92672">&lt;listener</span><span style="color:#f92672">&gt;</span>
+      <span style="color:#f92672">&lt;listener-class</span><span style="color:#f92672">&gt;</span>org.springframework.web.context.ContextLoaderListener<span style="color:#f92672">&lt;/listener-class&gt;</span>
+  <span style="color:#f92672">&lt;/listener&gt;</span>
+
+  <span style="color:#f92672">&lt;context-param</span><span style="color:#f92672">&gt;</span>
+      <span style="color:#f92672">&lt;param-name</span><span style="color:#f92672">&gt;</span>contextConfigLocation<span style="color:#f92672">&lt;/param-name&gt;</span>
+      <span style="color:#f92672">&lt;param-value</span><span style="color:#f92672">&gt;</span>/WEB-INF/app-context.xml<span style="color:#f92672">&lt;/param-value&gt;</span>
+  <span style="color:#f92672">&lt;/context-param&gt;</span>
+
+  <span style="color:#f92672">&lt;servlet</span><span style="color:#f92672">&gt;</span>
+      <span style="color:#f92672">&lt;servlet-name</span><span style="color:#f92672">&gt;</span>app<span style="color:#f92672">&lt;/servlet-name&gt;</span>
+      <span style="color:#f92672">&lt;servlet-class</span><span style="color:#f92672">&gt;</span>org.springframework.web.servlet.DispatcherServlet<span style="color:#f92672">&lt;/servlet-class&gt;</span>
+      <span style="color:#f92672">&lt;init-param</span><span style="color:#f92672">&gt;</span>
+          <span style="color:#f92672">&lt;param-name</span><span style="color:#f92672">&gt;</span>contextConfigLocation<span style="color:#f92672">&lt;/param-name&gt;</span>
+          <span style="color:#f92672">&lt;param-value</span><span style="color:#f92672">&gt;</span><span style="color:#f92672">&lt;/param-value&gt;</span>
+      <span style="color:#f92672">&lt;/init-param&gt;</span>
+      <span style="color:#f92672">&lt;load-on-startup</span><span style="color:#f92672">&gt;</span>1<span style="color:#f92672">&lt;/load-on-startup&gt;</span>
+  <span style="color:#f92672">&lt;/servlet&gt;</span>
+
+  <span style="color:#f92672">&lt;servlet-mapping</span><span style="color:#f92672">&gt;</span>
+      <span style="color:#f92672">&lt;servlet-name</span><span style="color:#f92672">&gt;</span>app<span style="color:#f92672">&lt;/servlet-name&gt;</span>
+      <span style="color:#f92672">&lt;url-pattern</span><span style="color:#f92672">&gt;</span>/app/*<span style="color:#f92672">&lt;/url-pattern&gt;</span>
+  <span style="color:#f92672">&lt;/servlet-mapping&gt;</span>
+
+<span style="color:#f92672">&lt;/web-app&gt;</span>
+</code></pre></div><blockquote>
+<p>Spring boot는 initialization 과정이 다르기 때문에 servlet container의 lifecycle hook을 사용해서 등록하지 않고, Spring configuration을 통해서 embedded servlet container를 부트스트랩 하며 이때 선언된 <code>Filter</code> 와 <code>Servlet</code> 도 함께 감지(detect)하여 컨테이너에 등록됩니다.</p>
+</blockquote>
+</li>
+<li>
+<p><code>DispatcherServlet</code> 의 설정을 위해서 <code>WebApplicationContext</code> 가 사용됩니다. <code>WebApplicationContext</code> 는 <code>ServletContext</code> 와 연관된 <code>Servlet</code> 에 대한 링크를 가지고 있으며 <code>ServletContext</code> 에 바인딩 되어 있기 때문에 어플리케이션에서 <code>WebApplicationContext</code> 에 접근이 필요한 경우 <code>RequestContextUtils</code> 의 static 메서드를 통해 접근할 수 있습니다.</p>
+</li>
+</ul>
+<h3 id="special-bean-types">Special Bean Types</h3>
+<ul>
+<li><code>DispatcherServlet</code> 은 request를 처리하기 위해 특별한 bean들에게 역할을 위임합니다. 이 bean들은 Spring에 기본적으로 구현되어있지만 property 들을 커스터마이즈 하거나 상속받아서 대체하는게 가능합니다.</li>
+<li><code>HandlerMapping</code>
+<ul>
+<li>request를 pre/post interceptor들에 따라 handler에게 맵핑합니다.</li>
+<li><code>@RequestMapping</code> 을 지원하는 <code>RequestMappingHandlerMapping</code> 과 <code>SimpleUrlHandlerMapping</code> 두가지가 주요 구현체로 존재합니다.</li>
+</ul>
+</li>
+<li><code>HandlerAdapter</code>
+<ul>
+<li>Handler가 실제로 어떻게 실행되는지와 별개로 <code>DispatcherServlet</code> 이 request를 handler에 맵핑할 수 있도록 도와주는 역할을 합니다.
+<ul>
+<li><code>@RequestMapping</code> 같은 어노테이션이 달린 컨트롤러가 request를 처리하려면 어노테이션에 대한 처리를 해야하는데 이것을 <code>HandlerAdapter</code> 에서 수행해 줍니다.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>HandlerExceptionResolver</code>
+<ul>
+<li>에러 페이지 띄우기, 다른쪽으로 예외 던지기 등 Exception을 처리하는 전략을 담당합니다.</li>
+</ul>
+</li>
+<li><code>ViewResolver</code>
+<ul>
+<li>Handler에서 리턴된 <code>String</code> based view 이름을 response에 렌더링할 실제 <code>View</code> 로 만들어주는 작업을 수행합니다.</li>
+</ul>
+</li>
+<li><code>LocaleResolver</code>, <code>LocaleContextResolver</code>
+<ul>
+<li>사용자의 timezone에 맞는 <code>Locale</code> 을 가지고오는데 사용됩니다.</li>
+</ul>
+</li>
+<li><code>ThemeResolver</code>
+<ul>
+<li>어플리케이션에서 사용가능한 테마를 가지고오는데 사용됩니다.</li>
+</ul>
+</li>
+<li><code>MultipartResolver</code>
+<ul>
+<li>Multi-part request를 파싱하기 위한 라이브러리에서 사용가능한 추상화를 제공합니다.</li>
+</ul>
+</li>
+<li><code>FlashMapManager</code>
+<ul>
+<li>Redirect와 같이 request의 attribute를 다른 request로 전달하기 위한 <code>FlashMap</code> 을 저장하고 꺼내오는데 사용됩니다.</li>
+</ul>
+</li>
+</ul>
+<h3 id="processing">Processing</h3>
+<ul>
+<li><code>DispatcherServlet</code> 은 아래의 과정으로 request를 처리합니다.
+<ol>
+<li>Request의 attribute를 사용하여 해당 request를 처리할 수 있는 element에 <code>WebApplicationContext</code> 를 바인딩합니다.</li>
+</ol>
+<ul>
+<li>Request를 처리할 수 있는 요소란 일반적으로는 Controller ?????</li>
+<li>Default로 <code>DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE</code> 키에 따라 바인딩 됩니다.</li>
+</ul>
+<ol start="2">
+<li>Locale resolver가 필요한 경우라면 request에 resolver가 바인딩</li>
+<li>Theme를 사용하는 경우 theme resolver가 바인딩</li>
+<li>Multipart request면서 multipart resolver를 명시해둔 경우 <code>MultipartHttpServletRequest</code> 로 랩핑됩니다.</li>
+<li>Request에 적합한 handler 검색 후 관련된 execution chain(preprocessor, postprocessor, controller)이 수행,
+Annotated controller의 경우 view를 반환하는 대신 <code>HandlerAdapter</code> 에서 response를 렌더</li>
+<li>Model이 반환된 경우 view가 렌더링 되며, 그렇지 않은경우 request는 이미 처리 된 것이기 때문에 view가 렌더링 되지 않음</li>
+</ol>
+</li>
+<li><code>WebApplicationContext</code> 에 정의된 <code>HandlerExceptionResolver</code> 이 request 처리 과정에서 발생한 exception을 처리하는데 사용됩니다.</li>
+<li><code>DispatcherServlet</code> 은 Servlet API에 명시된 <code>last-modification-date</code> 값도 지원합니다.</li>
+</ul>
+<h3 id="interception">Interception</h3>
+<ul>
+<li>모든 <code>HanlderMapping</code>의 구현체는 handler interceptors를 지원 합니다.</li>
+<li><code>PreHandle</code>
+<ul>
+<li><code>boolean</code> 값을 리턴하며 handler가 수행되기 전에 실행됩니다.</li>
+<li><code>true</code> 가 리턴되면 execution chain이 계속 수행되며, <code>false</code> 가 리턴되면 interceptor에서 요청 처리가 완료되었다고 가정하여 execution chain이 종료됩니다.</li>
+</ul>
+</li>
+<li><code>PostHandle</code>
+<ul>
+<li>Handler가 수행된 이후 실행됩니다.</li>
+<li><code>HandlerAdapter</code> 에서 요청이 처리되는 경우에는(<code>@ResponseBody</code>, <code>ResponseEntity</code> 등) response에 추가적인 조작을 하기엔 너무 늦은 시점이 되기 때문에 그리 유용하지 못하며,
+이 경우에는 <code>ResponseBodyAdvice</code> 의 구현체를 추가하거나 <code>RequestMappingHandlerAdapter</code> bean을 추가해야 합니다.</li>
+</ul>
+</li>
+<li><code>afterCompletion</code>
+<ul>
+<li>Request가 완전히 종료된 이후에 수행됩니다.</li>
+</ul>
+</li>
+</ul>
+<h3 id="view-resolution">View Resolution</h3>
+<ul>
+<li>Spring MVC는 특별한 view 관련 기술을 사용하지 않고도 model을 렌더링 할 수 있도록 <code>ViewResolver</code>, <code>View</code> interface를 제공합니다.</li>
+<li><code>ViewResolver</code> 는 view의 이름과 실제 <code>View</code> 를 맵핑해 줍니다.</li>
+</ul>
+<h4 id="handling">Handling</h4>
+<ul>
+<li><code>ViewResolver</code> bean 추가 하여 View resolver chain에 여러개의 view resolver를 등록 할 수 있습니다.</li>
+</ul>
+<h4 id="redirecting">Redirecting</h4>
+<ul>
+<li><code>redirect:</code> prefix를 갖는 view 이름은 특별하게 취급되며 redirect에 사용됩니다.
+<ul>
+<li><code>UrlBasedViewResolver</code> 에서 위의 prefix를 인식하고 redirect가 필요한지 판단하게 됩니다.</li>
+</ul>
+</li>
+<li>Controller에서 <code>RedirectView</code> 를 리턴한것과 동일한 효과를 갖지만 현재 context path를 기반으로 한 상대경로로 redirect 대상을 명시할 수 있습니다.</li>
+<li>Controller에서 <code>@ResponseStatus</code> 를 명시한 경우 <code>RedirectView</code> 에서 설정한 상태코드보다 우선 반영 됩니다.</li>
+</ul>
+<h4 id="forwarding">Forwarding</h4>
+<ul>
+<li><code>forward:</code> prefix를 갖는 view 이름은 <code>RequestDispatcher.forward()</code> 를 호출하는 <code>InternalResourceView</code> 를 생성하며 <code>UrlBasedViewResolver</code> 를 통해 처리됩니다.</li>
+</ul>
+<h4 id="content-negotiation">Content Negotiation</h4>
+<ul>
+<li><code>ContentNegotiatingViewResolver</code> 는 직접 view를 resolve 하지 않으며, view를 처리할 다른 resolver에게 위임하는데 사용됩니다.
+<ul>
+<li><code>Accept</code> 헤더나 query parameter가 위임 대상 확인에 사용됩니다.</li>
+<li>??? 뭐임.. Content-Type이라며..</li>
+<li>??? <code>The representation can be determined from the Accept header or from a query parameter (for example, &quot;/path?format=pdf&quot;).</code></li>
+</ul>
+</li>
+<li><code>ContentNegotiatingViewResolver</code> 는 request의 media type(<code>Content-Type</code>)을 통해서 적합한 <code>ViewResolver</code> 를 찾습니다.</li>
+</ul>
+<h4 id="locale">Locale</h4>
+<ul>
+<li><code>LocaleResolver</code> 를 사용하여 <em><strong>request</strong></em> 에 맞는 언어로 응답을 해 줄 수 있습니다.</li>
+</ul>
+
+  </section>
+  <div class="share">    
+    <a
+      href="//www.facebook.com/sharer.php?src=bm&u=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fspring5-doc-web_mvc%2f&t=Spring%20Docs%20%23Web%20Servlet%20%3e%20Spring%20Web%20MVC"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-facebook"></i
+    ></a>
+    <a
+      href="//twitter.com/intent/tweet?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fspring5-doc-web_mvc%2f&text=Spring%20Docs%20%23Web%20Servlet%20%3e%20Spring%20Web%20MVC&tw_p=tweetbutton"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-twitter"></i
+    ></a>
+    <a
+      href="//getpocket.com/edit?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fspring5-doc-web_mvc%2f&title=Spring%20Docs%20%23Web%20Servlet%20%3e%20Spring%20Web%20MVC"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-get-pocket"></i
+    ></a>
+    <a
+      href="//plus.google.com/share?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fspring5-doc-web_mvc%2f"
+      onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
+      ><i class="fa fa-google-plus"></i
+    ></a>
+  </div>
+  <div class="post-meta-code">
+    <div class="desc">
+      친절한
+      
+      <a href="mailto:leejaengjaeng@naver.com">leejaengjaeng</a>
+      
+      님이
+      <span class="highlight">2020년 03월 18일 16시 47분</span> 
+      에 작성한 글입니다.
+    </div>
+    <div class="desc">
+      
+      <div class="desc">
+        <span class="fixed-desc">_카테고리</span>
+        
+        
+        <a href="https://leejaengjaeng.github.io//categories/spring">#Spring</a>
+        
+      </div>
+      
+      <div class="desc">
+        <span class="fixed-desc">_태그</span>
+        
+        
+        <a href="https://leejaengjaeng.github.io/tags/spring">#Spring</a>
+        
+        <a href="https://leejaengjaeng.github.io/tags/docs">#Docs</a>
+        
+        <a href="https://leejaengjaeng.github.io/tags/mvc">#MVC</a>
+        
+        
+      </div>
+    </div>
+  </div>  
+  
+  <div class="post-comment">    
+        
+  </div>
+  
+  <div class="recommend-articles">
+    다음으로 읽을만한 글입니다.
+    <ul>
+      
+      <li>
+        <a href="https://leejaengjaeng.github.io/post/spring5-doc-transaction_management/" rel="prev">
+          <span>Spring Docs #Data Access &gt; Transaction Management</span>
+        </a>
+      </li>
+      
+      
+      <li>
+        <a href="https://leejaengjaeng.github.io/post/spring5-filter/" rel="next">
+          <span>Spring Docs #Web Servlet &gt; Filter</span>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="go-top">
+  <a href="#" class="go-top-button">
+    <i class="fa fa-angle-double-up"></i>
+    <span>위로</span>
+  </a>
+</div>
+<footer class="footer">
+  COPYRIGHT (C) <a href="https://blog.lulab.net">DONGGEUN,BANG (LUBANG).</a><br />
+  ALL RIGHTS RESERVED.
+</footer>
+</body>
+</html>
+

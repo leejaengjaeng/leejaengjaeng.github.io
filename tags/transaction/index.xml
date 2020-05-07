@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Transaction on 이쟁쟁의 블로그</title>
+    <link>https://leejaengjaeng.github.io/tags/transaction/</link>
+    <description>Recent content in Transaction on 이쟁쟁의 블로그</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko-KR</language>
+    <managingEditor>leejaengjaeng@naver.com (leejaengjaeng)</managingEditor>
+    <webMaster>leejaengjaeng@naver.com (leejaengjaeng)</webMaster>
+    <lastBuildDate>Fri, 21 Feb 2020 11:35:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://leejaengjaeng.github.io/tags/transaction/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Spring Docs #Data Access &gt; Transaction Management</title>
+      <link>https://leejaengjaeng.github.io/post/spring5-doc-transaction_management/</link>
+      <pubDate>Fri, 21 Feb 2020 11:35:00 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/post/spring5-doc-transaction_management/</guid>
+      <description>Spring framework Document 읽기
+ 현재 담당하는 서비스가 Spring5를 사용하진 않지만 5의 문서를 읽으면서 추가된 내용이 아니라 Spring framework 자체의 내용에 집중해볼 예정입니다.   Docs : https://docs.spring.io/spring/docs/5.2.3.RELEASE/spring-framework-reference/data-access.html#spring-data-tier Repo : https://github.com/spring-projects/spring-framework Github repository에서 &amp;ldquo;T&amp;quot;를 누르면 파일 검색이 가능합니다.
+ Transaction Management  Transaction 지원은 스프링을 사용함에 있어 가장 강력한 이유중에 하나입니다. Spring은 transaction 관리에 일관된 추상화 계층을 제공하고 그로인해서 아래와 같은 이점을 취할 수 있습니다.  JTA(Java Transaction API), JDBC, Hibernate, JPA등 다양한 transaction API에 대해 일관된 모델을 사용할 수 있습니다.</description>
+    </item>
+    
+  </channel>
+</rss>
