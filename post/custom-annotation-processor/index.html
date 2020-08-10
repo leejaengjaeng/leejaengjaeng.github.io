@@ -3,25 +3,19 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Custom Annotation Processor  | 이쟁쟁의 블로그</title>
-  <meta name="description" content=" 'Custom Annotation Processor'을 한 번 살펴보세요.">
-  <meta property="og:title" content="Custom Annotation Processor">
+  <title>  | 이쟁쟁의 블로그</title>
+  <meta name="description" content=" ''을 한 번 살펴보세요.">
+  <meta property="og:title" content="">
   
   <meta property="og:type" content="article">
-  <meta property="article:published_time" content="2020-08-07">
+  <meta property="article:published_time" content="0001-01-01">
   
-  <meta property="og:description" content=" 'Custom Annotation Processor'을 한 번 살펴보세요.">
+  <meta property="og:description" content=" ''을 한 번 살펴보세요.">
   <meta property="og:url" content="https://leejaengjaeng.github.io/post/custom-annotation-processor/">
   <meta property="og:site_name" content="이쟁쟁의 블로그">
   
   <meta property="og:image" content="https://leejaengjaeng.github.io/images/thumbnail.png">
   
-  
-  <meta property="og:tags" content="Java">
-  
-  <meta property="og:tags" content="JVM">
-  
-  <meta property="og:tags" content="Maven">
   
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link rel="canonical" href="https://leejaengjaeng.github.io/post/custom-annotation-processor/">
@@ -69,14 +63,26 @@
     <a href="https://leejaengjaeng.github.io/post/custom-annotation-processor/">
       <img src="/images/post-title-icon.png" />
       <div class="post-meta">
-        <time>2020년 08월 07일 10시 33분</time>
-        <h1>Custom Annotation Processor</h1>
+        <time>0001년 01월 01일 00시 00분</time>
+        <h1></h1>
       </div>
     </a>
   </div>
   <div class="post-toc">
     <span class="title">차례</span>
     <nav id="TableOfContents">
+  <ul>
+    <li><a href="#tags-java-maven-annotation-processor">title: Custom Annotation Processordate: 2020-08-10T12:44:00+09:00categories: [Java]tags: [Java, Maven, Annotation Processor]</a></li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+
   <ul>
     <li>
       <ul>
@@ -87,7 +93,11 @@
 </nav>
   </div>
   <section class="post-content">
-    <h1 id="-">삽질의 시작..</h1>
+    <h2 id="tags-java-maven-annotation-processor">title: &ldquo;Custom Annotation Processor&rdquo;
+date: 2020-08-10T12:44:00+09:00
+categories: [&ldquo;Java&rdquo;]
+tags: [&ldquo;Java&rdquo;, &ldquo;Maven&rdquo;, &ldquo;Annotation Processor&rdquo;]</h2>
+<h1 id="-">삽질의 시작..</h1>
 <p>최근에 담당 서비스가 라인페이로 변경되고 팀분들의 배려로 적응의 시간을 갖고있습니다.
 덕분에 상대적으로 다른 분들에 비해서 바쁘지 않은 생활을 하고 있는데요</p>
 <p>이 서비스에서 도움이 될 일이 뭐가 있을까 생각하다보니 동철님께서 찾아두신 개선 포인트들을 하나씩 처리해볼까 싶은 생각이 들었습니다.
@@ -98,11 +108,11 @@
 <p>처리할만한 이슈를 찾다가 아래의 두개 이슈를 처리하기로 결심했습니다.
 <img src="https://i.imgur.com/KGPnYO9.png" alt="874">
 <img src="https://i.imgur.com/PFdrTtx.png" alt="1000">
-#874번 이슈는 lombok을 사용하고 있기때문에 코드마다 <code>@Slf4j</code> 어노테이션만 붙여주고, 생성되는 <code>log</code> 변수를 사용하여 로깅을 하도록 바꿔주면 되는 단순 노가다 작업이었고,</p>
-<p>#1000번 이슈는 유틸성 클래스를 하나 만든 뒤 로깅을 <code>LogUtil.info(log, &quot;메서드명&quot;, &quot;파라미터&quot;);</code>와 같은 형태로 해주면 되는 마찬가지로 단순한 작업이었습니다.</p>
-<p>그냥 ctrl+c, ctrl+v로 반복하면 되는 작업이긴 하지만.. 그런식으로 작업하기엔 보람도 없고 재미도 없기때문에 삽질을 시작하게 되었는데요.</p>
+#874번 이슈는 lombok을 사용하고 있기때문에 코드마다 <code>@Slf4j</code> 어노테이션만 붙여주고, 생성되는 <code>log</code> 변수를 사용하여 로깅을 하도록 바꿔주면 되는 단순한 작업이었고,</p>
+<p>#1000번 이슈는 유틸성 클래스를 하나 만든 뒤 로깅을 <code>LogUtil.info(log, &quot;메서드명&quot;, &quot;파라미터&quot;);</code>와 같은 형태로 해주면 되는 마찬가지로 기술적인 내용보다는 시간만 걸리는 작업이었습니다.</p>
+<p>단순히 ctrl+c, ctrl+v로 반복하면 되는 작업이긴 하지만.. 그런식으로 작업하기엔 보람도 없고 재미도 없기때문에 삽질을 시작하게 되었는데요.</p>
 <p>lombok에서 <code>@Slf4j</code> 어노테이션을 통해 <code>log</code>란 변수를 코드에 생성해주는것 처럼,
-커스텀한 어노테이션을 통해 <strong>제작한 로깅 유틸</strong> 자체를 <code>log</code>란 변수로 주입해주고 기존 <code>log.info</code>와 메서드 시그니쳐가 같은 메서드를 만들어서 복붙하는 양을 줄이고, 추가로 필요한 메서드들을 더 구현하는 방식이었습니다.</p>
+<strong>제가 만든 <code>@PayLogging</code> 어노테이션을 통해, 로깅 유틸 자체를 <code>log</code>란 변수로 코드에 생성</strong> 해주고 기존 <code>log.info</code>와 메서드 시그니쳐가 같은 메서드를 만들어서 단순 작업양을 줄이면서 추가로 필요한 메서드들을 더 구현하는 방식이었습니다.</p>
 <hr>
 <h1 id="heading">하고싶은것</h1>
 <p><img src="https://i.imgur.com/JtBjXpi.png" alt="slf4j">
@@ -119,26 +129,27 @@ compile time에 AST(Abstract Syntax Tree)를 조작해 소스코드를 추가로
 </blockquote>
 <p>간단히 보자면 컴파일러에서 코드의 구조를 표현하는데 사용하는 자료구조로 아래와 같은 형태로 이해할 수 있습니다.
 <img src="https://i.imgur.com/siHo7Xy.png" alt="java-ast"></p>
-<p>실제 lombok의 구현체를 보게되면 <code>com.sun.tools.javac</code> 패키지에 있는 AST를 다루기 위한 모델들을 랩핑해서 사용하고 있고, 이걸 사용해서 소스코드를 직접 생성하고 있는걸 볼 수 있습니다.
+<p>실제 lombok의 구현체를 보게되면 <code>com.sun.tools.javac</code> 패키지에 있는 AST를 다루기 위한 모델들 + 자체 제작한 클래스를 사용해서 소스코드를 생성하고 있는걸 볼 수 있습니다.
 <img src="https://i.imgur.com/EpjcaKC.png" alt="lombok코드"></p>
 <blockquote>
-<p>직접 타이핑 하면 <code>private static final log = LoggerFactory.getLogger(Example.class)</code> 한줄이지만.. 프로그램이 소스코드를 작성하기 위해선 매우 긴~~~ 코드가 필요합니다.</p>
+<p>직접 타이핑 하면 <code>private static final Logger log = LoggerFactory.getLogger(Example.class)</code> 한줄이지만 소스코드를 작성하기 위한 소스코드는 꽤나 기네요..</p>
 </blockquote>
-<p>이제 방법을 알았으니 뚝딱 만들면 되겠군..!
+<p>이제 방법을 알았으니 뚝딱 만들면 되겠군!
 하는 터무니 없는 생각을 하자 마자 여러가지 문제가 발생했습니다..</p>
 <hr>
-<p>#문제점 &amp; 해결책</p>
+<h1 id="heading1">문제점</h1>
 <h4 id="1--">1. 어떻게 등록하지..?</h4>
-<p>lombok의 코드를 참고해서 <strong>어노테이션 프로세서</strong> 를 하나 만들고 보니..</p>
+<p>lombok의 코드를 참고해서 <strong>어노테이션 프로세서</strong> 를 하나 만들고 보니
+단순히 소스코드에 추가한다고 동작하는게 아니라는 사실을 알게되었습니다.</p>
 <ul>
-<li>단순히 소스코드에 추가한다고 동작하는게 아니라는 사실을 알게되었습니다.</li>
-<li>검색 후 별도의 jar 파일로 패킹해서 javac 옵션에 넣어줘야 한다는것을 확인했습니다.</li>
+<li>검색해보니 별도의 jar 파일로 패킹해서 javac 옵션에 넣어줘야 한다는것을 확인했습니다.</li>
 </ul>
 <h4 id="2-jar--javac-">2. jar 패킹, javac 옵션..?</h4>
 <p>별도로 패킹해서 실행 옵션에 넣어줘야 한다는점은 더이상 이걸 하고있을 필요가 없다는 생각을 들게했습니다.</p>
+<p>관리 포인트가 늘어나고, 실행 스크립트를 다 바꿔줘야하고, 시간이지나서 이런식으로 동작한다는걸 기억하는 사람이 없어진다면 서비스에 재앙이 닥쳐올게 분명했습니다.</p>
 <ul>
-<li>관리 포인트가 늘어나고, 실행 스크립트를 다 바꿔줘야하고, 시간이지나서 이런식으로 동작한다는걸 기억하는 사람이 없어진다면 서비스에 재앙이 닥쳐올게 분명했습니다.</li>
-<li>빌드도구가 해결해 줄 수 있을것이라고 생각해서 찾아보니 메이븐 플러그인을 사용해서 사용할 <strong>어노테이션 프로세서</strong> 를 설정해줄 수 있었습니다.</li>
+<li>다행히 빌드도구로 해결이 가능한 문제였습니다.
+메이븐 플러그인을 통해 사용할 <strong>어노테이션 프로세서</strong> 를 설정해줄 수 있었습니다.</li>
 </ul>
 <h4 id="3-----">3. 메이븐에 설정해 줬는데 왜 안돼..?</h4>
 <p>스택오버플로우의 힘을 빌어 드디어 메이븐 세팅도 완료했습니다.
@@ -156,46 +167,62 @@ compile time에 AST(Abstract Syntax Tree)를 조작해 소스코드를 추가로
 <p>두번째는 <strong>어노테이션 프로세서</strong> 에 동작 확인을 위해 찍어둔 로그는 확인할 수 있지만 IDE 상에서 디버깅이 안되는 문제가 있었습니다.</p>
 </li>
 <li>
-<p>이건 생각해보면 당연한 문제였는데 평소에 IDE에 잡아둔 디버깅은 <strong>배포한 war파일</strong> 에 대한 런타임 디버깅 세션이었고,
-제가 하고 싶은 컴파일 타임 디버깅은 <strong>maven</strong> 의 디버깅 세션이 필요한 것이었습니다.
-결론적으로 IDE에 remote 디버깅 설정을 하고  <code>mvnDebug</code> 명령어를 통해서 메이븐 디버깅 세션에 연결해주는것으로 해결했습니다.</p>
-<blockquote>
-<p>결국 일반적이지 않은 관리포인트가 하나 추가 되었습니다..ㅠ</p>
-</blockquote>
+<p>이건 생각해보면 당연한 문제였는데 평소에 IDE에 잡아둔 디버깅은 <strong>배포한 war파일</strong> 에 대한 런타임 디버깅 세션이었고, 제가 하고 싶은것은 <strong>maven</strong> 의 컴파일 타임 디버깅 세션이 필요한 것이었습니다.
+결론적으로 IDE에 remote 디버깅 설정을 하고  <code>mvnDebug</code> 명령어를 통해서 메이븐 디버깅 세션에 연결해주는것으로 해결할 수 있었습니다.</p>
 </li>
 </ul>
+<h4 id="4--">4. 이거 못하는건가..?</h4>
+<p>문제되던 상황은 다 해결했고 연동 테스트를 위해 만들어뒀던 <strong>어노테이션 프로세서</strong> 를 가지고 <strong><code>@PayLogging</code> 어노테이션을 통해, <code>private static final LogUtil log = LogUtil.instance();</code></strong> 한줄을 생성해주는 재밌는 작업만 남았습니다.</p>
+<p>생각보다 레퍼런스가 더 없어서 약간 고생을 했지만 마찬가지로 lombok 코드를 분석하면서 <code>private static final LogUtil log = LogUtil.instance();</code>를 나타내는 <code>JCVariableDecl</code>을 만들었고 AST상에서 추가되어야 하는 위치까지 뽑아낼 수 있었습니다.</p>
+<p>이제 트리에 put만 해주면 끝인데&hellip; 아무리봐도 관련된 함수를 찾을 수 없었습니다.</p>
+<ul>
+<li>알고보니 이부분이 lombok이 해킹이라고 취급되는 부분이었습니다.
+어노테이션 프로세서는 기본적으로 현재 컴파일중인 파일을 변경하지 못하고 컴파일시 추가할 새로운 파일(.java)의 생성만이 가능하다고 합니다.</li>
+<li>다행히 lombok 코드를 디버깅해서 AST를 직접 수정해주는것으로 보이는 코드를 찾을 수 있었고, 유사한 형태로 제 코드에 적용해보니 정상적으로 코드가 추가된 것을 확인 할 수 있었습니다.</li>
+</ul>
 <hr>
-<h1 id="----">마무리 - 이걸 사용해도 될까?</h1>
-<p>현재는 문제되던 상황은 다 해결했고 테스트를 위해 만들어뒀던 <strong>어노테이션 프로세서</strong> 를 처음 의도대로 구현하는 일만 남았습니다.</p>
-<p>하지만 이걸 사용하는게 맞을까에 대한 의문이 아직 남아있습니다.
+<h1 id="-1">현재 상황</h1>
+<p><img src="https://i.imgur.com/lQFCP9r.png" alt="KakaoTalk_20200809_044937483">
+<img src="https://i.imgur.com/9ZUaRvZ.png" alt="KakaoTalk_20200809_044937550"></p>
+<blockquote>
+<p><strong>.java</strong> 파일에는 없는 <code>log</code> 변수가 <strong>.class</strong> 파일에는 들어있는것을 볼 수 있습니다.
+<code>PayLoggingUtil</code>에 추가해놓은 <code>hello()</code> 메서드도 정상적으로 동작합니다.</p>
+</blockquote>
+<p>처음 의도대로 <code>@PayLogging</code> 어노테이션을 통해 <code>PayLoggingUtil</code>을 <code>log</code> 변수로 추가해주는것에 성공했습니다.</p>
+<p>하지만 IDE 상에서 여전히 <code>log</code> 변수를 찾지 못해 빨간줄로 표시되는 이슈와(정상적으로 컴파일 됩니다 ㅎㅎ..) <code>PayLoggingUtil</code>의 기능 구현이 남았습니다.</p>
+<hr>
+<h1 id="heading2">결론</h1>
+<p>목적은 달성했지만 이걸 사용하는게 맞을까에 대한 의문이 아직 남아있습니다.
 제가 생각하는 장점과 단점은 아래와 같습니다.</p>
 <p><strong>Pros.</strong></p>
 <ul>
-<li>코드상에 큰 변경없이 자유롭게 확장 가능한 logger를 사용할 수 있습니다.</li>
+<li>기존과 유사한 형태로 자유롭게 확장 가능한 logger를 사용할 수 있습니다.</li>
 <li>흔히 사용하지 않는 기술을 사용해 볼 수 있습니다.</li>
 </ul>
 <p><strong>Cons.</strong></p>
 <ul>
-<li>일반적이지 않은 기능이 추가됨으로써 시간이 지남에 따라 해당 내용을 아는 사람이 점점 없어질 가능성이 있습니다.</li>
+<li>이후에 <strong>어노테이션 프로세서</strong> 에 대한 수정이 필요하게 되면 레퍼런스가 많지 않아서 까다로울 수 있습니다.</li>
+<li>JAVA 버전이 9(모듈화) 이상으로 올라가면 어느정도 수정이 필요할 수 있습니다.</li>
+<li>위의 이유들로 긁어부스럼을 만드는것 일 수 있습니다.</li>
 </ul>
-<p>제 결론은.. 팀분들이 원하시면 넣고 아니면 새로운 내용을 알게된거에 만족하기로 했습니다 :)..
-생각이 있으시다면 이후에 코드리뷰 하면서 더 상세한 내용 설명드리도록 하겠습니다.</p>
+<p>제 결론은.. 팀분들이 원하시면 넣고 아니면 새로운 내용을 알게된거에 만족하기로 했습니다 :)..</p>
+<p>관심이 있으시다면 이후에 구현 부분 코드리뷰를 하면서 더 상세한 내용 설명드리도록 하겠습니다.</p>
 <p>감사합니다.</p>
 
   </section>
   <div class="share">    
     <a
-      href="//www.facebook.com/sharer.php?src=bm&u=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fcustom-annotation-processor%2f&t=Custom%20Annotation%20Processor"
+      href="//www.facebook.com/sharer.php?src=bm&u=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fcustom-annotation-processor%2f&t="
       onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
       ><i class="fa fa-facebook"></i
     ></a>
     <a
-      href="//twitter.com/intent/tweet?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fcustom-annotation-processor%2f&text=Custom%20Annotation%20Processor&tw_p=tweetbutton"
+      href="//twitter.com/intent/tweet?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fcustom-annotation-processor%2f&text=&tw_p=tweetbutton"
       onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
       ><i class="fa fa-twitter"></i
     ></a>
     <a
-      href="//getpocket.com/edit?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fcustom-annotation-processor%2f&title=Custom%20Annotation%20Processor"
+      href="//getpocket.com/edit?url=https%3a%2f%2fleejaengjaeng.github.io%2fpost%2fcustom-annotation-processor%2f&title="
       onclick="window.open(this.href, 'PCwindow', 'width=550, height=350, menubar=no, toolbar=no, scrollbars=yes'); return false;"
       ><i class="fa fa-get-pocket"></i
     ></a>
@@ -212,29 +239,13 @@ compile time에 AST(Abstract Syntax Tree)를 조작해 소스코드를 추가로
       <a href="mailto:leejaengjaeng@naver.com">leejaengjaeng</a>
       
       님이
-      <span class="highlight">2020년 08월 07일 10시 33분</span> 
+      <span class="highlight">0001년 01월 01일 00시 00분</span> 
       에 작성한 글입니다.
     </div>
     <div class="desc">
       
       <div class="desc">
-        <span class="fixed-desc">_카테고리</span>
-        
-        
-        <a href="https://leejaengjaeng.github.io//categories/java">#Java</a>
-        
-      </div>
-      
-      <div class="desc">
         <span class="fixed-desc">_태그</span>
-        
-        
-        <a href="https://leejaengjaeng.github.io/tags/java">#Java</a>
-        
-        <a href="https://leejaengjaeng.github.io/tags/jvm">#JVM</a>
-        
-        <a href="https://leejaengjaeng.github.io/tags/maven">#Maven</a>
-        
         
       </div>
     </div>
@@ -248,12 +259,12 @@ compile time에 AST(Abstract Syntax Tree)를 조작해 소스코드를 추가로
     다음으로 읽을만한 글입니다.
     <ul>
       
+      
       <li>
-        <a href="https://leejaengjaeng.github.io/post/spring5-filter/" rel="prev">
-          <span>Spring Docs #Web Servlet &gt; Filter</span>
+        <a href="https://leejaengjaeng.github.io/post/howtousehugo/" rel="next">
+          <span>Hugo 시작하기</span>
         </a>
       </li>
-      
       
     </ul>
   </div>
