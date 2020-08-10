@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on 이쟁쟁의 블로그</title>
+    <link>https://leejaengjaeng.github.io/categories/java/</link>
+    <description>Recent content in Java on 이쟁쟁의 블로그</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko-KR</language>
+    <managingEditor>leejaengjaeng@naver.com (leejaengjaeng)</managingEditor>
+    <webMaster>leejaengjaeng@naver.com (leejaengjaeng)</webMaster>
+    <lastBuildDate>Fri, 07 Aug 2020 10:33:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://leejaengjaeng.github.io/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Custom Annotation Processor</title>
+      <link>https://leejaengjaeng.github.io/post/custom-annotation-processor/</link>
+      <pubDate>Fri, 07 Aug 2020 10:33:00 +0900</pubDate>
+      <author>leejaengjaeng@naver.com (leejaengjaeng)</author>
+      <guid>https://leejaengjaeng.github.io/post/custom-annotation-processor/</guid>
+      <description>삽질의 시작.. 최근에 담당 서비스가 라인페이로 변경되고 팀분들의 배려로 적응의 시간을 갖고있습니다. 덕분에 상대적으로 다른 분들에 비해서 바쁘지 않은 생활을 하고 있는데요
+이 서비스에서 도움이 될 일이 뭐가 있을까 생각하다보니 동철님께서 찾아두신 개선 포인트들을 하나씩 처리해볼까 싶은 생각이 들었습니다.  개선해야할 포인트가 매우 많습니다&amp;hellip; 처리할만한 이슈를 찾다가 아래의 두개 이슈를 처리하기로 결심했습니다. #874번 이슈는 lombok을 사용하고 있기때문에 코드마다 @Slf4j 어노테이션만 붙여주고, 생성되는 log 변수를 사용하여 로깅을 하도록 바꿔주면 되는 단순 노가다 작업이었고,</description>
+    </item>
+    
+  </channel>
+</rss>

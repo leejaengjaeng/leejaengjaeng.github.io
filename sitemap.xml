@@ -4,7 +4,47 @@
   
   <url>
     <loc>https://leejaengjaeng.github.io/categories/</loc>
-    <lastmod>2020-04-13T19:14:00+09:00</lastmod>
+    <lastmod>2020-08-07T10:33:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://leejaengjaeng.github.io/post/custom-annotation-processor/</loc>
+    <lastmod>2020-08-07T10:33:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://leejaengjaeng.github.io/tags/java/</loc>
+    <lastmod>2020-08-07T10:33:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://leejaengjaeng.github.io/categories/java/</loc>
+    <lastmod>2020-08-07T10:33:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://leejaengjaeng.github.io/tags/jvm/</loc>
+    <lastmod>2020-08-07T10:33:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://leejaengjaeng.github.io/tags/maven/</loc>
+    <lastmod>2020-08-07T10:33:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://leejaengjaeng.github.io/post/</loc>
+    <lastmod>2020-08-07T10:33:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://leejaengjaeng.github.io/tags/</loc>
+    <lastmod>2020-08-07T10:33:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://leejaengjaeng.github.io/</loc>
+    <lastmod>2020-08-07T10:33:00+09:00</lastmod>
   </url>
   
   <url>
@@ -23,7 +63,7 @@
   </url>
   
   <url>
-    <loc>https://leejaengjaeng.github.io/post/</loc>
+    <loc>https://leejaengjaeng.github.io/tags/spring/</loc>
     <lastmod>2020-04-13T19:14:00+09:00</lastmod>
   </url>
   
@@ -33,22 +73,7 @@
   </url>
   
   <url>
-    <loc>https://leejaengjaeng.github.io/tags/spring/</loc>
-    <lastmod>2020-04-13T19:14:00+09:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://leejaengjaeng.github.io/post/spring5-filter/</loc>
-    <lastmod>2020-04-13T19:14:00+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://leejaengjaeng.github.io/tags/</loc>
-    <lastmod>2020-04-13T19:14:00+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://leejaengjaeng.github.io/</loc>
     <lastmod>2020-04-13T19:14:00+09:00</lastmod>
   </url>
   
@@ -155,6 +180,11 @@
   <url>
     <loc>https://leejaengjaeng.github.io/tags/pages/</loc>
     <lastmod>2019-12-10T14:43:17+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://leejaengjaeng.github.io/post/%EC%84%B8%EB%AF%B8%EB%82%98%EC%9A%A9-custom-annotation-processor/</loc>
+    <priority>0</priority>
   </url>
   
 </urlset>

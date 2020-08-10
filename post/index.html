@@ -61,6 +61,27 @@
   
     <div class="post">
   <div class="post-title">
+    <a href="https://leejaengjaeng.github.io/post/custom-annotation-processor/" title="Custom Annotation Processor">
+      <img src="/images/post-title-icon.png" />
+      <div class="post-meta">
+        <time>2020년 08월 07일 10시 33분</time>
+        <h1>Custom Annotation Processor</h1>
+      </div>
+    </a>
+  </div>
+  
+  <div class="summary-text">
+    삽질의 시작.. 최근에 담당 서비스가 라인페이로 변경되고 팀분들의 배려로 적응의 시간을 갖고있습니다. 덕분에 상대적으로 다른 분들에 비해서 바쁘지 않은 생활을 하고 있는데요
+이 서비스에서 도움이 될 일이 뭐가 있을까 생각하다보니 동철님께서 찾아두신 개선 포인트들을 하나씩 처리해볼까 싶은 생각이 들었습니다.  개선해야할 포인트가 매우 많습니다&hellip; 처리할만한 이슈를 찾다가 아래의 두개 이슈를 처리하기로 결심했습니다. #874번 이슈는 lombok을 사용하고 있기때문에 코드마다 @Slf4j 어노테이션만 붙여주고, 생성되는 log 변수를 사용하여 로깅을 하도록 바꿔주면 되는 단순 노가다 작업이었고,
+  </div>
+  <div class="flex-wrapper summary-more-wrap">
+    <a href="/post/custom-annotation-processor/" class="summary-more">더보기</a>
+  </div>
+</div>
+
+  
+    <div class="post">
+  <div class="post-title">
     <a href="https://leejaengjaeng.github.io/post/spring5-filter/" title="Spring Docs #Web Servlet &gt; Filter">
       <img src="/images/post-title-icon.png" />
       <div class="post-meta">
@@ -189,36 +210,6 @@ Bean과 IoC Container   org.springframework.beans와 org.springframework.context
   </div>
   <div class="flex-wrapper summary-more-wrap">
     <a href="/post/spring5-doc-ioc/" class="summary-more">더보기</a>
-  </div>
-</div>
-
-  
-    <div class="post">
-  <div class="post-title">
-    <a href="https://leejaengjaeng.github.io/post/resttemplate/" title="RestTemplate 들여다보기">
-      <img src="/images/post-title-icon.png" />
-      <div class="post-meta">
-        <time>2020년 01월 16일 14시 41분</time>
-        <h1>RestTemplate 들여다보기</h1>
-      </div>
-    </a>
-  </div>
-  
-  <div class="cover-image">
-    <a href="https://leejaengjaeng.github.io/post/resttemplate/" title="RestTemplate 들여다보기">
-      <img src="https://i.imgur.com/B4PixB9.png" />
-    </a>
-  </div>
-  
-  <div class="summary-text">
-    Spring 4.3.25 기준으로 변경사항이 존재할 수 있습니다.
- https://docs.spring.io/spring/docs/4.3.25.RELEASE/spring-framework-reference/htmlsingle/#rest-resttemplate
- RestTemplate org.springframework.web.client패키지에 속한 클래스로 client-side에서 Restful한 서비스에 접근하는것에 도움을 줍니다.
-필요성 Restful한 API를 호출하기위해서 java에서는 전통적으로 Apache의 HttpClient같은 헬퍼클래스를 사용해 왔지만, 이 HttpClient는 편하게 사용하기엔 너무 low level의 컴포넌트 였습니다.
-String uri = &quot;https://example.com/hotels/1/bookings&quot;;PostMethod post = new PostMethod(uri);String request = // create booking request contentpost.setRequestEntity(new StringRequestEntity(request));httpClient.executeMethod(post);if (HttpStatus.SC_CREATED == post.getStatusCode()) {Header location = post.getRequestHeader(&quot;Location&quot;);if (location !
-  </div>
-  <div class="flex-wrapper summary-more-wrap">
-    <a href="/post/resttemplate/" class="summary-more">더보기</a>
   </div>
 </div>
 
